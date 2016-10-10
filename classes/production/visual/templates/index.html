@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sorting</title>
+    <script th:src="@{webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/2.3.3/stomp.min.js}"></script>
+    <script th:src="@{/js/sorting-javascript.js}"></script>
+
+    <link rel="stylesheet" type="text/css"
+          th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.css}"></link>
+</head>
+
+<body>
+    <button id="connect" class="btn btn-success">Connect to server</button>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Greetings</th>
+        </tr>
+        </thead>
+        <tbody id="greetings">
+        </tbody>
+    </table>
+</body>
+
+</html>

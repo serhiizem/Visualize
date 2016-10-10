@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="sortApp" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sorting</title>
+    <script th:src="@{/webjars/angularjs/1.5.8/angular.min.js}"></script>
+    <script th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/2.3.3/stomp.min.js}"></script>
+    <script th:src="@{/js/sorting-javascript.js}"></script>
+
+    <link rel="stylesheet" type="text/css"
+          th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.css}"></link>
+</head>
+
+<body ng-controller="SortController">
+    <p>{{2 + 6}}</p>
+    <button id="connect" class="btn btn-success">Connect to server</button>
+    <button ng-click="evaluate()" class="btn add">Start Evaluation</button>
+    <button ng-click="hideButton()" class="btn hideMe">Hide Me</button> <br/>
+    <button ng-click="checkState()" class="btn">Check State</button>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Greetings</th>
+        </tr>
+        </thead>
+        <tbody id="greetings">
+        </tbody>
+    </table>
+</body>
+
+</html>

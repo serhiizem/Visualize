@@ -1,0 +1,44 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'visual'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-activemq")
+	compile("org.apache.activemq:activemq-broker")
+	compile("com.fasterxml.jackson.core:jackson-databind")
+	compile("org.springframework.boot:spring-boot-starter-websocket")
+	compile("org.webjars:sockjs-client:1.0.2")
+	compile("org.webjars:stomp-websocket:2.3.3")
+
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.4.1.RELEASE'
+	compile 'org.webjars:bootstrap:3.3.7-1'
+	compile 'org.webjars:angularjs:1.5.8'
+	compile group: 'org.webjars', name: 'jquery', version: '2.1.4'
+	runtime('com.h2database:h2')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
