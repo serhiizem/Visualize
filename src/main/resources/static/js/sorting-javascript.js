@@ -20,7 +20,7 @@
         $("#greetings").append("<tr><td>" + message + "</td></tr>");
     }
 
-    $(document).on('click', '#connect', function() {
+    $(document).ready(function() {
 
         console.log("In connect function");
 
@@ -29,6 +29,7 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected to the socket: ' + frame);
             stompClient.subscribe('/topic/greetings', function (greeting) {
+                console.log("subscription recepts:" + JSON.parse(greeting.body).content);
                 draw(JSON.parse(greeting.body).intermediate);
             });
         });

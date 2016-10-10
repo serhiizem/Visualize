@@ -2,10 +2,15 @@ package com.algorithms.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.Arrays;
 
 @Controller
 public class SortController {
@@ -20,17 +25,21 @@ public class SortController {
     }
 
     @MessageMapping("/array")
-    public void getArray(String message) throws Exception {
+    public void getArray() throws Exception {
         runningSort = new SortExecution();
         runningSort.start();
     }
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public SortRepresentation getCurrentPartition(String message) throws Exception {
-        int[] ints = runningSort.getPartition();
-        log.info("State in greeting controller: {}, {}", ints[1], ints[2]);
+    @Autowired
+    private SimpMessagingTemplate brokerMessagingTemplate;
 
-        return new SortRepresentation(ints);
+    @Scheduled(fixedRate = 2000)
+    public void sendMessage(){
+        if(runningSort != null){
+            int[] ints = runningSort.getPartition();
+            SortRepresentation sortRepresentation = new SortRepresentation(ints);
+            log.info("State in scheduled sendMessage: {}, {}", ints[1], ints[2]);
+            this.brokerMessagingTemplate.convertAndSend("/topic/greetings", sortRepresentation);
+        }
     }
 }

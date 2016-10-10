@@ -13,7 +13,7 @@ public class SortExecution extends Thread {
 
     public SortExecution() {
         for(int i = 0; i < partition.length; i++) {
-            partition[i] = i + 100;
+            partition[i] = i + 40;
         }
     }
 
