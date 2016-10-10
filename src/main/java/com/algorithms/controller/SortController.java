@@ -12,8 +12,7 @@ public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
 
-    private Thread runningSort;
-    private Thread se;
+    private SortExecution runningSort;
 
     @GetMapping(value = "/")
     public String showMain() {
@@ -22,23 +21,16 @@ public class SortController {
 
     @MessageMapping("/array")
     public void getArray(String message) throws Exception {
-        SortExecution se = new SortExecution();
-        Thread t = new Thread(se);
-        t.start();
-        saveRunningSort(t);
+        runningSort = new SortExecution();
+        runningSort.start();
     }
-
-    private void saveRunningSort(Thread t) {
-        runningSort = t;
-    }
-
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public String greeting(String message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        log.info("State in greeting controller: {}", runningSort.getState());
+    public SortRepresentation getCurrentPartition(String message) throws Exception {
+        int[] ints = runningSort.getPartition();
+        log.info("State in greeting controller: {}, {}", ints[1], ints[2]);
 
-        return "Gotcha!";
+        return new SortRepresentation(ints);
     }
 }

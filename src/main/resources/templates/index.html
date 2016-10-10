@@ -13,11 +13,13 @@
 </head>
 
 <body ng-controller="SortController">
-    <p>{{2 + 6}}</p>
     <button id="connect" class="btn btn-success">Connect to server</button>
     <button ng-click="evaluate()" class="btn add">Start Evaluation</button>
-    <button ng-click="hideButton()" class="btn hideMe">Hide Me</button> <br/>
     <button ng-click="checkState()" class="btn">Check State</button>
+
+    <canvas id="sortCanvas" width="500" height="500" style="border:1px solid red">
+        <p>Your browser doesn't support canvas.</p>
+    </canvas>
     <table class="table table-striped">
         <thead>
         <tr>

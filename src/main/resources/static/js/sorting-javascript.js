@@ -10,12 +10,6 @@
             stompClient.send("/app/hello", {}, "Checking State");
         };
 
-        $scope.hideButton = function () {
-            $(".hideMe").click(function () {
-                $(this).hide();
-            })
-        };
-
         $scope.evaluate = function () {
             stompClient.send("/app/array", {}, "Array mock");
         };
@@ -26,8 +20,6 @@
         $("#greetings").append("<tr><td>" + message + "</td></tr>");
     }
 
-
-
     $(document).on('click', '#connect', function() {
 
         console.log("In connect function");
@@ -37,8 +29,44 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected to the socket: ' + frame);
             stompClient.subscribe('/topic/greetings', function (greeting) {
-                showGreeting(greeting.body);
+                draw(JSON.parse(greeting.body).intermediate);
             });
         });
     });
+
+    function Shape(x, y, w, h) {
+        this.x = x; //The x-coordinate of the upper-left corner of the rectangle
+        this.y = y; //The y-coordinate of the upper-left corner of the rectangle
+        this.w = w; //The width of the rectangle, in pixels
+        this.h = h; //The height of the rectangle, in pixels
+    }
+
+    function draw(sort) {
+        // get canvas element.
+        var elem = document.getElementById('sortCanvas');
+
+        console.log("Obtained message contained element sort[1]: " + sort[1]);
+        // check if context exist
+        if (elem.getContext) {
+            var myRect = [];
+
+            for (var i = 0; i < sort.length; i++) {
+                myRect.push(new Shape(i*50, 100, 50, -sort[i]));
+            }
+
+            context = elem.getContext('2d');
+            for (var i in myRect) {
+                oRec = myRect[i];
+
+                var my_gradient = context.createLinearGradient(0, 0, 0, 170);
+                my_gradient.addColorStop(0.2, "black");
+                my_gradient.addColorStop(1, "white");
+                context.fillStyle = my_gradient;
+
+                context.fillRect(oRec.x, oRec.y, oRec.w, oRec.h);
+                context.strokeRect(oRec.x, oRec.y, oRec.w, oRec.h);
+                context.fillText("value", oRec.x + oRec.w / 4, oRec.y + 10);
+            }
+        }
+    }
 })();
