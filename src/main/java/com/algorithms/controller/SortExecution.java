@@ -24,7 +24,7 @@ public class SortExecution extends Thread {
     @Override
     public void run() {
         while (true) {
-            partition[1]++;
+
             log.info("SortExecution thread: {}", partition[1]);
             try {
                 TimeUnit.MILLISECONDS.sleep(2000);
