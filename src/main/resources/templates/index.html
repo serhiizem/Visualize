@@ -13,22 +13,33 @@
 </head>
 
 <body ng-controller="SortController">
-    <button id="connect" class="btn btn-success">Connect to server</button>
-    <button ng-click="evaluate()" class="btn add">Start Evaluation</button>
-    <button ng-click="checkState()" class="btn">Check State</button>
+<button id="connect" class="btn btn-success">Connect to server</button>
+<button ng-click="evaluate()" class="btn add">Start Evaluation</button>
+<button ng-click="checkState()" class="btn">Check State</button>
 
-    <canvas id="sortCanvas" width="500" height="500" style="border:1px solid red">
-        <p>Your browser doesn't support canvas.</p>
-    </canvas>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Greetings</th>
-        </tr>
-        </thead>
-        <tbody id="greetings">
-        </tbody>
-    </table>
+<div class="container">
+
+    <form class="inline-form">
+        <div class="form-group">
+            <label for="array">Enter an array</label>
+            <input id="array" class="form-control" type="text"  placeholder="Enter an array"></input>
+        </div>
+        <button id="send" class="btn-success" type="submit">Send</button>
+    </form>
+</div>
+
+<canvas id="sortCanvas" width="500" height="500" style="border:1px solid red">
+    <p>Your browser doesn't support canvas.</p>
+</canvas>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Greetings</th>
+    </tr>
+    </thead>
+    <tbody id="greetings">
+    </tbody>
+</table>
 </body>
 
 </html>

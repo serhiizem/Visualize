@@ -35,6 +35,22 @@
         });
     });
 
+    function sendArray() {
+        console.log("In sendArray");
+        var array = $("#array").val().split(" ");
+        console.log("Array in console: " + array);
+        stompClient.send("/app/array", {}, JSON.stringify(array));
+    }
+
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+    });
+
+    $(document).on('click', '#send', function () {
+        console.log("Click done");
+        sendArray();
+    });
+
     function Shape(x, y, w, h) {
         this.x = x; //The x-coordinate of the upper-left corner of the rectangle
         this.y = y; //The y-coordinate of the upper-left corner of the rectangle

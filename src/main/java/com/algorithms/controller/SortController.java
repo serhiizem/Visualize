@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @Controller
@@ -25,8 +26,9 @@ public class SortController {
     }
 
     @MessageMapping("/array")
-    public void getArray() throws Exception {
-        runningSort = new SortExecution();
+    public void getArray(Integer[] array) throws Exception {
+        log.info("Array to sort: {}", Arrays.toString(array));
+        runningSort = new SortExecution(array);
         runningSort.start();
     }
 
@@ -36,10 +38,11 @@ public class SortController {
     @Scheduled(fixedRate = 2000)
     public void sendMessage(){
         if(runningSort != null){
-            int[] ints = runningSort.getPartition();
-            SortRepresentation sortRepresentation = new SortRepresentation(ints);
-            log.info("State in scheduled sendMessage: {}, {}", ints[1], ints[2]);
-            this.brokerMessagingTemplate.convertAndSend("/topic/greetings", sortRepresentation);
+            Comparable[] ints = runningSort.getPartition();
+            log.info("Array in scheduled: {}", Arrays.toString(ints));
+//            SortRepresentation sortRepresentation = new SortRepresentation(ints);
+//            log.info("State in scheduled sendMessage: {}, {}", ints[1], ints[2]);
+//            this.brokerMessagingTemplate.convertAndSend("/topic/greetings", sortRepresentation);
         }
     }
 }

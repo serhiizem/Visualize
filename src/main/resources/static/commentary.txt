@@ -1,65 +1,42 @@
-(function () {
+package com.algorithms.controller;
 
-    var eventsApp = angular.module("eventsApp", []);
+import java.util.concurrent.TimeUnit;
 
-    var EventController = function ($scope) {
+public class BubbleSort implements Sorting {
 
-        $scope.sortOrder = "name";
+    private Integer[] integers;
+    private boolean sorted;
 
-        $scope.event = {
-            name: 'Angular Boot Camp',
-            date: '13/06/2016',
-            time: '09:41 am',
-            location: {
-                address: 'Google Headquarters',
-                city: 'Mountain View',
-                province: 'CA'
-            },
-            imageUrl: 'img/angular.png',
-            sessions: [
-                {
-                    name: 'Directives masterclass',
-                    creatorName: 'Bob Smith',
-                    duration: 1,
-                    level: 'Advanced',
-                    abstract: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-                    upVoteCount: 0,
-                    downVoteCount: 0,
-                },
-                {
-                    name: 'Scopes for fun and profit',
-                    creatorName: 'John Doe',
-                    duration: 2,
-                    level: 'Introductory',
-                    abstract: 'Tis some visitor, i muttered',
-                    upVoteCount: 0,
-                    downVoteCount: 0
-                },
-                {
-                    name: 'Well behaved controllers',
-                    creatorName: 'Jane Doe',
-                    duration: 4,
-                    level: 'Intermediate',
-                    abstract: 'Tapping at my chamber door',
-                    upVoteCount: 0,
-                    downVoteCount: 0
+    public BubbleSort(Integer[] integers) {
+        this.integers = integers;
+    }
+
+    public Comparable[] getCurrentState() {
+        return integers;
+    }
+
+    public void setSorted() {
+        this.sorted = true;
+    }
+
+    public boolean isSorted() {
+        return sorted;
+    }
+
+    @Override
+    public void sort(Comparable[] array) {
+
+        for (int i = array.length - 1; i > 1; i--) {
+            for (int j = 0; j < i; j++) {
+                if(array[j].compareTo(array[j + 1])  > 0) {
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    swap(j, j + 1, array);
                 }
-            ]
-        };
-
-        $scope.isDisabled = true;
-        $scope.booleanVal = true;
-
-        $scope.sessionUpVote = function (session) {
-            session.upVoteCount++;
-        };
-
-        $scope.sessionDownVote = function (session) {
-            session.downVoteCount++;
-        };
-
-    };
-
-    eventsApp.controller("EventController", EventController);
-
-}());
+            }
+        }
+    }
+}
