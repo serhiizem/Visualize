@@ -2,12 +2,14 @@ package com.algorithms.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Arrays.asList;
 
-public class SortExecution extends Thread {
+@Component
+public class SortExecution implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(SortExecution.class);
 
@@ -16,9 +18,20 @@ public class SortExecution extends Thread {
 
     private boolean sorted;
 
+    public SortExecution() {
+    }
+
     public SortExecution(Integer[] partition) {
         this.partition = partition;
         this.prevArray = partition;
+    }
+
+    public void setPartition(Integer[] partition) {
+        this.partition = partition;
+    }
+
+    public void setPrevArray(Integer[] prevArray) {
+        this.prevArray = prevArray;
     }
 
     public boolean isSorted() {
@@ -41,12 +54,14 @@ public class SortExecution extends Thread {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        log.info("Method run works");
+                        log.info("Sorted: {}", sorted);
                         swap(j, j + 1, partition);
                     }
+                    prevArray = partition;
                     if(asList(prevArray).equals(asList(partition))) {
                         sorted = true;
                     }
-                    prevArray = partition;
 
                 }
             }

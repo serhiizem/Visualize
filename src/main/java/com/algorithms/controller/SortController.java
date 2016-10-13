@@ -18,7 +18,13 @@ public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
 
+    @Autowired
     private SortExecution runningSort;
+
+    @Autowired
+    private SimpMessagingTemplate brokerMessagingTemplate;
+
+    private Thread t;
 
     @GetMapping(value = "/")
     public String showMain() {
@@ -28,18 +34,19 @@ public class SortController {
     @MessageMapping("/array")
     public void getArray(Integer[] array) throws Exception {
         log.info("Array to sort: {}", Arrays.toString(array));
-        runningSort = new SortExecution(array);
-        runningSort.start();
-    }
+        runningSort.setPartition(array);
+        runningSort.setPrevArray(array);
 
-    @Autowired
-    private SimpMessagingTemplate brokerMessagingTemplate;
+        t = new Thread(runningSort);
+        t.start();
+    }
 
     @Scheduled(fixedRate = 2000)
     public void sendMessage(){
-        if(runningSort != null){
+        if(!runningSort.isSorted() && t != null){
             Comparable[] ints = runningSort.getPartition();
             log.info("Array in scheduled: {}", Arrays.toString(ints));
+            log.info("Sorted variable: {}", runningSort.isSorted());
 //            SortRepresentation sortRepresentation = new SortRepresentation(ints);
 //            log.info("State in scheduled sendMessage: {}, {}", ints[1], ints[2]);
 //            this.brokerMessagingTemplate.convertAndSend("/topic/greetings", sortRepresentation);
