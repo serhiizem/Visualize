@@ -4,17 +4,20 @@ import java.util.Arrays;
 
 public class SortRepresentation {
 
-    private int[] intermediate = new int[10];
+    private Integer[] intermediate = new Integer[10];
 
-    public SortRepresentation(int[] intermediate) {
+    public SortRepresentation() {
+    }
+
+    public SortRepresentation(Integer[] intermediate) {
         this.intermediate = intermediate;
     }
 
-    public void setIntermediate(int[] intermediate) {
+    public void setIntermediate(Integer[] intermediate) {
         this.intermediate = intermediate;
     }
 
-    public int[] getIntermediate() {
+    public Integer[] getIntermediate() {
         return intermediate;
     }
 

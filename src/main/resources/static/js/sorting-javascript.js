@@ -2,44 +2,23 @@
 
     var stompClient = null;
 
-    var eventsApp = angular.module("sortApp", []);
-
-    eventsApp.controller("SortController", function ($scope) {
-
-        $scope.checkState = function () {
-            stompClient.send("/app/hello", {}, "Checking State");
-        };
-
-        $scope.evaluate = function () {
-            stompClient.send("/app/array", {}, "Array mock");
-        };
-    });
-
-    function showGreeting(message) {
-        console.log("In show greeting");
-        $("#greetings").append("<tr><td>" + message + "</td></tr>");
-    }
-
     $(document).ready(function() {
 
-        console.log("In connect function");
-
-        var socket = new SockJS('/gs-guide-websocket');
+        var socket = new SockJS('/visual-alg');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected to the socket: ' + frame);
-            stompClient.subscribe('/topic/greetings', function (greeting) {
-                console.log("subscription recepts:" + JSON.parse(greeting.body).content);
-                draw(greeting.body);
+            stompClient.subscribe('/visualize/sorting', function (sortedArray) {
+                console.log("subscription receipts:" + JSON.parse(sortedArray.body).content);
+                draw(JSON.parse(sortedArray.body).intermediate);
             });
         });
     });
 
     function sendArray() {
-        console.log("In sendArray");
         var array = $("#array").val().split(" ");
         console.log("Array in console: " + array);
-        stompClient.send("/app/array", {}, JSON.stringify(array));
+        stompClient.send("/app/sort", {}, JSON.stringify(array));
     }
 
     $('form').on('submit', function (e) {
@@ -47,7 +26,6 @@
     });
 
     $(document).on('click', '#send', function () {
-        console.log("Click done");
         sendArray();
     });
 
@@ -58,34 +36,32 @@
         this.h = h; //The height of the rectangle, in pixels
     }
 
-    function draw(sort) {
+    function draw(sortedArray) {
         // get canvas element.
         var elem = document.getElementById('sortCanvas');
 
-        console.log("Obtained message contained element sort: " + sort);
-        console.log("Length of the array obtained: " + sort.length);
         // check if context exist
         if (elem.getContext) {
-            var myRect = [];
+            var rectangles = [];
 
-            for (var i = 0; i < sort.length; i++) {
-                myRect.push(new Shape(i*50, 100, 50, -sort[i]));
+            for (var i = 0; i < sortedArray.length; i++) {
+                rectangles.push(new Shape(i * 50, 100, 50, -sortedArray[i]));
             }
 
-            context = elem.getContext('2d');
-            for (var i in myRect) {
+            var context = elem.getContext('2d');
+            context.clearRect(0, 0, elem.width, elem.height);
+            for (var i in rectangles) {
 
-                console.log("Drawing " + myRect.length + "rectangles");
-                oRec = myRect[i];
+                rec = rectangles[i];
 
                 var my_gradient = context.createLinearGradient(0, 0, 0, 170);
-                my_gradient.addColorStop(0.2, "black");
+                my_gradient.addColorStop(0.2, "red");
                 my_gradient.addColorStop(1, "white");
                 context.fillStyle = my_gradient;
 
-                context.fillRect(oRec.x, oRec.y, oRec.w, oRec.h);
-                context.strokeRect(oRec.x, oRec.y, oRec.w, oRec.h);
-                context.fillText("value", oRec.x + oRec.w / 4, oRec.y + 10);
+                context.fillRect(rec.x, rec.y, rec.w, rec.h);
+                context.strokeRect(rec.x, rec.y, rec.w, rec.h);
+                context.fillText("value", rec.x + rec.w / 4, rec.y + 10);
             }
         }
     }

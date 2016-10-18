@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
+    private SortRepresentation sortRepresentation;
 
     @Autowired
     private SimpMessagingTemplate brokerMessagingTemplate;
@@ -28,34 +29,27 @@ public class SortController {
         return "index";
     }
 
-    @MessageMapping("/array")
+    @MessageMapping("/sort")
     public void getArray(Integer[] array) throws Exception {
+
         log.info("Array to sort: {}", Arrays.toString(array));
         partition = array;
         sortStarted = true;
+        sortRepresentation = new SortRepresentation(partition);
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < partition.length; j++) {
-                TimeUnit.SECONDS.sleep(2);
-                partition[j] += 30;
-            }
-        }
-
-
-
-        /*for (int i = partition.length - 1; i > 1; i--) {
+        for (int i = partition.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (partition[j].compareTo(partition[j + 1]) > 0) {
                     try {
-                        TimeUnit.SECONDS.sleep(2);
-                        log.info("Array in scheduled: {}", Arrays.toString(partition));
+                        TimeUnit.SECONDS.sleep(3);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     swap(j, j + 1, partition);
+                    sortRepresentation.setIntermediate(partition);
                 }
             }
-        }*/
+        }
     }
 
     public void swap(int i, int j, Comparable[] array) {
@@ -64,23 +58,11 @@ public class SortController {
         array[j] = temp;
     }
 
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 3000)
     public void sendMessage() {
         if(sortStarted) {
-            log.info("Current partition: {}", Arrays.asList(partition));
-//            SortRepresentation sortRepresentation = new SortRepresentation(ints);
-
-            /*int[] ints = new int[10];
-            for (int i = 0; i < 10; i++) {
-                ints[i] = i;
-            }*/
-
             log.info("State in scheduled sendMessage: {}, {}", partition);
-            this.brokerMessagingTemplate.convertAndSend("/topic/greetings", partition);
+            this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", sortRepresentation);
         }
-    }
-
-    public Comparable[] getPartition() {
-        return partition;
     }
 }
