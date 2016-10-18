@@ -63,6 +63,7 @@
         var elem = document.getElementById('sortCanvas');
 
         console.log("Obtained message contained element sort: " + sort);
+        console.log("Length of the array obtained: " + sort.length);
         // check if context exist
         if (elem.getContext) {
             var myRect = [];
@@ -73,6 +74,8 @@
 
             context = elem.getContext('2d');
             for (var i in myRect) {
+
+                console.log("Drawing " + myRect.length + "rectangles");
                 oRec = myRect[i];
 
                 var my_gradient = context.createLinearGradient(0, 0, 0, 170);
