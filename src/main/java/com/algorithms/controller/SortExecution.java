@@ -2,14 +2,16 @@ package com.algorithms.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Arrays.asList;
 
 @Component
-public class SortExecution implements Runnable {
+public class SortExecution {
 
     private static final Logger log = LoggerFactory.getLogger(SortExecution.class);
 
@@ -40,32 +42,6 @@ public class SortExecution implements Runnable {
 
     public Integer[] getPartition() {
         return partition;
-    }
-
-    @Override
-    public void run() {
-
-        while (!sorted) {
-            for (int i = partition.length - 1; i > 1; i--) {
-                for (int j = 0; j < i; j++) {
-                    if(partition[j].compareTo(partition[j + 1])  > 0) {
-                        try {
-                            TimeUnit.SECONDS.sleep(2);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        log.info("Method run works");
-                        log.info("Sorted: {}", sorted);
-                        swap(j, j + 1, partition);
-                    }
-                    prevArray = partition;
-                    if(asList(prevArray).equals(asList(partition))) {
-                        sorted = true;
-                    }
-
-                }
-            }
-        }
     }
 
     public void swap(int i,int j , Comparable[] partition) {

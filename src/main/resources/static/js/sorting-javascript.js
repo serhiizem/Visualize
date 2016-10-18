@@ -30,7 +30,7 @@
             console.log('Connected to the socket: ' + frame);
             stompClient.subscribe('/topic/greetings', function (greeting) {
                 console.log("subscription recepts:" + JSON.parse(greeting.body).content);
-                draw(JSON.parse(greeting.body).intermediate);
+                draw(greeting.body);
             });
         });
     });
@@ -62,7 +62,7 @@
         // get canvas element.
         var elem = document.getElementById('sortCanvas');
 
-        console.log("Obtained message contained element sort[1]: " + sort[1]);
+        console.log("Obtained message contained element sort: " + sort);
         // check if context exist
         if (elem.getContext) {
             var myRect = [];
