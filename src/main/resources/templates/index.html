@@ -21,11 +21,12 @@
             <label for="array">Enter an array</label>
             <input id="array" class="form-control" type="text"  placeholder="Enter an array"></input>
         </div>
-        <button id="send" class=" btn btn-success" type="submit" style="margin-top: -5px">Send</button>
+        <button id="send" class=" btn btn-success" type="submit" style="margin-top: -8px">Send</button>
     </form>
 </div>
 
-<canvas id="sortCanvas" width="500" height="300" style="display: block">
+<canvas id="sortCanvas" width="500" height="300"
+        th:style="'background: url(' + @{/img/sort-bg.jpg} + ');'">
     <p>Your browser doesn't support canvas.</p>
 </canvas>
 </body>

@@ -45,23 +45,24 @@
             var rectangles = [];
 
             for (var i = 0; i < sortedArray.length; i++) {
-                rectangles.push(new Shape(i * 50, 100, 50, -sortedArray[i]));
+                rectangles.push(new Shape(i * 50, 100, 50, sortedArray[i]));
             }
 
             var context = elem.getContext('2d');
             context.clearRect(0, 0, elem.width, elem.height);
             for (var i in rectangles) {
 
-                rec = rectangles[i];
+                var rec = rectangles[i];
 
-                var my_gradient = context.createLinearGradient(0, 0, 0, 170);
-                my_gradient.addColorStop(0.2, "red");
-                my_gradient.addColorStop(1, "white");
-                context.fillStyle = my_gradient;
+                var gradient = context.createLinearGradient(0, 0, 0, 170);
+                gradient.addColorStop(0.2, "red");
+                gradient.addColorStop(1, "white");
+                context.fillStyle = gradient;
 
-                context.fillRect(rec.x, rec.y, rec.w, rec.h);
-                context.strokeRect(rec.x, rec.y, rec.w, rec.h);
-                context.fillText("value", rec.x + rec.w / 4, rec.y + 10);
+                context.fillRect(rec.x, rec.y, rec.w, -rec.h);
+                context.strokeRect(rec.x, rec.y, rec.w, -rec.h);
+                context.fillStyle = "#000000";
+                context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 10);
             }
         }
     }
