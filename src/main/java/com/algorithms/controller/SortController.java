@@ -32,7 +32,6 @@ public class SortController {
     @MessageMapping("/sort")
     public void getArray(Integer[] array) throws Exception {
 
-        log.info("Array to sort: {}", Arrays.toString(array));
         partition = array;
         sortStarted = true;
         sortRepresentation = new SortRepresentation(partition);
@@ -41,7 +40,7 @@ public class SortController {
             for (int j = 0; j < i; j++) {
                 if (partition[j].compareTo(partition[j + 1]) > 0) {
                     try {
-                        TimeUnit.SECONDS.sleep(3);
+                        TimeUnit.SECONDS.sleep(2);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -58,10 +57,9 @@ public class SortController {
         array[j] = temp;
     }
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRate = 2000)
     public void sendMessage() {
         if(sortStarted) {
-            log.info("State in scheduled sendMessage: {}, {}", partition);
             this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", sortRepresentation);
         }
     }

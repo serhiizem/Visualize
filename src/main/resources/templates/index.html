@@ -21,14 +21,24 @@
             <label for="array">Enter an array</label>
             <input id="array" class="form-control" type="text"  placeholder="Enter an array"></input>
         </div>
+        <div class="form-group">
+            <label for="sel1">Select list:</label>
+            <select class="form-control" id="sel1">
+                <option>Bubble Sort</option>
+                <option>Insertion Sort</option>
+                <option>Selection Sort</option>
+                <option>Merge Sort</option>
+            </select>
+        </div>
         <button id="send" class=" btn btn-success" type="submit" style="margin-top: -8px">Send</button>
     </form>
+    <canvas id="sortCanvas" width="500" height="300"
+            th:style="'background: url(' + @{/img/sort-bg.jpg} + ');'">
+        <p>Your browser doesn't support canvas.</p>
+    </canvas>
 </div>
 
-<canvas id="sortCanvas" width="500" height="300"
-        th:style="'background: url(' + @{/img/sort-bg.jpg} + ');'">
-    <p>Your browser doesn't support canvas.</p>
-</canvas>
+
 </body>
 
 </html>

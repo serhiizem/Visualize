@@ -17,7 +17,6 @@
 
     function sendArray() {
         var array = $("#array").val().split(" ");
-        console.log("Array in console: " + array);
         stompClient.send("/app/sort", {}, JSON.stringify(array));
     }
 
@@ -49,7 +48,9 @@
             }
 
             var context = elem.getContext('2d');
+
             context.clearRect(0, 0, elem.width, elem.height);
+
             for (var i in rectangles) {
 
                 var rec = rectangles[i];
@@ -62,7 +63,8 @@
                 context.fillRect(rec.x, rec.y, rec.w, -rec.h);
                 context.strokeRect(rec.x, rec.y, rec.w, -rec.h);
                 context.fillStyle = "#000000";
-                context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 10);
+                context.font = "20px Verdana";
+                context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 20);
             }
         }
     }
