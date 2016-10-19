@@ -12,8 +12,8 @@ public class SelectionSortTest {
     @Test
     public void shouldSortOnValidInput() {
 
-        SelectionSort selectionSort = new SelectionSort();
-        Integer[] sorted = selectionSort.sort(VALID_INPUT);
+        SelectionSort selectionSort = new SelectionSort(VALID_INPUT);
+        Integer[] sorted = selectionSort.sort();
 
         Assert.assertThat(sorted, Matchers.is(CORRECT_RESULT));
     }

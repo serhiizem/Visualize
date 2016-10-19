@@ -2,7 +2,7 @@ package com.algorithms;
 
 public abstract class SortAlgorithm {
 
-    private Integer[] array;
+    protected Integer[] array;
 
     public SortAlgorithm(Integer[] array) {
         this.array = array;
@@ -18,5 +18,5 @@ public abstract class SortAlgorithm {
         return this.array;
     }
 
-    public abstract Integer[] sort(Integer[] arrayToSort);
+    public abstract Integer[] sort();
 }

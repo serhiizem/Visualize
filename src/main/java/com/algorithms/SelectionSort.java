@@ -9,7 +9,7 @@ public class SelectionSort extends SortAlgorithm {
     }
 
     @Override
-    public Integer[] sort(Integer[] array) {
+    public Integer[] sort() {
 
         for (int x = 0; x < array.length; x++) {
 
