@@ -1,5 +1,7 @@
 package com.algorithms.controller;
 
+import com.algorithms.SelectionSort;
+import com.algorithms.SortAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,23 +34,9 @@ public class SortController {
     @MessageMapping("/sort")
     public void getArray(Integer[] array) throws Exception {
 
-        partition = array;
         sortStarted = true;
-        sortRepresentation = new SortRepresentation(partition);
-
-        for (int i = partition.length - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (partition[j].compareTo(partition[j + 1]) > 0) {
-                    try {
-                        TimeUnit.SECONDS.sleep(2);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    swap(j, j + 1, partition);
-                    sortRepresentation.setIntermediate(partition);
-                }
-            }
-        }
+        SortAlgorithm sortAlgorithm = new SelectionSort(array);
+        sortRepresentation.setIntermediate(sortAlgorithm.getCurrentPartition());
     }
 
     public void swap(int i, int j, Comparable[] array) {

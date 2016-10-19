@@ -4,6 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 public class SelectionSort extends SortAlgorithm {
 
+    public SelectionSort(Integer[] array) {
+        super(array);
+    }
+
     @Override
     public Integer[] sort(Integer[] array) {
 
