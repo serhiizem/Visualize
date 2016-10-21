@@ -6,20 +6,19 @@ import java.util.concurrent.TimeUnit;
 
 public class InsertionSort extends Sortable implements Sorting {
 
-    private SortRepresentation sortRepresentation;
-
     public InsertionSort() {
     }
 
-    public InsertionSort(Integer[] array, SortRepresentation sortRepresentation) {
-        super(array);
-        this.sortRepresentation = sortRepresentation;
+    public InsertionSort(SortRepresentation sortRepresentation) {
+        super(sortRepresentation);
     }
 
     @Override
     public void sort() {
 
         sortRepresentation.setSortStarted(true);
+
+        Integer[] array = sortRepresentation.getIntermediate();
 
         for(int x = 1; x < array.length; x++) {
 
@@ -48,6 +47,6 @@ public class InsertionSort extends Sortable implements Sorting {
     }
 
     public Integer[] getResult() {
-        return array;
+        return sortRepresentation.getIntermediate();
     }
 }

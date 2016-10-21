@@ -1,12 +1,14 @@
 package com.algorithms.sorts;
 
+import com.algorithms.util.SortRepresentation;
+
 public class MergeSort extends Sortable implements Sorting {
 
     public MergeSort() {
     }
 
-    public MergeSort(Integer[] array) {
-        super(array);
+    public MergeSort(SortRepresentation sortRepresentation) {
+        super(sortRepresentation);
     }
 
     @Override

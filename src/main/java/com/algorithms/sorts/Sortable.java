@@ -1,13 +1,15 @@
 package com.algorithms.sorts;
 
+import com.algorithms.util.SortRepresentation;
+
 public abstract class Sortable {
 
-    protected Integer[] array;
+    protected SortRepresentation sortRepresentation;
 
     public Sortable() {
     }
 
-    public Sortable(Integer[] array) {
-        this.array = array;
+    public Sortable(SortRepresentation sortRepresentation) {
+        this.sortRepresentation = sortRepresentation;
     }
 }

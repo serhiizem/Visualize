@@ -9,20 +9,19 @@ import java.util.concurrent.TimeUnit;
 public class SelectionSort extends Sortable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(SelectionSort.class);
-    private SortRepresentation sortRepresentation;
 
     public SelectionSort() {
     }
 
     public SelectionSort(Integer[] array, SortRepresentation sortRepresentation) {
-        super(array);
-        this.sortRepresentation = sortRepresentation;
+        super(sortRepresentation);
     }
 
     @SuppressWarnings("Duplicates")
     @Override
     public void sort() {
 
+        Integer[] array = sortRepresentation.getIntermediate();
         sortRepresentation.setIntermediate(array);
         sortRepresentation.setSortStarted(true);
 

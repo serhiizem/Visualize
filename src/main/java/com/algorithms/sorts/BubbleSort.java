@@ -5,20 +5,19 @@ import java.util.concurrent.TimeUnit;
 
 public class BubbleSort extends Sortable implements Sorting {
 
-    private SortRepresentation sortRepresentation;
-
     public BubbleSort() {
     }
 
-    public BubbleSort(Integer[] array, SortRepresentation sortRepresentation) {
-        super(array);
-        this.sortRepresentation = sortRepresentation;
+    public BubbleSort(SortRepresentation sortRepresentation) {
+        super(sortRepresentation);
     }
 
     @Override
     public void sort() {
 
         sortRepresentation.setSortStarted(true);
+
+        Integer[] array = sortRepresentation.getIntermediate();
 
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
@@ -48,6 +47,6 @@ public class BubbleSort extends Sortable implements Sorting {
     }
 
     public Integer[] getResult() {
-        return array;
+        return sortRepresentation.getIntermediate();
     }
 }

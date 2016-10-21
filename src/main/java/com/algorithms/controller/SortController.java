@@ -3,7 +3,9 @@ package com.algorithms.controller;
 import com.algorithms.sorts.InsertionSort;
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.sorts.SortInvoker;
+import com.algorithms.sorts.Sortable;
 import com.algorithms.sorts.Sorting;
+import com.algorithms.util.AlgorithmType;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +49,10 @@ public class SortController {
 
         sortRepresentation.setIntermediate(array);
 
-        Sorting insertionSort =
-                new InsertionSort(array, sortRepresentation);
+        Sorting algorithm =
+                AlgorithmFactory.getAlgorithm(sortRepresentation, AlgorithmType.valueOf(sortType));
 
-        invoker.startSortingAlgorithm(insertionSort);
+        invoker.startSortingAlgorithm(algorithm);
     }
 
     @Scheduled(fixedRate = 2000)
