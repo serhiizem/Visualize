@@ -2,6 +2,9 @@ package com.algorithms.sorts;
 
 public class MergeSort extends Sortable implements Sorting {
 
+    public MergeSort() {
+    }
+
     public MergeSort(Integer[] array) {
         super(array);
     }

@@ -7,6 +7,9 @@ public class BubbleSort extends Sortable implements Sorting {
 
     private SortRepresentation sortRepresentation;
 
+    public BubbleSort() {
+    }
+
     public BubbleSort(Integer[] array, SortRepresentation sortRepresentation) {
         super(array);
         this.sortRepresentation = sortRepresentation;

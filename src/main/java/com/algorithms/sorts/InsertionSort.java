@@ -1,13 +1,25 @@
 package com.algorithms.sorts;
 
+import com.algorithms.util.SortRepresentation;
+
+import java.util.concurrent.TimeUnit;
+
 public class InsertionSort extends Sortable implements Sorting {
 
-    public InsertionSort(Integer[] array) {
+    private SortRepresentation sortRepresentation;
+
+    public InsertionSort() {
+    }
+
+    public InsertionSort(Integer[] array, SortRepresentation sortRepresentation) {
         super(array);
+        this.sortRepresentation = sortRepresentation;
     }
 
     @Override
     public void sort() {
+
+        sortRepresentation.setSortStarted(true);
 
         for(int x = 1; x < array.length; x++) {
 
@@ -15,11 +27,24 @@ public class InsertionSort extends Sortable implements Sorting {
             Integer temp = array[x];
             int j = x;
             while ((j > 0) && array[j - 1] > temp) {
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 array[j] = array[j - 1];
+                sortRepresentation.setIntermediate(array);
                 j--;
             }
             array[j] = temp;
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            sortRepresentation.setIntermediate(array);
         }
+        sortRepresentation.setSortStarted(false);
     }
 
     public Integer[] getResult() {

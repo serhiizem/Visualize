@@ -11,6 +11,9 @@ public class SelectionSort extends Sortable implements Sorting {
     private static final Logger log = LoggerFactory.getLogger(SelectionSort.class);
     private SortRepresentation sortRepresentation;
 
+    public SelectionSort() {
+    }
+
     public SelectionSort(Integer[] array, SortRepresentation sortRepresentation) {
         super(array);
         this.sortRepresentation = sortRepresentation;
