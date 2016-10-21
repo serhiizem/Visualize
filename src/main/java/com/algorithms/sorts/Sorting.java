@@ -1,4 +1,4 @@
-package com.algorithms.command_sort;
+package com.algorithms.sorts;
 
 public interface Sorting {
     void sort();

@@ -1,30 +1,27 @@
 package com.algorithms.sorts;
 
+import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-public class SelectionSort extends SortAlgorithm {
+public class SelectionSort extends Sortable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(SelectionSort.class);
+    private SortRepresentation sortRepresentation;
 
-    private SimpMessagingTemplate brokerMessagingTemplate;
-
-    public SelectionSort(Integer[] array,
-                         SimpMessagingTemplate brokerMessagingTemplate) {
+    public SelectionSort(Integer[] array, SortRepresentation sortRepresentation) {
         super(array);
-        this.brokerMessagingTemplate = brokerMessagingTemplate;
+        this.sortRepresentation = sortRepresentation;
     }
 
     @SuppressWarnings("Duplicates")
     @Override
-    public Integer[] sort() {
+    public void sort() {
 
         sortRepresentation.setIntermediate(array);
+        sortRepresentation.setSortStarted(true);
 
         for (int x = 0; x < array.length; x++) {
 
@@ -40,12 +37,15 @@ public class SelectionSort extends SortAlgorithm {
                 e.printStackTrace();
             }
 
-            log.info("Representation is being renewed");
             sortRepresentation.setIntermediate(array);
             swap(x, minimum, array);
-            log.info("Swap has performed");
         }
+        sortRepresentation.setSortStarted(false);
+    }
 
-        return array;
+    public void swap(int i, int j, Integer[] array) {
+        Integer temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }

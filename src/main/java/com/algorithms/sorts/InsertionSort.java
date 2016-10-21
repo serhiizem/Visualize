@@ -1,5 +1,7 @@
 package com.algorithms.sorts;
 
+import com.algorithms.sorts.SortAlgorithm;
+
 public class InsertionSort extends SortAlgorithm {
 
     public InsertionSort (Integer[] array) {

@@ -1,5 +1,8 @@
-package com.algorithms.command_sort;
+package com.algorithms.sorts;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SortInvoker {
 
     public void startSortingAlgorithm(Sorting sorting) {

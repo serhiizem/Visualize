@@ -1,7 +1,9 @@
 package com.algorithms.controller;
 
 import com.algorithms.sorts.SelectionSort;
-import com.algorithms.sorts.SortAlgorithm;
+import com.algorithms.sorts.SortInvoker;
+//import com.algorithms.sorts.SelectionSort;
+//import com.algorithms.sorts.SortAlgorithm;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,24 +18,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
+
     private boolean sortStarted;
-    
-    private SortRepresentation sortRepresentation = new SortRepresentation();
+
+    private SortRepresentation sortRepresentation;
+    private SortInvoker invoker;
+    private SimpMessagingTemplate brokerMessagingTemplate;
 
     @Autowired
-    private SimpMessagingTemplate brokerMessagingTemplate;
+    public SortController(SimpMessagingTemplate brokerMessagingTemplate,
+                          SortRepresentation sortRepresentation,
+                          SortInvoker invoker) {
+
+        this.brokerMessagingTemplate = brokerMessagingTemplate;
+        this.sortRepresentation = new SortRepresentation();
+        this.invoker = new SortInvoker();
+    }
 
     @MessageMapping("/sort")
     public void getArray(Integer[] array) throws Exception {
 
-        sortStarted = true;
-        SortAlgorithm sortAlgorithm = new SelectionSort(array, brokerMessagingTemplate);
-        sortAlgorithm.sort();
+        SelectionSort selectionSort =
+                new SelectionSort(array, sortRepresentation);
+
+        invoker.startSortingAlgorithm(selectionSort);
     }
 
     @Scheduled(fixedRate = 2000)
     public void sendMessage() {
-        if(sortStarted) {
+        if(sortRepresentation.isSortStarted()) {
             this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", sortRepresentation);
         }
     }

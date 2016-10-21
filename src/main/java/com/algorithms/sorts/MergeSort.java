@@ -1,22 +1,17 @@
 package com.algorithms.sorts;
 
-public class MergeSort extends SortAlgorithm {
-
-    public MergeSort() {
-    }
+public class MergeSort extends Sortable implements Sorting {
 
     public MergeSort(Integer[] array) {
         super(array);
     }
 
     @Override
-    public Integer[] sort() {
-        return new Integer[0];
+    public void sort() {
+        return;
     }
 
-    public Integer[] sort(Integer[] arrayToSort) {
-
-        if(arrayToSort.length < 2) return arrayToSort;
+    public void sort(Integer[] arrayToSort) {
 
         Integer[] first = new Integer[arrayToSort.length / 2];
         Integer[] second = new Integer[arrayToSort.length - first.length];
@@ -27,8 +22,6 @@ public class MergeSort extends SortAlgorithm {
         sort(first);
         sort(second);
         mergeSort(first, second, arrayToSort);
-
-        return arrayToSort;
     }
 
     private void mergeSort(Integer[] first, Integer[] second, Integer[] arrayToSort) {
