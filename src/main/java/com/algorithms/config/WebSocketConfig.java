@@ -1,4 +1,4 @@
-package com.algorithms;
+package com.algorithms.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

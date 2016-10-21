@@ -1,0 +1,38 @@
+Light light = new Light();
+        Command command = new OnCommand(light);
+        Switch lightSwitch = new Switch();
+        lightSwitch.storeAndExecute(command);
+
+
+
+    private Light light;
+
+    public OnCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.on();
+    }
+
+
+
+
+    public void on() {
+            System.out.println("Light turned on");
+        }
+
+        public void off() {
+            System.out.println("Light turned off");
+        }
+
+
+
+
+public class Switch {
+   public void storeAndExecute(Command command) {
+                   command.execute();
+               }
+           }
+

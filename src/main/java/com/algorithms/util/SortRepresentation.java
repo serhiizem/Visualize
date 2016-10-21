@@ -1,4 +1,4 @@
-package com.algorithms.controller;
+package com.algorithms.util;
 
 import java.util.Arrays;
 
