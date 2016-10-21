@@ -1,5 +1,6 @@
 package com.algorithms.controller;
 
+import com.algorithms.sorts.BubbleSort;
 import com.algorithms.sorts.SelectionSort;
 import com.algorithms.sorts.SortInvoker;
 //import com.algorithms.sorts.SelectionSort;
@@ -19,29 +20,27 @@ public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
 
-    private boolean sortStarted;
+    private SortRepresentation sortRepresentation = new SortRepresentation();
 
-    private SortRepresentation sortRepresentation;
     private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
-                          SortRepresentation sortRepresentation,
                           SortInvoker invoker) {
 
         this.brokerMessagingTemplate = brokerMessagingTemplate;
-        this.sortRepresentation = new SortRepresentation();
-        this.invoker = new SortInvoker();
+        this.invoker = invoker;
     }
 
     @MessageMapping("/sort")
     public void getArray(Integer[] array) throws Exception {
 
-        SelectionSort selectionSort =
-                new SelectionSort(array, sortRepresentation);
+        sortRepresentation.setIntermediate(array);
+        BubbleSort bubbleSort =
+                new BubbleSort(array, sortRepresentation);
 
-        invoker.startSortingAlgorithm(selectionSort);
+        invoker.startSortingAlgorithm(bubbleSort);
     }
 
     @Scheduled(fixedRate = 2000)
