@@ -13,7 +13,7 @@ public class SelectionSort extends Sortable implements Sorting {
     public SelectionSort() {
     }
 
-    public SelectionSort(Integer[] array, SortRepresentation sortRepresentation) {
+    public SelectionSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }
 
@@ -49,5 +49,9 @@ public class SelectionSort extends Sortable implements Sorting {
         Integer temp = array[i];
         array[i] = array[j];
         array[j] = temp;
+    }
+
+    public Integer[] getResult() {
+        return sortRepresentation.getIntermediate();
     }
 }

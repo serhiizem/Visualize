@@ -3,10 +3,7 @@ package com.algorithms.util;
 import com.algorithms.sorts.BubbleSort;
 import com.algorithms.sorts.InsertionSort;
 import com.algorithms.sorts.MergeSort;
-import com.algorithms.sorts.Sortable;
 import com.algorithms.sorts.Sorting;
-import com.algorithms.util.AlgorithmType;
-import com.algorithms.util.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

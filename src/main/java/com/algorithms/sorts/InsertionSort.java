@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class InsertionSort extends Sortable implements Sorting {
 
+    //TODO: get rid of no-arg constructor in all sorting algorithms
     public InsertionSort() {
     }
 
