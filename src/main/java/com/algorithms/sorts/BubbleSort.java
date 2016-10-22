@@ -1,18 +1,26 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.SortRepresentation;
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.TimeUnit;
 
 public class BubbleSort extends Sortable implements Sorting {
+
+    private Long startTime;
+    private Long elapsedTime;
+
+    public BubbleSort() {
+    }
 
     public BubbleSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }
 
-    @Override
     public void sort() {
 
         sortRepresentation.setSortStarted(true);
+        startTime = System.currentTimeMillis();
 
         Integer[] array = sortRepresentation.getIntermediate();
 
@@ -34,6 +42,8 @@ public class BubbleSort extends Sortable implements Sorting {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        elapsedTime = System.currentTimeMillis() - startTime;
+        sortRepresentation.getElapsedTime();
         sortRepresentation.setSortStarted(false);
     }
 

@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class SortRepresentation {
 
     private Integer[] intermediate;
+    private Long elapsedTime;
 
     boolean sortStarted = false;
 
@@ -32,6 +33,10 @@ public class SortRepresentation {
 
     public Integer[] getIntermediate() {
         return intermediate;
+    }
+
+    public Long getElapsedTime() {
+        return elapsedTime;
     }
 
     @Override

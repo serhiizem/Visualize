@@ -3,6 +3,7 @@ package com.algorithms.util;
 import com.algorithms.sorts.BubbleSort;
 import com.algorithms.sorts.InsertionSort;
 import com.algorithms.sorts.MergeSort;
+import com.algorithms.sorts.SelectionSort;
 import com.algorithms.sorts.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class AlgorithmFactory {
             case INSERTION_SORT:
                 return new InsertionSort(sortRepresentation);
             case SELECTION_SORT:
-                return new MergeSort(sortRepresentation);
+                return new SelectionSort(sortRepresentation);
             case BUBBLE_SORT:
                 return new BubbleSort(sortRepresentation);
             default:

@@ -11,7 +11,7 @@ public class InsertionSortTest {
 
     private SortRepresentation sortRepresentation;
 
-    private static Integer[] VALID_INPUT = new Integer[] {20, 30, 70, 10, 80, 60};
+    private static Integer[] VALID_INPUT = new Integer[] {80, 70, 60, 30, 20, 10};
     private static Integer[] CORRECT_RESULT = new Integer[] {10, 20, 30, 60, 70, 80};
 
     @Before
@@ -25,6 +25,8 @@ public class InsertionSortTest {
         InsertionSort insertionSort = new InsertionSort(sortRepresentation);
         insertionSort.sort();
         Integer[] result = insertionSort.getResult();
+
+        System.out.println(insertionSort.getCount());
 
         Assert.assertThat(result, Matchers.is(CORRECT_RESULT));
     }

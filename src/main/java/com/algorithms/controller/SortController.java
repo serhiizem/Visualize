@@ -1,5 +1,6 @@
 package com.algorithms.controller;
 
+import com.algorithms.aspects.ServiceToAdvice;
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.sorts.SortInvoker;
 import com.algorithms.sorts.Sorting;
@@ -25,15 +26,18 @@ public class SortController {
     private SortRepresentation sortRepresentation;
     private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
+    private ServiceToAdvice serviceToAdvice;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
                           SortInvoker invoker,
-                          SortRepresentation sortRepresentation) {
+                          SortRepresentation sortRepresentation,
+                          ServiceToAdvice serviceToAdvice) {
 
         this.sortRepresentation = sortRepresentation;
         this.brokerMessagingTemplate = brokerMessagingTemplate;
         this.invoker = invoker;
+        this.serviceToAdvice = serviceToAdvice;
     }
 
     @MessageMapping("/sort")
@@ -64,4 +68,9 @@ public class SortController {
         return "index";
     }
 
+    @GetMapping(value = "/testAop")
+    public String testAop() {
+        serviceToAdvice.adviceMe();
+        return "index";
+    }
 }

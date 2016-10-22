@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 public class InsertionSort extends Sortable implements Sorting {
 
+    public InsertionSort() {}
+
     public InsertionSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }
