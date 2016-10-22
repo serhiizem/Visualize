@@ -26,8 +26,6 @@ public class InsertionSortTest {
         insertionSort.sort();
         Integer[] result = insertionSort.getResult();
 
-        System.out.println(insertionSort.getCount());
-
         Assert.assertThat(result, Matchers.is(CORRECT_RESULT));
     }
 }

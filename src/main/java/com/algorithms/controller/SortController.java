@@ -1,6 +1,6 @@
 package com.algorithms.controller;
 
-import com.algorithms.aspects.ServiceToAdvice;
+import com.algorithms.config.FactoryMock;
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.sorts.SortInvoker;
 import com.algorithms.sorts.Sorting;
@@ -26,18 +26,18 @@ public class SortController {
     private SortRepresentation sortRepresentation;
     private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
-    private ServiceToAdvice serviceToAdvice;
+    private FactoryMock factoryMock;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
                           SortInvoker invoker,
                           SortRepresentation sortRepresentation,
-                          ServiceToAdvice serviceToAdvice) {
+                          FactoryMock factoryMock) {
 
         this.sortRepresentation = sortRepresentation;
         this.brokerMessagingTemplate = brokerMessagingTemplate;
         this.invoker = invoker;
-        this.serviceToAdvice = serviceToAdvice;
+        this.factoryMock = factoryMock;
     }
 
     @MessageMapping("/sort")
@@ -50,8 +50,7 @@ public class SortController {
 
         sortRepresentation.setIntermediate(array);
 
-        Sorting algorithm =
-                AlgorithmFactory.getAlgorithm(AlgorithmType.valueOf(sortType));
+        Sorting algorithm = factoryMock.getAlgorithm(AlgorithmType.valueOf(sortType));
 
         invoker.startSortingAlgorithm(algorithm);
     }
@@ -65,12 +64,6 @@ public class SortController {
 
     @GetMapping(value = "/")
     public String showMain() {
-        return "index";
-    }
-
-    @GetMapping(value = "/testAop")
-    public String testAop() {
-        serviceToAdvice.adviceMe();
         return "index";
     }
 }

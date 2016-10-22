@@ -1,11 +1,16 @@
 package com.algorithms.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 @Component
 public class SortRepresentation {
+
+    private static final Logger log = LoggerFactory.getLogger(SortRepresentation.class);
 
     private Integer[] intermediate;
     private Long elapsedTime;
@@ -13,6 +18,11 @@ public class SortRepresentation {
     boolean sortStarted = false;
 
     public SortRepresentation() {
+    }
+
+    @PostConstruct
+    public void checkSortRepresentationStatus() {
+        log.info("SortRepresentation object constructed: {}", this);
     }
 
     public SortRepresentation(Integer[] intermediate) {

@@ -1,11 +1,18 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.SortRepresentation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class BubbleSort extends Sortable implements Sorting {
+
+    private static final Logger log = LoggerFactory.getLogger(BubbleSort.class);
 
     private Long startTime;
     private Long elapsedTime;
@@ -13,8 +20,15 @@ public class BubbleSort extends Sortable implements Sorting {
     public BubbleSort() {
     }
 
+    //TODO: Implement BPP to inject SortRepresentationObject to all sortAlgorithm components
+    @Autowired
     public BubbleSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
+    }
+
+    @PostConstruct
+    public void checkSortRepresentationStatus() {
+        log.info("SortRepresentation in bubble sort: {}", sortRepresentation);
     }
 
     public void sort() {

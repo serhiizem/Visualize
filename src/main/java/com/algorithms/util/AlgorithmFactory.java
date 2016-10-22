@@ -1,5 +1,6 @@
 package com.algorithms.util;
 
+import com.algorithms.config.FactoryMock;
 import com.algorithms.sorts.BubbleSort;
 import com.algorithms.sorts.InsertionSort;
 import com.algorithms.sorts.MergeSort;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlgorithmFactory {
 
+    @Autowired
+    private FactoryMock factoryMock;
+
     private static SortRepresentation sortRepresentation;
 
     @Autowired
@@ -18,18 +22,5 @@ public class AlgorithmFactory {
         this.sortRepresentation = sortRepresentation;
     }
 
-    public static Sorting getAlgorithm(AlgorithmType type) {
-        switch (type) {
-            case MERGE_SORT:
-                return new MergeSort(sortRepresentation);
-            case INSERTION_SORT:
-                return new InsertionSort(sortRepresentation);
-            case SELECTION_SORT:
-                return new SelectionSort(sortRepresentation);
-            case BUBBLE_SORT:
-                return new BubbleSort(sortRepresentation);
-            default:
-                return null;
-        }
-    }
+
 }
