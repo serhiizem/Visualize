@@ -1,10 +1,9 @@
 package com.algorithms.controller;
 
-import com.algorithms.sorts.InsertionSort;
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.sorts.SortInvoker;
-import com.algorithms.sorts.Sortable;
 import com.algorithms.sorts.Sorting;
+import com.algorithms.util.AlgorithmFactory;
 import com.algorithms.util.AlgorithmType;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
@@ -18,23 +17,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
 
-//import com.algorithms.sorts.SelectionSort;
-//import com.algorithms.sorts.SortAlgorithm;
-
 @Controller
 public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
 
-    private SortRepresentation sortRepresentation = new SortRepresentation();
-
+    private SortRepresentation sortRepresentation;
     private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
-                          SortInvoker invoker) {
+                          SortInvoker invoker,
+                          SortRepresentation sortRepresentation) {
 
+        this.sortRepresentation = sortRepresentation;
         this.brokerMessagingTemplate = brokerMessagingTemplate;
         this.invoker = invoker;
     }
@@ -50,7 +47,7 @@ public class SortController {
         sortRepresentation.setIntermediate(array);
 
         Sorting algorithm =
-                AlgorithmFactory.getAlgorithm(sortRepresentation, AlgorithmType.valueOf(sortType));
+                AlgorithmFactory.getAlgorithm(AlgorithmType.valueOf(sortType));
 
         invoker.startSortingAlgorithm(algorithm);
     }

@@ -1,4 +1,4 @@
-package com.algorithms.controller;
+package com.algorithms.util;
 
 import com.algorithms.sorts.BubbleSort;
 import com.algorithms.sorts.InsertionSort;
@@ -7,10 +7,20 @@ import com.algorithms.sorts.Sortable;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.AlgorithmType;
 import com.algorithms.util.SortRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AlgorithmFactory {
 
-    public static Sorting getAlgorithm(SortRepresentation sortRepresentation, AlgorithmType type) {
+    private static SortRepresentation sortRepresentation;
+
+    @Autowired
+    public AlgorithmFactory(SortRepresentation sortRepresentation) {
+        this.sortRepresentation = sortRepresentation;
+    }
+
+    public static Sorting getAlgorithm(AlgorithmType type) {
         switch (type) {
             case MERGE_SORT:
                 return new MergeSort(sortRepresentation);

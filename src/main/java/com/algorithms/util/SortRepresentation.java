@@ -1,7 +1,10 @@
 package com.algorithms.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 
+@Component
 public class SortRepresentation {
 
     private Integer[] intermediate;
