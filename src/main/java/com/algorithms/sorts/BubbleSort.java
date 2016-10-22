@@ -5,9 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BubbleSort extends Sortable implements Sorting {
 
-    public BubbleSort() {
-    }
-
     public BubbleSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }

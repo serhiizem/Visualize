@@ -7,9 +7,6 @@ public class MergeSort extends Sortable implements Sorting {
     private Integer[] numbers;
     private Integer[] helper;
 
-    public MergeSort() {
-    }
-
     public MergeSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }
