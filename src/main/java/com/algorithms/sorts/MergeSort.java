@@ -1,12 +1,16 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.SortRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component("mergeSort")
 public class MergeSort extends Sortable implements Sorting {
 
     private Integer[] numbers;
     private Integer[] helper;
 
+    @Autowired
     public MergeSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }

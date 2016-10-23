@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Component("bubbleSort")
 public class BubbleSort extends Sortable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(BubbleSort.class);

@@ -3,13 +3,18 @@ package com.algorithms.sorts;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+@Component("selectionSort")
 public class SelectionSort extends Sortable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(SelectionSort.class);
 
+    @Autowired
     public SelectionSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }

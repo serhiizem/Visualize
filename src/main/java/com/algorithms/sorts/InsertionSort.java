@@ -1,13 +1,17 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.SortRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+@Component("insertionSort")
 public class InsertionSort extends Sortable implements Sorting {
 
     public InsertionSort() {}
 
+    @Autowired
     public InsertionSort(SortRepresentation sortRepresentation) {
         super(sortRepresentation);
     }
