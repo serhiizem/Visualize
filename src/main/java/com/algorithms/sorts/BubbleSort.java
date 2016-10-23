@@ -51,13 +51,14 @@ public class BubbleSort extends Sortable implements Sorting {
                 }
             }
         }
+        elapsedTime = System.currentTimeMillis() - startTime;
+        sortRepresentation.setElapsedTime(elapsedTime);
+        log.info("Sorting finished. Elapsed time is: {}", elapsedTime);
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        elapsedTime = System.currentTimeMillis() - startTime;
-        sortRepresentation.getElapsedTime();
         sortRepresentation.setSortStarted(false);
     }
 

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class FactoryMock {
 
-    @Qualifier("bubbleSort") private Sorting bubbleSort;
+    @Qualifier("bubbleSort")    private Sorting bubbleSort;
     @Qualifier("insertionSort") private Sorting insertionSort;
     @Qualifier("selectionSort") private Sorting selectionSort;
-    @Qualifier("mergeSort") private Sorting mergeSort;
+    @Qualifier("mergeSort")     private Sorting mergeSort;
 
     @Autowired
     public FactoryMock(Sorting bubbleSort,

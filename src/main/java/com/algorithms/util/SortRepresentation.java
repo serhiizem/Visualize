@@ -25,12 +25,9 @@ public class SortRepresentation {
         log.info("SortRepresentation object constructed: {}", this);
     }
 
-    public SortRepresentation(Integer[] intermediate) {
+    public SortRepresentation(Integer[] intermediate, Long elapsedTime) {
         this.intermediate = intermediate;
-    }
-
-    public void setIntermediate(Integer[] intermediate) {
-        this.intermediate = intermediate;
+        this.elapsedTime = elapsedTime;
     }
 
     public boolean isSortStarted() {
@@ -41,6 +38,10 @@ public class SortRepresentation {
         this.sortStarted = sortStarted;
     }
 
+    public void setIntermediate(Integer[] intermediate) {
+        this.intermediate = intermediate;
+    }
+
     public Integer[] getIntermediate() {
         return intermediate;
     }
@@ -49,10 +50,15 @@ public class SortRepresentation {
         return elapsedTime;
     }
 
+    public void setElapsedTime(Long elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
     @Override
     public String toString() {
         return "SortRepresentation{" +
                 "intermediate=" + Arrays.toString(intermediate) +
+                ", elapsedTime=" + elapsedTime +
                 '}';
     }
 }

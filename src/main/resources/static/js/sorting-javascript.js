@@ -39,7 +39,7 @@
                 console.log('Connected to the socket: ' + frame);
                 stompClient.subscribe('/visualize/sorting', function (sortedArray) {
                     console.log("subscription receipts:" + JSON.parse(sortedArray.body).content);
-                    draw(JSON.parse(sortedArray.body).intermediate);
+                    draw(JSON.parse(sortedArray.body));
                 });
             });
         });
@@ -51,21 +51,28 @@
             this.h = h; //The height of the rectangle, in pixels
         }
 
-        function draw(sortedArray) {
+        var elapsedTime = null;
+
+        function draw(sortRepresentation) {
+
+            var sortedArray = sortRepresentation.intermediate;
+            elapsedTime = sortRepresentation.elapsedTime;
+            console.log("Sorted array: " + sortedArray);
+            console.log("Elapsed time: " + elapsedTime);
             // get canvas element.
-            var elem = document.getElementById('sortCanvas');
+            var canvas = document.getElementById('sortCanvas');
 
             // check if context exist
-            if (elem.getContext) {
+            if (canvas.getContext) {
                 var rectangles = [];
 
                 for (var i = 0; i < sortedArray.length; i++) {
                     rectangles.push(new Shape(i * 50, 100, 50, sortedArray[i]));
                 }
 
-                var context = elem.getContext('2d');
+                var context = canvas.getContext('2d');
 
-                context.clearRect(0, 0, elem.width, elem.height);
+                context.clearRect(0, 0, canvas.width, canvas.height);
 
                 for (var i in rectangles) {
 
@@ -79,8 +86,12 @@
                     context.fillRect(rec.x, rec.y, rec.w, -rec.h);
                     context.strokeRect(rec.x, rec.y, rec.w, -rec.h);
                     context.fillStyle = "#000000";
-                    context.font = "20px Verdana";
+                    context.font = "20px Arial";
                     context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 20);
+                    if(elapsedTime != null) {
+                        var message = "Time taken for sort: ";
+                        context.fillText(message + elapsedTime, canvas.width / 4, canvas.height - 30);
+                    }
                 }
             }
         }
