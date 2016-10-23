@@ -67,7 +67,7 @@
                 var rectangles = [];
 
                 for (var i = 0; i < sortedArray.length; i++) {
-                    rectangles.push(new Shape(i * 50, 100, 50, sortedArray[i]));
+                    rectangles.push(new Shape(i * 50 + canvas.width / sortedArray.length, canvas.height / 2, 50, sortedArray[i]));
                 }
 
                 var context = canvas.getContext('2d');
@@ -90,7 +90,7 @@
                     context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 20);
                     if(elapsedTime != null) {
                         var message = "Time taken for sort: ";
-                        context.fillText(message + elapsedTime, canvas.width / 4, canvas.height - 30);
+                        context.fillText(message + elapsedTime, canvas.width / 4, 3/4 * canvas.height);
                     }
                 }
             }
