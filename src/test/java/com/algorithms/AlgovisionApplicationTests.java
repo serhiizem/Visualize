@@ -10,9 +10,11 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.socket.WebSocketHttpHeaders;
@@ -24,11 +26,13 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -53,54 +57,80 @@ public class AlgovisionApplicationTests {
 		this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 	}
 
-
 	@Test
-	public void handlerTest() {
+	public void getGreeting() throws Exception {
 
-		TestHandler handler = new TestHandler("/visualize/sorting");
+		final CountDownLatch latch = new CountDownLatch(1);
+		final AtomicReference<Throwable> failure = new AtomicReference<>();
+
+		StompSessionHandler handler = new TestSessionHandler(failure) {
+
+			@Override
+			public void afterConnected(final StompSession session, StompHeaders connectedHeaders) {
+				session.subscribe("/visualize/sorting", new StompFrameHandler() {
+					@Override
+					public Type getPayloadType(StompHeaders headers) {
+						return SortRepresentation.class;
+					}
+
+					@Override
+					public void handleFrame(StompHeaders headers, Object payload) {
+						SortRepresentation greeting = (SortRepresentation) payload;
+						try {
+							Assert.assertThat(greeting.getIntermediateResult(),
+									Matchers.is(new Integer[] {3, 1, 9, 4, 6, 5}));
+						} catch (Throwable t) {
+							failure.set(t);
+						} finally {
+							session.disconnect();
+							latch.countDown();
+						}
+					}
+				});
+				try {
+					session.send("/app/sort", new SortDetails(new Integer[]{3, 1, 9, 4, 6, 5}, "BUBBLE_SORT"));
+				} catch (Throwable t) {
+					failure.set(t);
+					latch.countDown();
+				}
+			}
+		};
+
 		this.stompClient.connect("ws://localhost:{port}/visual-alg", this.headers, handler, this.port);
-		System.out.println(handler.getSortRepresentations().toString());
-		Assert.assertThat(handler.getSortRepresentations(), not(empty()));
+
+		if (latch.await(3, TimeUnit.SECONDS)) {
+			if (failure.get() != null) {
+				throw new AssertionError("", failure.get());
+			}
+		}
+		else {
+			fail("Greeting not received");
+		}
+
 	}
 
-	static class TestHandler extends StompSessionHandlerAdapter {
+	private class TestSessionHandler extends StompSessionHandlerAdapter {
 
-		private final String topic;
+		private final AtomicReference<Throwable> failure;
 
-		private final List<SortRepresentation> sortRepresentations = new ArrayList<>();
 
-		public TestHandler(String topic) {
-			this.topic = topic;
-		}
-
-		public List<SortRepresentation> getSortRepresentations() {
-			return sortRepresentations;
-		}
-
-		@Override
-		public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-			session.subscribe(this.topic, new StompFrameHandler() {
-				@Override
-				public Type getPayloadType(StompHeaders headers) {
-					return SortRepresentation.class;
-				}
-
-				@Override
-				public void handleFrame(StompHeaders headers, Object payload) {
-					sortRepresentations.add((SortRepresentation) payload);
-				}
-			});
-
-			try {
-				session.send("/app/sort", new SortDetails(new Integer[]{3, 1, 4, 7, 8, 5}, "BUBBLE_SORT"));
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
+		public TestSessionHandler(AtomicReference<Throwable> failure) {
+			this.failure = failure;
 		}
 
 		@Override
 		public void handleFrame(StompHeaders headers, Object payload) {
-			sortRepresentations.add((SortRepresentation) payload);
+			this.failure.set(new Exception(headers.toString()));
+		}
+
+		@Override
+		public void handleException(StompSession s, StompCommand c, StompHeaders h, byte[] p, Throwable ex) {
+			this.failure.set(ex);
+		}
+
+		@Override
+		public void handleTransportError(StompSession session, Throwable ex) {
+			this.failure.set(ex);
 		}
 	}
 }
