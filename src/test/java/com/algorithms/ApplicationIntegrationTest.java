@@ -30,7 +30,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AlgovisionApplicationTests {
+public class ApplicationIntegrationTest {
 
 	@LocalServerPort
 	private int port;
