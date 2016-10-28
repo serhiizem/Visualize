@@ -17,7 +17,7 @@ public class MergeSort extends Sortable implements Sorting {
 
     @Override
     public void sort() {
-        this.numbers = sortRepresentation.getIntermediate();
+        this.numbers = sortRepresentation.getIntermediateResult();
         int arrayLength = numbers.length;
         this.helper = new Integer[arrayLength];
         mergeSort(0, arrayLength - 1);

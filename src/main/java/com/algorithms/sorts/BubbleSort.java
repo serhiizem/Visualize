@@ -36,7 +36,7 @@ public class BubbleSort extends Sortable implements Sorting {
         sortRepresentation.setSortStarted(true);
         startTime = System.currentTimeMillis();
 
-        Integer[] array = sortRepresentation.getIntermediate();
+        Integer[] array = sortRepresentation.getIntermediateResult();
 
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
@@ -46,7 +46,7 @@ public class BubbleSort extends Sortable implements Sorting {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    sortRepresentation.setIntermediate(array);
+                    sortRepresentation.setIntermediateResult(array);
                     swap(j, j + 1, array);
                 }
             }
@@ -69,6 +69,6 @@ public class BubbleSort extends Sortable implements Sorting {
     }
 
     public Integer[] getResult() {
-        return sortRepresentation.getIntermediate();
+        return sortRepresentation.getIntermediateResult();
     }
 }

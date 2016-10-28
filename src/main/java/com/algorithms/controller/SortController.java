@@ -4,7 +4,6 @@ import com.algorithms.config.FactoryMock;
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.sorts.SortInvoker;
 import com.algorithms.sorts.Sorting;
-import com.algorithms.util.AlgorithmFactory;
 import com.algorithms.util.AlgorithmType;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class SortController {
         String sortType = sortDetails.getSortType();
         log.info("Sort type requested: {}", sortType);
 
-        sortRepresentation.setIntermediate(array);
+        sortRepresentation.setIntermediateResult(array);
 
         Sorting algorithm = factoryMock.getAlgorithm(AlgorithmType.valueOf(sortType));
 

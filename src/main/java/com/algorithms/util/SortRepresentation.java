@@ -12,7 +12,7 @@ public class SortRepresentation {
 
     private static final Logger log = LoggerFactory.getLogger(SortRepresentation.class);
 
-    private Integer[] intermediate;
+    private Integer[] intermediateResult;
     private Long elapsedTime;
 
     boolean sortStarted = false;
@@ -20,14 +20,8 @@ public class SortRepresentation {
     public SortRepresentation() {
     }
 
-    @PostConstruct
-    public void checkSortRepresentationStatus() {
-        log.info("SortRepresentation object constructed: {}", this);
-    }
-
-    public SortRepresentation(Integer[] intermediate, Long elapsedTime) {
-        this.intermediate = intermediate;
-        this.elapsedTime = elapsedTime;
+    public SortRepresentation(Integer[] intermediate) {
+        this.intermediateResult = intermediate;
     }
 
     public boolean isSortStarted() {
@@ -38,12 +32,12 @@ public class SortRepresentation {
         this.sortStarted = sortStarted;
     }
 
-    public void setIntermediate(Integer[] intermediate) {
-        this.intermediate = intermediate;
+    public void setIntermediateResult(Integer[] intermediateResult) {
+        this.intermediateResult = intermediateResult;
     }
 
-    public Integer[] getIntermediate() {
-        return intermediate;
+    public Integer[] getIntermediateResult() {
+        return intermediateResult;
     }
 
     public Long getElapsedTime() {
@@ -57,7 +51,7 @@ public class SortRepresentation {
     @Override
     public String toString() {
         return "SortRepresentation{" +
-                "intermediate=" + Arrays.toString(intermediate) +
+                "intermediateResult=" + Arrays.toString(intermediateResult) +
                 ", elapsedTime=" + elapsedTime +
                 '}';
     }

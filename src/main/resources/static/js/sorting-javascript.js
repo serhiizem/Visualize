@@ -83,6 +83,7 @@
                     gradient.addColorStop(1, "white");
                     context.fillStyle = gradient;
 
+                    //TODO: change fill coordinates to match new rectangle coordinates
                     context.fillRect(rec.x, rec.y, rec.w, -rec.h);
                     context.strokeRect(rec.x, rec.y, rec.w, -rec.h);
                     context.fillStyle = "#000000";

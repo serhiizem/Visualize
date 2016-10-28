@@ -21,7 +21,7 @@ public class InsertionSort extends Sortable implements Sorting {
 
         sortRepresentation.setSortStarted(true);
 
-        Integer[] array = sortRepresentation.getIntermediate();
+        Integer[] array = sortRepresentation.getIntermediateResult();
 
         for(int x = 1; x < array.length; x++) {
 
@@ -35,7 +35,7 @@ public class InsertionSort extends Sortable implements Sorting {
                     e.printStackTrace();
                 }
                 array[j] = array[j - 1];
-                sortRepresentation.setIntermediate(array);
+                sortRepresentation.setIntermediateResult(array);
                 j--;
             }
             array[j] = temp;
@@ -44,12 +44,12 @@ public class InsertionSort extends Sortable implements Sorting {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            sortRepresentation.setIntermediate(array);
+            sortRepresentation.setIntermediateResult(array);
         }
         sortRepresentation.setSortStarted(false);
     }
 
     public Integer[] getResult() {
-        return sortRepresentation.getIntermediate();
+        return sortRepresentation.getIntermediateResult();
     }
 }

@@ -4,7 +4,6 @@ import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -23,8 +22,8 @@ public class SelectionSort extends Sortable implements Sorting {
     @Override
     public void sort() {
 
-        Integer[] array = sortRepresentation.getIntermediate();
-        sortRepresentation.setIntermediate(array);
+        Integer[] array = sortRepresentation.getIntermediateResult();
+        sortRepresentation.setIntermediateResult(array);
         sortRepresentation.setSortStarted(true);
 
         for (int x = 0; x < array.length; x++) {
@@ -41,7 +40,7 @@ public class SelectionSort extends Sortable implements Sorting {
                 e.printStackTrace();
             }
 
-            sortRepresentation.setIntermediate(array);
+            sortRepresentation.setIntermediateResult(array);
             swap(x, minimum, array);
         }
         sortRepresentation.setSortStarted(false);
@@ -54,6 +53,6 @@ public class SelectionSort extends Sortable implements Sorting {
     }
 
     public Integer[] getResult() {
-        return sortRepresentation.getIntermediate();
+        return sortRepresentation.getIntermediateResult();
     }
 }
