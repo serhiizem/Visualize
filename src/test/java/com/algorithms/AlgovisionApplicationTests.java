@@ -2,6 +2,7 @@ package com.algorithms;
 
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.util.SortRepresentation;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApplicationIntegrationTest {
+public class AlgovisionApplicationTests {
 
 	@LocalServerPort
 	private int port;
@@ -58,10 +59,10 @@ public class ApplicationIntegrationTest {
 
 		this.stompClient.connect("ws://localhost:{port}/visual-alg", this.headers, handler, this.port);
 
-		// give time to the application to compute the result
 		TimeUnit.SECONDS.sleep(14);
 
 		assertThat(handler.getListOfIntermediateResults().size(), is(6));
+
 	}
 
 	private class TestSessionHandler extends StompSessionHandlerAdapter {

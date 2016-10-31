@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component("mergeSort")
 public class MergeSort extends Sortable implements Sorting {
 
-    private Integer[] result;
+    private Integer[] numbers;
     private Integer[] helper;
 
     @Autowired
@@ -17,8 +17,8 @@ public class MergeSort extends Sortable implements Sorting {
 
     @Override
     public void sort() {
-        this.result = sortRepresentation.getIntermediateResult();
-        int arrayLength = result.length;
+        this.numbers = sortRepresentation.getIntermediateResult();
+        int arrayLength = numbers.length;
         this.helper = new Integer[arrayLength];
         mergeSort(0, arrayLength - 1);
     }
@@ -38,8 +38,9 @@ public class MergeSort extends Sortable implements Sorting {
 
     private void merge(int low, int middle, int high) {
 
+//        int i = 0 ??????;
         for (int i = low; i <= high; i++) {
-            helper[i] = result[i];
+            helper[i] = numbers[i];
         }
 
         int i = low;
@@ -47,23 +48,24 @@ public class MergeSort extends Sortable implements Sorting {
         int k = low;
 
         while (i <= middle && j <= high) {
+            //noinspection Duplicates
             if(helper[i] <= helper[j]) {
-                result[k] = helper[i];
+                numbers[k] = helper[i];
                 i++;
             } else {
-                result[k] = helper[j];
+                numbers[k] = helper[j];
                 j++;
             }
             k++;
         }
 
         while (i <= middle) {
-            result[k] = helper[i];
+            numbers[k] = helper[i];
             i++;
             k++;
         }
     }
-    public Integer[] getResult() {
-        return result;
+    public Integer[] getNumbers() {
+        return numbers;
     }
 }

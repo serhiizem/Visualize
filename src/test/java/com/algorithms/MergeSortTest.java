@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.hamcrest.Matchers.is;
 
 public class MergeSortTest {
@@ -25,7 +27,7 @@ public class MergeSortTest {
 
         MergeSort mergeSort = new MergeSort(sortRepresentation);
         mergeSort.sort();
-        Integer[] numbers = mergeSort.getResult();
+        Integer[] numbers = mergeSort.getNumbers();
 
         Assert.assertThat(numbers, is(CORRECT_RESULT));
     }
