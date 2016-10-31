@@ -38,7 +38,7 @@
             stompClient.connect({}, function (frame) {
                 console.log('Connected to the socket: ' + frame);
                 stompClient.subscribe('/visualize/sorting', function (sortedArray) {
-                    console.log("subscription receipts:" + JSON.parse(sortedArray));
+                    console.log("subscription receipts:" + JSON.parse(sortedArray.body).content);
                     draw(JSON.parse(sortedArray.body));
                 });
             });
