@@ -55,7 +55,7 @@
 
         function draw(sortRepresentation) {
 
-            var sortedArray = sortRepresentation.intermediate;
+            var sortedArray = sortRepresentation.intermediateResult;
             elapsedTime = sortRepresentation.elapsedTime;
             console.log("Sorted array: " + sortedArray);
             console.log("Elapsed time: " + elapsedTime);
