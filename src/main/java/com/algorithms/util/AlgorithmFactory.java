@@ -1,11 +1,5 @@
 package com.algorithms.util;
 
-import com.algorithms.config.FactoryMock;
-import com.algorithms.sorts.BubbleSort;
-import com.algorithms.sorts.InsertionSort;
-import com.algorithms.sorts.MergeSort;
-import com.algorithms.sorts.SelectionSort;
-import com.algorithms.sorts.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class AlgorithmFactory {
 
     @Autowired
-    private FactoryMock factoryMock;
+    private AlgorithmFactory factoryMock;
 
     private static SortRepresentation sortRepresentation;
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FactoryMock {
+public class DefaultAlgorithmFactory implements AlgorithmFactory {
 
     @Qualifier("bubbleSort")    private Sorting bubbleSort;
     @Qualifier("insertionSort") private Sorting insertionSort;
@@ -15,7 +15,7 @@ public class FactoryMock {
     @Qualifier("mergeSort")     private Sorting mergeSort;
 
     @Autowired
-    public FactoryMock(Sorting bubbleSort,
+    public DefaultAlgorithmFactory(Sorting bubbleSort,
                        Sorting insertionSort,
                        Sorting selectionSort,
                        Sorting mergeSort) {
@@ -25,6 +25,7 @@ public class FactoryMock {
         this.mergeSort = mergeSort;
     }
 
+    @Override
     public Sorting getAlgorithm(AlgorithmType type) {
         switch (type) {
             case BUBBLE_SORT:

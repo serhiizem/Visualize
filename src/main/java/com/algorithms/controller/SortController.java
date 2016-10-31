@@ -1,6 +1,6 @@
 package com.algorithms.controller;
 
-import com.algorithms.config.FactoryMock;
+import com.algorithms.config.AlgorithmFactory;
 import com.algorithms.sorts.SortDetails;
 import com.algorithms.sorts.SortInvoker;
 import com.algorithms.sorts.Sorting;
@@ -25,13 +25,13 @@ public class SortController {
     private SortRepresentation sortRepresentation;
     private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
-    private FactoryMock factoryMock;
+    private AlgorithmFactory factoryMock;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
                           SortInvoker invoker,
                           SortRepresentation sortRepresentation,
-                          FactoryMock factoryMock) {
+                          AlgorithmFactory factoryMock) {
 
         this.sortRepresentation = sortRepresentation;
         this.brokerMessagingTemplate = brokerMessagingTemplate;
