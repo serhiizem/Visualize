@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
 @Component("bubbleSort")
@@ -26,14 +25,8 @@ public class BubbleSort extends Sortable implements Sorting {
         super(sortRepresentation);
     }
 
-    @PostConstruct
-    public void checkSortRepresentationStatus() {
-        log.info("SortRepresentation in bubble sort: {}", sortRepresentation);
-    }
-
     public void sort() {
 
-        sortRepresentation.setSortStarted(true);
         startTime = System.currentTimeMillis();
 
         Integer[] array = sortRepresentation.getIntermediateResult();
@@ -59,7 +52,6 @@ public class BubbleSort extends Sortable implements Sorting {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        sortRepresentation.setSortStarted(false);
     }
 
     public void swap(int i, int j, Integer[] array) {

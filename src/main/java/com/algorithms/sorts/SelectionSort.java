@@ -18,13 +18,15 @@ public class SelectionSort extends Sortable implements Sorting {
         super(sortRepresentation);
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
     public void sort() {
 
+        log.info("After aspect did his job: {}",
+                sortRepresentation.isSortStarted());
+
         Integer[] array = sortRepresentation.getIntermediateResult();
-        sortRepresentation.setIntermediateResult(array);
-        sortRepresentation.setSortStarted(true);
+//        sortRepresentation.setIntermediateResult(array);
+//        sortRepresentation.setSortStarted(true);
 
         for (int x = 0; x < array.length; x++) {
 

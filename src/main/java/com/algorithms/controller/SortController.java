@@ -25,7 +25,7 @@ public class SortController {
     private SortRepresentation sortRepresentation;
     private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
-    private AlgorithmFactory factoryMock;
+    private AlgorithmFactory algorithmFactory;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
@@ -36,7 +36,7 @@ public class SortController {
         this.sortRepresentation = sortRepresentation;
         this.brokerMessagingTemplate = brokerMessagingTemplate;
         this.invoker = invoker;
-        this.factoryMock = factoryMock;
+        this.algorithmFactory = factoryMock;
     }
 
     @MessageMapping("/sort")
@@ -49,7 +49,7 @@ public class SortController {
 
         sortRepresentation.setIntermediateResult(array);
 
-        Sorting algorithm = factoryMock.getAlgorithm(AlgorithmType.valueOf(sortType));
+        Sorting algorithm = algorithmFactory.getAlgorithm(AlgorithmType.valueOf(sortType));
 
         invoker.startSortingAlgorithm(algorithm);
     }

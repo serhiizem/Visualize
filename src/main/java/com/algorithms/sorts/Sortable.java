@@ -12,4 +12,8 @@ public abstract class Sortable {
     public Sortable(SortRepresentation sortRepresentation) {
         this.sortRepresentation = sortRepresentation;
     }
+
+    public void invokeAspectFromParent() {
+        System.out.println("**********88invokeAspectFromParent8**************");
+    }
 }
