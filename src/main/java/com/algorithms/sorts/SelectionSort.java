@@ -19,12 +19,12 @@ public class SelectionSort extends Sortable implements Sorting {
     }
 
     @Override
-    public void sort() {
+    public void sort(Integer[] array) {
 
         log.info("After aspect did his job: {}",
                 sortRepresentation.isSortStarted());
 
-        Integer[] array = sortRepresentation.getIntermediateResult();
+        array = sortRepresentation.getIntermediateResult();
 //        sortRepresentation.setIntermediateResult(array);
 //        sortRepresentation.setSortStarted(true);
 

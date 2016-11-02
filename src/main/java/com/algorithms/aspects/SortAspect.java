@@ -24,17 +24,12 @@ public class SortAspect {
 
     @Before("execution(void sort())")
     public void startSort() {
-        sortRepresentation.setSortStarted(true);
-        sortRepresentation.setStartTime(currentTimeMillis());
+
     }
 
     @After("execution(void sort())")
     public void finishSort() {
-        Long elapsedTime = currentTimeMillis() - sortRepresentation.getStartTime();
-        sortRepresentation.setElapsedTime(elapsedTime);
-//        pauseExecutionForNumberOfSeconds(2);
 
-        sortRepresentation.setSortStarted(false);
     }
 
     private void pauseExecutionForNumberOfSeconds(int secondsToPause) {

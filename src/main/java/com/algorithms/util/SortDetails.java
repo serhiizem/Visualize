@@ -1,4 +1,4 @@
-package com.algorithms.sorts;
+package com.algorithms.util;
 
 public class SortDetails {
 

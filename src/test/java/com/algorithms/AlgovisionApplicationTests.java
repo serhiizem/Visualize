@@ -1,8 +1,7 @@
 package com.algorithms;
 
-import com.algorithms.sorts.SortDetails;
+import com.algorithms.util.SortDetails;
 import com.algorithms.util.SortRepresentation;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

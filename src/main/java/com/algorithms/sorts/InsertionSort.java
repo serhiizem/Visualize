@@ -16,12 +16,11 @@ public class InsertionSort extends Sortable implements Sorting {
         super(sortRepresentation);
     }
 
-    @Override
-    public void sort() {
+    public void sort(Integer[] array) {
 
         sortRepresentation.setSortStarted(true);
 
-        Integer[] array = sortRepresentation.getIntermediateResult();
+        array = sortRepresentation.getIntermediateResult();
 
         for(int x = 1; x < array.length; x++) {
 

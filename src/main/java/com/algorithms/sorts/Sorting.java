@@ -1,7 +1,7 @@
 package com.algorithms.sorts;
 
 public interface Sorting {
-    void sort();
+    void sort(Integer[] array);
 
     static void swap(int i, int j, Integer[] array) {
         Integer temp = array[i];

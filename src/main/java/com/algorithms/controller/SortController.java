@@ -1,10 +1,9 @@
 package com.algorithms.controller;
 
 import com.algorithms.config.AlgorithmFactory;
-import com.algorithms.sorts.SortDetails;
-import com.algorithms.sorts.SortInvoker;
+import com.algorithms.util.SortDetails;
 import com.algorithms.sorts.Sorting;
-import com.algorithms.util.AlgorithmType;
+import com.algorithms.util.Queue;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,26 +16,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
 
+import static com.algorithms.util.AlgorithmType.valueOf;
+
 @Controller
 public class SortController {
 
     private static final Logger log = LoggerFactory.getLogger(SortController.class);
 
-    private SortRepresentation sortRepresentation;
-    private SortInvoker invoker;
     private SimpMessagingTemplate brokerMessagingTemplate;
     private AlgorithmFactory algorithmFactory;
+    private Queue<SortRepresentation> sortRepresentationQueue;
 
     @Autowired
     public SortController(SimpMessagingTemplate brokerMessagingTemplate,
-                          SortInvoker invoker,
-                          SortRepresentation sortRepresentation,
-                          AlgorithmFactory factoryMock) {
+                          AlgorithmFactory algorithmFactory,
+                          Queue<SortRepresentation> sortRepresentationQueue) {
 
-        this.sortRepresentation = sortRepresentation;
         this.brokerMessagingTemplate = brokerMessagingTemplate;
-        this.invoker = invoker;
-        this.algorithmFactory = factoryMock;
+        this.algorithmFactory = algorithmFactory;
+        this.sortRepresentationQueue = sortRepresentationQueue;
     }
 
     @MessageMapping("/sort")
@@ -47,23 +45,26 @@ public class SortController {
         String sortType = sortDetails.getSortType();
         log.info("Sort type requested: {}", sortType);
 
-        sortRepresentation.setIntermediateResult(array);
+        Sorting algorithm = algorithmFactory.getAlgorithm(valueOf(sortType));
 
-        Sorting algorithm = algorithmFactory.getAlgorithm(AlgorithmType.valueOf(sortType));
-
-        invoker.startSortingAlgorithm(algorithm);
+        algorithm.sort(array);
     }
 
     @Scheduled(fixedRate = 2000)
     public void sendMessage() {
-        log.info("SortRepresentation initialized? : {}", sortRepresentation);
-        if(sortRepresentation.isSortStarted()) {
-            this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", sortRepresentation);
+        if(!sortRepresentationQueue.isEmpty()) {
+            sendIntermediateResultToAView();
         }
     }
 
     @GetMapping(value = "/")
     public String showMain() {
         return "index";
+    }
+
+
+    private void sendIntermediateResultToAView() {
+        SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
+        this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);
     }
 }
