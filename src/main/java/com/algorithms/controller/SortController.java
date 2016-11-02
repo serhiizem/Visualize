@@ -56,6 +56,7 @@ public class SortController {
 
     @Scheduled(fixedRate = 2000)
     public void sendMessage() {
+        log.info("SortRepresentation initialized? : {}", sortRepresentation);
         if(sortRepresentation.isSortStarted()) {
             this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", sortRepresentation);
         }

@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.algorithms.sorts.Sorting.swap;
+
 @Component("bubbleSort")
 public class BubbleSort extends Sortable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(BubbleSort.class);
-
-    private Long startTime;
-    private Long elapsedTime;
 
     public BubbleSort() {
     }
@@ -27,37 +26,25 @@ public class BubbleSort extends Sortable implements Sorting {
 
     public void sort() {
 
-        startTime = System.currentTimeMillis();
-
         Integer[] array = sortRepresentation.getIntermediateResult();
 
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if(array[j] > array[j + 1]) {
-                    try {
-                        TimeUnit.SECONDS.sleep(2);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    pauseExecutionForNumberOfSeconds(2);
                     sortRepresentation.setIntermediateResult(array);
                     swap(j, j + 1, array);
                 }
             }
         }
-        elapsedTime = System.currentTimeMillis() - startTime;
-        sortRepresentation.setElapsedTime(elapsedTime);
-        log.info("Sorting finished. Elapsed time is: {}", elapsedTime);
+    }
+
+    private void pauseExecutionForNumberOfSeconds(int secondsToPause) {
         try {
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(secondsToPause);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public void swap(int i, int j, Integer[] array) {
-        Integer temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
     }
 
     public Integer[] getResult() {

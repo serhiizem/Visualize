@@ -1,21 +1,17 @@
 package com.algorithms.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 @Component
 public class SortRepresentation {
 
-    private static final Logger log = LoggerFactory.getLogger(SortRepresentation.class);
-
+    // Throws an NPE if not initialized explicitly
+    private Boolean sortStarted = false;
     private Integer[] intermediateResult;
+    private Long startTime;
     private Long elapsedTime;
-
-    boolean sortStarted = false;
 
     public SortRepresentation() {
     }
@@ -24,11 +20,11 @@ public class SortRepresentation {
         this.intermediateResult = intermediate;
     }
 
-    public boolean isSortStarted() {
+    public Boolean isSortStarted() {
         return sortStarted;
     }
 
-    public void setSortStarted(boolean sortStarted) {
+    public void setSortStarted(Boolean sortStarted) {
         this.sortStarted = sortStarted;
     }
 
@@ -38,6 +34,14 @@ public class SortRepresentation {
 
     public Integer[] getIntermediateResult() {
         return intermediateResult;
+    }
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
     }
 
     public Long getElapsedTime() {
@@ -51,7 +55,9 @@ public class SortRepresentation {
     @Override
     public String toString() {
         return "SortRepresentation{" +
-                "intermediateResult=" + Arrays.toString(intermediateResult) +
+                "sortStarted=" + sortStarted +
+                ", intermediateResult=" + Arrays.toString(intermediateResult) +
+                ", startTime=" + startTime +
                 ", elapsedTime=" + elapsedTime +
                 '}';
     }
