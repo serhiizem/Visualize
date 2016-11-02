@@ -1,8 +1,11 @@
 package com.algorithms.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@Component
 public class Queue<Item> implements Iterable<Item> {
 
     private Node<Item> first;
