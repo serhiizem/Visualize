@@ -25,8 +25,7 @@ public class MergeSortTest {
     @Test
     public void mergeSortShouldReturnSortedArrayOnValidInput() {
 
-        MergeSort mergeSort = new MergeSort(sortRepresentation);
-        mergeSort.sort();
+        MergeSort mergeSort = new MergeSort();
         Integer[] numbers = mergeSort.getNumbers();
 
         Assert.assertThat(numbers, is(CORRECT_RESULT));

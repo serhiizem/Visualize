@@ -13,8 +13,8 @@ public class Queue<Item> implements Iterable<Item> {
     private int queueSize;
 
     private static class Node<Item> {
-        Item item;
-        Node<Item> next;
+        private Item item;
+        private Node<Item> next;
     }
 
     public Queue() {
@@ -37,7 +37,7 @@ public class Queue<Item> implements Iterable<Item> {
         last = new Node<>();
         last.item = item;
         last.next = null;
-        if(first == null) {
+        if(isEmpty()) {
             first = last;
         } else {
             oldLast.next = last;
@@ -49,6 +49,8 @@ public class Queue<Item> implements Iterable<Item> {
         if(isEmpty()) throw new NoSuchElementException("Cannot dequeue on empty queue");
         Item item = first.item;
         first = first.next;
+        queueSize--;
+        if (isEmpty()) last = null;
         return item;
     }
 

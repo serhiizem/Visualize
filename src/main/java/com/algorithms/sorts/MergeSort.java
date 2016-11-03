@@ -10,11 +10,6 @@ public class MergeSort extends Sortable implements Sorting {
     private Integer[] numbers;
     private Integer[] helper;
 
-    @Autowired
-    public MergeSort(SortRepresentation sortRepresentation) {
-        super(sortRepresentation);
-    }
-
     @Override
     public void sort(Integer[] array) {
         this.numbers = sortRepresentation.getIntermediateResult();

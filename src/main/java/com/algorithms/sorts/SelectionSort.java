@@ -13,11 +13,6 @@ public class SelectionSort extends Sortable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(SelectionSort.class);
 
-    @Autowired
-    public SelectionSort(SortRepresentation sortRepresentation) {
-        super(sortRepresentation);
-    }
-
     @Override
     public void sort(Integer[] array) {
 

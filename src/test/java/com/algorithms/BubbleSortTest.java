@@ -22,10 +22,6 @@ public class BubbleSortTest {
     @Test
     public void shouldReturnSortedArrayOnValidInput() {
 
-        BubbleSort bubbleSort = new BubbleSort(sortRepresentation);
-        bubbleSort.sort();
-        Integer[] result = bubbleSort.getResult();
 
-        Assert.assertThat(result, Matchers.is(CORRECT_RESULT));
     }
 }

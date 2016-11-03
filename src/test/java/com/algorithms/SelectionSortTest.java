@@ -22,8 +22,7 @@ public class SelectionSortTest {
     @Test
     public void shouldSortOnValidInput() {
 
-        SelectionSort selectionSort = new SelectionSort(sortRepresentation);
-        selectionSort.sort();
+        SelectionSort selectionSort = new SelectionSort();
         Integer[] result = selectionSort.getResult();
 
         Assert.assertThat(result, Matchers.is(CORRECT_RESULT));

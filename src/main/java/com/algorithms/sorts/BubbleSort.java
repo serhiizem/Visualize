@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 import static com.algorithms.sorts.Sorting.swap;
 
 @Component("bubbleSort")
@@ -34,7 +36,12 @@ public class BubbleSort implements Sorting {
     }
 
     private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
-        SortRepresentation sortRepresentation = new SortRepresentation(intermediateResult);
-        sortRepresentationQueue.enqueue(sortRepresentation);
+        log.info("Put intermediateResult: {}", Arrays.toString(intermediateResult));
+        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult));
+        for(SortRepresentation sr: sortRepresentationQueue) {
+            log.info("SortRepresentation in putSortRepresentationInAQueue: {}", sr.toString());
+        }
+        log.info("****************END OF ONE DISPATCH***************");
+        log.info("**************************************************");
     }
 }

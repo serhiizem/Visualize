@@ -11,11 +11,6 @@ public class InsertionSort extends Sortable implements Sorting {
 
     public InsertionSort() {}
 
-    @Autowired
-    public InsertionSort(SortRepresentation sortRepresentation) {
-        super(sortRepresentation);
-    }
-
     public void sort(Integer[] array) {
 
         sortRepresentation.setSortStarted(true);
