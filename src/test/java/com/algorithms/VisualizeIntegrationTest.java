@@ -62,7 +62,7 @@ public class VisualizeIntegrationTest {
 
 		this.stompClient.connect("ws://localhost:{port}/visual-alg", this.headers, handler, this.port);
 
-        TimeUnit.SECONDS.sleep(14);
+        TimeUnit.SECONDS.sleep(12);
 
 		assertThat(handler.getListOfIntermediateResults().size(), is(6));
 
