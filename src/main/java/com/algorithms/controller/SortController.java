@@ -65,7 +65,6 @@ public class SortController {
     private void sendIntermediateResultToAView() {
 
         SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
-        log.info("intermediateResult to send: {}", intermediateResult);
         this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);
     }
 }

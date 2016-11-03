@@ -10,15 +10,13 @@ import org.springframework.stereotype.Component;
 import static com.algorithms.sorts.Sorting.swap;
 
 @Component("bubbleSort")
-public class BubbleSort implements Sorting {
+public class BubbleSort extends Queueable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(BubbleSort.class);
 
-    private Queue<SortRepresentation> sortRepresentationQueue;
-
     @Autowired
     public BubbleSort(Queue<SortRepresentation> sortRepresentationQueue) {
-        this.sortRepresentationQueue = sortRepresentationQueue;
+        super(sortRepresentationQueue);
     }
 
     public void sort(Integer[] array) {
@@ -32,9 +30,5 @@ public class BubbleSort implements Sorting {
             }
         }
         putSortRepresentationInAQueue(array);
-    }
-
-    private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
-        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult.clone()));
     }
 }

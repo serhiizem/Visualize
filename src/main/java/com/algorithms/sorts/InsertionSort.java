@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("insertionSort")
-public class InsertionSort extends Sortable implements Sorting {
+public class InsertionSort extends Queueable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(InsertionSort.class);
 
-    private Queue<SortRepresentation> sortRepresentationQueue;
-
     @Autowired
     public InsertionSort(Queue<SortRepresentation> sortRepresentationQueue) {
-        this.sortRepresentationQueue = sortRepresentationQueue;
+        super(sortRepresentationQueue);
     }
 
     public void sort(Integer[] array) {
@@ -33,9 +31,5 @@ public class InsertionSort extends Sortable implements Sorting {
             array[j] = temp;
             this.putSortRepresentationInAQueue(array);
         }
-    }
-
-    private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
-        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult.clone()));
     }
 }

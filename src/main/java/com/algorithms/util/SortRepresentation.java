@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 public class SortRepresentation {
 
-    // Throws an NPE if not initialized explicitly
-    private Boolean sortStarted = false;
     private Integer[] intermediateResult;
     private Long startTime;
     private Long elapsedTime;
@@ -15,14 +13,6 @@ public class SortRepresentation {
 
     public SortRepresentation(Integer[] intermediate) {
         this.intermediateResult = intermediate;
-    }
-
-    public Boolean isSortStarted() {
-        return sortStarted;
-    }
-
-    public void setSortStarted(Boolean sortStarted) {
-        this.sortStarted = sortStarted;
     }
 
     public void setIntermediateResult(Integer[] intermediateResult) {
@@ -52,7 +42,6 @@ public class SortRepresentation {
     @Override
     public String toString() {
         return "SortRepresentation{" +
-                "sortStarted=" + sortStarted +
                 ", intermediateResult=" + Arrays.toString(intermediateResult) +
                 ", startTime=" + startTime +
                 ", elapsedTime=" + elapsedTime +

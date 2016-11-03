@@ -7,20 +7,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.algorithms.sorts.Sorting.swap;
 
 @Component("selectionSort")
-public class SelectionSort extends Sortable implements Sorting {
+public class SelectionSort extends Queueable implements Sorting {
 
     private static final Logger log = LoggerFactory.getLogger(SelectionSort.class);
 
-    private Queue<SortRepresentation> sortRepresentationQueue;
-
     @Autowired
     public SelectionSort(Queue<SortRepresentation> sortRepresentationQueue) {
-        this.sortRepresentationQueue = sortRepresentationQueue;
+        super(sortRepresentationQueue);
     }
 
     @Override
@@ -33,13 +29,8 @@ public class SelectionSort extends Sortable implements Sorting {
             for(int y = x; y < array.length; y++) {
                 if(array[minimum] > array[y]) minimum = y;
             }
-
-            this.putSortRepresentationInAQueue(array);
+            putSortRepresentationInAQueue(array);
             swap(x, minimum, array);
         }
-    }
-
-    private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
-        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult.clone()));
     }
 }

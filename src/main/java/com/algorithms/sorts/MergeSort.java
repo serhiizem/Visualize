@@ -1,18 +1,15 @@
 package com.algorithms.sorts;
 
-import com.algorithms.util.SortRepresentation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("mergeSort")
-public class MergeSort extends Sortable implements Sorting {
+public class MergeSort implements Sorting {
 
     private Integer[] numbers;
     private Integer[] helper;
 
     @Override
     public void sort(Integer[] array) {
-        this.numbers = sortRepresentation.getIntermediateResult();
         int arrayLength = numbers.length;
         this.helper = new Integer[arrayLength];
         mergeSort(0, arrayLength - 1);
