@@ -50,7 +50,7 @@ public class SortController {
         algorithm.sort(array);
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedRate = 2000)
     public void sendMessage() {
         if(!sortRepresentationQueue.isEmpty()) {
             sendIntermediateResultToAView();
@@ -62,12 +62,10 @@ public class SortController {
         return "index";
     }
 
-
     private void sendIntermediateResultToAView() {
 
-
-//        SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
-//        log.info("intermediateResult to send: {}", intermediateResult);
-//        this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);
+        SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
+        log.info("intermediateResult to send: {}", intermediateResult);
+        this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);
     }
 }

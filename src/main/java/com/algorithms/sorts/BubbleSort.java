@@ -31,6 +31,7 @@ public class BubbleSort implements Sorting {
                 }
             }
         }
+        putSortRepresentationInAQueue(array);
     }
 
     private void putSortRepresentationInAQueue(Integer[] intermediateResult) {

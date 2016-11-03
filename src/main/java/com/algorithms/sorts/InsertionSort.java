@@ -1,49 +1,44 @@
 package com.algorithms.sorts;
 
+import com.algorithms.util.Queue;
 import com.algorithms.util.SortRepresentation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
 
 @Component("insertionSort")
 public class InsertionSort extends Sortable implements Sorting {
 
-    public InsertionSort() {}
+    private static final Logger log = LoggerFactory.getLogger(InsertionSort.class);
+
+    private Queue<SortRepresentation> sortRepresentationQueue;
+
+    @Autowired
+    public InsertionSort(Queue<SortRepresentation> sortRepresentationQueue) {
+        this.sortRepresentationQueue = sortRepresentationQueue;
+    }
 
     public void sort(Integer[] array) {
 
-        sortRepresentation.setSortStarted(true);
-
-        array = sortRepresentation.getIntermediateResult();
-
         for(int x = 1; x < array.length; x++) {
 
-//            5, 10, 4, 8, 3
             Integer temp = array[x];
             int j = x;
             while ((j > 0) && array[j - 1] > temp) {
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 array[j] = array[j - 1];
-                sortRepresentation.setIntermediateResult(array);
+                putSortRepresentationInAQueue(array);
                 j--;
             }
             array[j] = temp;
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            sortRepresentation.setIntermediateResult(array);
+            putSortRepresentationInAQueue(array);
         }
-        sortRepresentation.setSortStarted(false);
     }
 
-    public Integer[] getResult() {
-        return sortRepresentation.getIntermediateResult();
+    private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
+        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult.clone()));
+        for(SortRepresentation sr: sortRepresentationQueue) {
+            log.info("SortRepresentation in putSortRepresentationInAQueue: {}", sr.toString());
+        }
     }
 }
