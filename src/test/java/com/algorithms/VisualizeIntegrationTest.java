@@ -5,6 +5,8 @@ import com.algorithms.util.SortRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -30,7 +32,9 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AlgovisionApplicationTests {
+public class VisualizeIntegrationTest {
+
+	private static final Logger log = LoggerFactory.getLogger(VisualizeIntegrationTest.class);
 
 	@LocalServerPort
 	private int port;
@@ -52,13 +56,13 @@ public class AlgovisionApplicationTests {
 	}
 
 	@Test
-	public void getGreeting() throws Exception {
+	public void queueShouldContainIntermediateResults() throws Exception {
 
 		TestSessionHandler handler = new TestSessionHandler();
 
 		this.stompClient.connect("ws://localhost:{port}/visual-alg", this.headers, handler, this.port);
 
-		TimeUnit.SECONDS.sleep(14);
+        TimeUnit.SECONDS.sleep(14);
 
 		assertThat(handler.getListOfIntermediateResults().size(), is(6));
 
@@ -85,7 +89,7 @@ public class AlgovisionApplicationTests {
 				@Override
 				public void handleFrame(StompHeaders headers, Object payload) {
 					SortRepresentation sortedArray = (SortRepresentation) payload;
-
+					log.info("In handle frame method: {}", sortedArray);
 					listOfIntermediateResults.add(sortedArray);
 				}
 			});

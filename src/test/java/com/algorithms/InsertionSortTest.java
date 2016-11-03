@@ -22,9 +22,5 @@ public class InsertionSortTest {
     @Test
     public void shouldReturnSortedArrayOnValidInput() {
 
-        InsertionSort insertionSort = new InsertionSort();
-        Integer[] result = insertionSort.getResult();
-
-        Assert.assertThat(result, Matchers.is(CORRECT_RESULT));
     }
 }
