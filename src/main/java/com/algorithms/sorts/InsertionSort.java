@@ -27,18 +27,15 @@ public class InsertionSort extends Sortable implements Sorting {
             int j = x;
             while ((j > 0) && array[j - 1] > temp) {
                 array[j] = array[j - 1];
-                putSortRepresentationInAQueue(array);
+                this.putSortRepresentationInAQueue(array);
                 j--;
             }
             array[j] = temp;
-            putSortRepresentationInAQueue(array);
+            this.putSortRepresentationInAQueue(array);
         }
     }
 
     private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
         sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult.clone()));
-        for(SortRepresentation sr: sortRepresentationQueue) {
-            log.info("SortRepresentation in putSortRepresentationInAQueue: {}", sr.toString());
-        }
     }
 }
