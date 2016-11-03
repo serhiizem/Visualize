@@ -1,27 +1,35 @@
 package com.algorithms;
 
 import com.algorithms.sorts.BubbleSort;
+import com.algorithms.util.Queue;
 import com.algorithms.util.SortRepresentation;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 public class BubbleSortTest {
 
-    private SortRepresentation sortRepresentation;
+    private Queue<SortRepresentation> sortRepresentationQueue;
+    private BubbleSort bubbleSort;
 
     private static Integer[] VALID_INPUT = new Integer[] {20, 30, 70, 10, 80, 60};
     private static Integer[] CORRECT_RESULT = new Integer[] {10, 20, 30, 60, 70, 80};
 
     @Before
     public void setUp() throws Exception {
-        sortRepresentation = new SortRepresentation(VALID_INPUT);
+        sortRepresentationQueue = new Queue<>();
+        bubbleSort = new BubbleSort(sortRepresentationQueue);
     }
 
     @Test
-    public void shouldReturnSortedArrayOnValidInput() {
+    public void lastElementPutInTheQueueShouldBeFullySorted() {
 
+        bubbleSort.sort(VALID_INPUT);
 
+        Integer[] lastElementInTheQueue = sortRepresentationQueue.getLast().getIntermediateResult();
+
+        assertThat(lastElementInTheQueue, is(CORRECT_RESULT));
     }
 }

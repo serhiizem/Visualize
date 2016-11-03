@@ -56,6 +56,18 @@ public class Queue<Item> implements Iterable<Item> {
         return item;
     }
 
+    public Item getFirst() {
+        return first.item;
+    }
+
+    public Item getLast() {
+        return last.item;
+    }
+
+    public int getQueueSize() {
+        return queueSize;
+    }
+
     @Override
     public Iterator<Item> iterator() {
         return new ListIterator<>(first);
