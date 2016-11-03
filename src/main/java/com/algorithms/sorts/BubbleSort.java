@@ -37,7 +37,7 @@ public class BubbleSort implements Sorting {
 
     private void putSortRepresentationInAQueue(Integer[] intermediateResult) {
         log.info("Put intermediateResult: {}", Arrays.toString(intermediateResult));
-        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult));
+        sortRepresentationQueue.enqueue(new SortRepresentation(intermediateResult.clone()));
         for(SortRepresentation sr: sortRepresentationQueue) {
             log.info("SortRepresentation in putSortRepresentationInAQueue: {}", sr.toString());
         }

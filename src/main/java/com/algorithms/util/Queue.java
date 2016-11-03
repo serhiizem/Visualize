@@ -33,15 +33,12 @@ public class Queue<Item> implements Iterable<Item> {
     }
 
     public void enqueue(Item item) {
-        Node<Item> oldLast = last;
-        last = new Node<>();
+        Node<Item> oldlast = last;
+        last = new Node<Item>();
         last.item = item;
         last.next = null;
-        if(isEmpty()) {
-            first = last;
-        } else {
-            oldLast.next = last;
-        }
+        if (isEmpty()) first = last;
+        else           oldlast.next = last;
         queueSize++;
     }
 
