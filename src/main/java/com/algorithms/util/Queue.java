@@ -37,8 +37,11 @@ public class Queue<Item> implements Iterable<Item> {
         last = new Node<Item>();
         last.item = item;
         last.next = null;
-        if (isEmpty()) first = last;
-        else           oldlast.next = last;
+        if (isEmpty()) {
+            first = last;
+        } else {
+            oldlast.next = last;
+        }
         queueSize++;
     }
 
@@ -47,7 +50,9 @@ public class Queue<Item> implements Iterable<Item> {
         Item item = first.item;
         first = first.next;
         queueSize--;
-        if (isEmpty()) last = null;
+        if (isEmpty()) {
+            last = null;
+        }
         return item;
     }
 
