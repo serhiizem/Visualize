@@ -5,6 +5,7 @@ import com.algorithms.service.SendService;
 import com.algorithms.util.SortDetails;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
+import com.algorithms.util.SortInvoker;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ public class SortController {
     private SendService sendService;
     private AlgorithmFactory algorithmFactory;
     private Queue<SortRepresentation> sortRepresentationQueue;
+    private SortInvoker sortInvoker;
 
     @Autowired
     public SortController(SendService sendService,
@@ -46,9 +48,10 @@ public class SortController {
         SortControllerLogger.logArrayReceivedFromView(arrayToSort);
         String sortType = sortDetails.getSortType();
         SortControllerLogger.logRequestedSortType(sortType);
+
         Sorting algorithm = algorithmFactory.getAlgorithm(valueOf(sortType));
 
-        algorithm.sort(arrayToSort);
+        sortInvoker.sortArrayWithTheGivenAlgorithm(arrayToSort, algorithm);
     }
 
     @Scheduled(fixedRate = 2000)
