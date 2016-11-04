@@ -57,14 +57,13 @@ public class SortController {
         }
     }
 
+    private void sendIntermediateResultToAView() {
+        SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
+        this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);
+    }
+
     @GetMapping(value = "/")
     public String showMain() {
         return "index";
-    }
-
-    private void sendIntermediateResultToAView() {
-
-        SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
-        this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);
     }
 }

@@ -45,7 +45,9 @@ public class VisualizeIntegrationTest {
 
 	private final WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 
-	@Before
+    private SortDetails validSortDetails;
+
+    @Before
 	public void setup() {
 		List<Transport> transports = new ArrayList<>();
 		transports.add(new WebSocketTransport(new StandardWebSocketClient()));
@@ -53,6 +55,7 @@ public class VisualizeIntegrationTest {
 
 		this.stompClient = new WebSocketStompClient(sockJsClient);
 		this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+		this.validSortDetails = new SortDetails(new Integer[]{3, 1, 9, 4, 6, 5}, "BUBBLE_SORT");
 	}
 
 	@Test
@@ -65,7 +68,6 @@ public class VisualizeIntegrationTest {
         TimeUnit.SECONDS.sleep(14);
 
 		assertThat(handler.getListOfIntermediateResults().size(), is(6));
-
 	}
 
 	private class TestSessionHandler extends StompSessionHandlerAdapter {
@@ -89,12 +91,11 @@ public class VisualizeIntegrationTest {
 				@Override
 				public void handleFrame(StompHeaders headers, Object payload) {
 					SortRepresentation sortedArray = (SortRepresentation) payload;
-					log.info("In handle frame method: {}", sortedArray);
 					listOfIntermediateResults.add(sortedArray);
 				}
 			});
 
-			session.send("/app/sort", new SortDetails(new Integer[]{3, 1, 9, 4, 6, 5}, "BUBBLE_SORT"));
+			session.send("/app/sort", validSortDetails);
 		}
 	}
 }
