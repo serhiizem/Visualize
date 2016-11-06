@@ -25,7 +25,7 @@ public class SelectionSort extends Queueable implements Sorting {
             for(int y = x; y < array.length; y++) {
                 if(array[minimum] > array[y]) minimum = y;
             }
-            putSortRepresentationInAQueue(array);
+            putIntermediateResultInAQueue(array, System.currentTimeMillis());
             swap(x, minimum, array);
         }
     }

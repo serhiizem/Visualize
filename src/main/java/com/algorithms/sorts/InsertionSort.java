@@ -21,11 +21,11 @@ public class InsertionSort extends Queueable implements Sorting {
             int j = x;
             while ((j > 0) && array[j - 1] > temp) {
                 array[j] = array[j - 1];
-                this.putSortRepresentationInAQueue(array);
+                this.putIntermediateResultInAQueue(array, System.currentTimeMillis());
                 j--;
             }
             array[j] = temp;
-            this.putSortRepresentationInAQueue(array);
+            this.putIntermediateResultInAQueue(array, System.currentTimeMillis());
         }
     }
 }

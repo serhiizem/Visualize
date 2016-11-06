@@ -2,9 +2,9 @@ package com.algorithms.controller;
 
 import com.algorithms.config.AlgorithmFactory;
 import com.algorithms.service.DefaultSendService;
-import com.algorithms.util.SortDetails;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
+import com.algorithms.util.SortDetails;
 import com.algorithms.util.SortInvoker;
 import com.algorithms.util.SortRepresentation;
 import org.slf4j.Logger;
@@ -71,9 +71,7 @@ public class SortController {
         String sortType = sortDetails.getSortType();
         SortControllerLogger.logRequestedSortType(sortType);
 
-        Sorting algorithm = algorithmFactory.getAlgorithm(valueOf(sortType));
-
-        return algorithm;
+        return algorithmFactory.getAlgorithm(valueOf(sortType));
     }
 
     private static class SortControllerLogger {

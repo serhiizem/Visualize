@@ -1,6 +1,6 @@
 package com.algorithms;
 
-import com.algorithms.sorts.BubbleSort;
+import com.algorithms.sorts.BubbleSortReverse;
 import com.algorithms.util.Queue;
 import com.algorithms.util.SortRepresentation;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 public class BubbleSortTest {
 
     private Queue<SortRepresentation> sortRepresentationQueue;
-    private BubbleSort bubbleSort;
+    private BubbleSortReverse bubbleSort;
 
     private static Integer[] VALID_INPUT = new Integer[] {20, 30, 70, 10, 80, 60};
     private static Integer[] CORRECT_RESULT = new Integer[] {10, 20, 30, 60, 70, 80};
@@ -20,7 +20,7 @@ public class BubbleSortTest {
     @Before
     public void setUp() throws Exception {
         sortRepresentationQueue = new Queue<>();
-        bubbleSort = new BubbleSort(sortRepresentationQueue);
+        bubbleSort = new BubbleSortReverse(sortRepresentationQueue);
     }
 
     @Test

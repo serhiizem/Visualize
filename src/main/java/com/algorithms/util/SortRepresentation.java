@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class SortRepresentation {
 
     private Integer[] intermediateResult;
-    private Long startTime;
     private Long elapsedTime;
 
     public SortRepresentation() {
@@ -15,20 +14,17 @@ public class SortRepresentation {
         this.intermediateResult = intermediate;
     }
 
+    public SortRepresentation(Integer[] intermediate, Long elapsedTime) {
+        this.intermediateResult = intermediate;
+        this.elapsedTime = elapsedTime;
+    }
+
     public void setIntermediateResult(Integer[] intermediateResult) {
         this.intermediateResult = intermediateResult;
     }
 
     public Integer[] getIntermediateResult() {
         return intermediateResult;
-    }
-
-    public Long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Long startTime) {
-        this.startTime = startTime;
     }
 
     public Long getElapsedTime() {
@@ -43,7 +39,6 @@ public class SortRepresentation {
     public String toString() {
         return "SortRepresentation{" +
                 ", intermediateResult=" + Arrays.toString(intermediateResult) +
-                ", startTime=" + startTime +
                 ", elapsedTime=" + elapsedTime +
                 '}';
     }

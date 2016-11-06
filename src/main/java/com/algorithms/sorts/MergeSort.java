@@ -1,17 +1,24 @@
 package com.algorithms.sorts;
 
+import com.algorithms.util.Queue;
+import com.algorithms.util.SortRepresentation;
 import org.springframework.stereotype.Component;
 
 @Component("mergeSort")
-public class MergeSort implements Sorting {
+public class MergeSort extends Queueable implements Sorting {
 
     private Integer[] numbers;
     private Integer[] helper;
 
+    public MergeSort(Queue<SortRepresentation> sortRepresentationQueue) {
+        super(sortRepresentationQueue);
+    }
+
     @Override
     public void sort(Integer[] array) {
-        int arrayLength = numbers.length;
+        int arrayLength = array.length;
         this.helper = new Integer[arrayLength];
+        this.numbers = array;
         mergeSort(0, arrayLength - 1);
     }
 
@@ -30,7 +37,8 @@ public class MergeSort implements Sorting {
 
     private void merge(int low, int middle, int high) {
 
-//        int i = 0 ??????;
+        long currentTime = System.currentTimeMillis();
+
         for (int i = low; i <= high; i++) {
             helper[i] = numbers[i];
         }
@@ -40,7 +48,6 @@ public class MergeSort implements Sorting {
         int k = low;
 
         while (i <= middle && j <= high) {
-            //noinspection Duplicates
             if(helper[i] <= helper[j]) {
                 numbers[k] = helper[i];
                 i++;
@@ -56,8 +63,6 @@ public class MergeSort implements Sorting {
             i++;
             k++;
         }
-    }
-    public Integer[] getNumbers() {
-        return numbers;
+        putIntermediateResultInAQueue(numbers, System.currentTimeMillis() - currentTime);
     }
 }

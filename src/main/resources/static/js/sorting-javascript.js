@@ -8,11 +8,23 @@
             value: 'BUBBLE_SORT',
             label: 'Bubble sort'
         }, {
+            value: 'BUBBLE_SORT_REVERSE',
+            label: 'Bubble sort(reversed)'
+        }, {
             value: 'INSERTION_SORT',
             label: 'Insertion Sort'
         }, {
             value: 'SELECTION_SORT',
             label: 'Selection Sort'
+        }, {
+            value: 'QUICK_SORT',
+            label: 'Quick sort'
+        }, {
+            value: 'MERGE_SORT',
+            label: 'Merge sort'
+        }, {
+            value: 'JAVA_SORT',
+            label: 'Java sort'
         }];
 
         $('form').on('submit', function (e) {
@@ -51,12 +63,12 @@
             this.h = h; //The height of the rectangle, in pixels
         }
 
-        var elapsedTime = null;
+        var elapsedTime = 0;
 
         function draw(sortRepresentation) {
 
             var sortedArray = sortRepresentation.intermediateResult;
-            elapsedTime = sortRepresentation.elapsedTime;
+            elapsedTime += sortRepresentation.elapsedTime;
             console.log("Sorted array: " + sortedArray);
             console.log("Elapsed time: " + elapsedTime);
             // get canvas element.
@@ -89,9 +101,9 @@
                     context.fillStyle = "#000000";
                     context.font = "20px Arial";
                     context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 20);
-                    if(elapsedTime != null) {
+                    if(elapsedTime != 0) {
                         var message = "Time taken for sort: ";
-                        context.fillText(message + elapsedTime, canvas.width / 4, 3/4 * canvas.height);
+                        context.fillText(message + elapsedTime + " ns", canvas.width / 4, 3/4 * canvas.height);
                     }
                 }
             }
