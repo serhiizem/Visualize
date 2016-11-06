@@ -62,7 +62,7 @@ public class SortController {
         }
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/sortArray")
     public String showMain() {
         return "index";
     }

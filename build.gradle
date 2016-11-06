@@ -37,7 +37,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.4.1.RELEASE'
-	compile 'org.webjars:bootstrap:3.3.7-1'
+	compile 'org.webjars:bootstrap:4.0.0-alpha.5'
 	compile 'org.webjars:angularjs:1.5.8'
 	compile group: 'org.webjars', name: 'jquery', version: '2.1.4'
 	runtime('com.h2database:h2')
