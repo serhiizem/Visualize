@@ -48,7 +48,7 @@ public class SortController {
     public void startSort(SortDetails sortDetails) {
 
         Integer[] arrayToSort = sortDetails.getArray();
-        SortControllerLogger.logArrayReceivedFromView(arrayToSort);
+        log.info("Array received the html page: {}", Arrays.toString(arrayToSort));
 
         Sorting algorithm = getSortingAlgorithm(sortDetails);
 
@@ -69,21 +69,8 @@ public class SortController {
 
     private Sorting getSortingAlgorithm(SortDetails sortDetails) {
         String sortType = sortDetails.getSortType();
-        SortControllerLogger.logRequestedSortType(sortType);
+        log.info("Sort type requested: {}", sortType);
 
         return algorithmFactory.getAlgorithm(valueOf(sortType));
-    }
-
-    private static class SortControllerLogger {
-
-        private static final Logger log = LoggerFactory.getLogger(SortController.class);
-
-        private static void logArrayReceivedFromView(Integer[] arrayToSort) {
-            log.info("Array received the html page: {}", Arrays.toString(arrayToSort));
-        }
-
-        private static void logRequestedSortType(String sortType) {
-            log.info("Sort type requested: {}", sortType);
-        }
     }
 }
