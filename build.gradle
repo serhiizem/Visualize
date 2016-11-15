@@ -1,61 +1,56 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.1.RELEASE'
+		springBootVersion = '1.4.0.RELEASE'
 	}
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 	}
-}
-
-ext {
-	jacocoVersion = "0.7.6.201602180812"
 }
 
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'application'
 apply plugin: 'jacoco'
 
-jar {
-	baseName = 'visual'
-	version = '0.0.1-SNAPSHOT'
-}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = "com.algorithms.Application"
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-activemq")
-	compile("org.apache.activemq:activemq-broker")
-	compile("com.fasterxml.jackson.core:jackson-databind")
-	compile("org.springframework.boot:spring-boot-starter-websocket")
-	compile("org.webjars:sockjs-client:1.0c.2")
-	compile("org.webjars:stomp-websocket:2.3.3")
+    compile("org.springframework.boot:spring-boot-starter-activemq")
+    compile("org.apache.activemq:activemq-broker")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.webjars:sockjs-client:1.0.2")
+    compile("org.webjars:stomp-websocket:2.3.3")
 
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '1.4.1.RELEASE'
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.4.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.4.0.RELEASE'
 	compile 'org.webjars:bootstrap:4.0.0-alpha.5'
 	compile 'org.webjars:angularjs:1.5.8'
 	compile group: 'org.webjars', name: 'jquery', version: '2.1.4'
-	runtime('com.h2database:h2')
+    runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-jacoco {
-	toolVersion = jacocoVersion
-}
-
-jacocoTestReport {
-	reports {
-		xml.enabled = true
-		html.enabled = true
-	}
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
 }
