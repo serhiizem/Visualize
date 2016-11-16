@@ -5,6 +5,7 @@ import com.algorithms.util.SortRepresentation;
 import org.springframework.stereotype.Component;
 
 import static com.algorithms.sorts.Sorting.isLess;
+import static java.lang.System.currentTimeMillis;
 
 @Component("mergeSort")
 public class MergeSort extends Queueable implements Sorting {
@@ -16,6 +17,7 @@ public class MergeSort extends Queueable implements Sorting {
     @Override
     public void sort(Comparable[] array) {
         Comparable[] helper = new Comparable[array.length];
+        startTime = currentTimeMillis();
         sort(array, helper, 0, array.length - 1);
     }
 
@@ -40,6 +42,6 @@ public class MergeSort extends Queueable implements Sorting {
             else if(isLess(helper[j], helper[i])) array[k] = helper[j++]; //else if not just else
             else array[k] = helper[i++];
         }
-        this.putIntermediateResultInAQueue(array);
+        this.putIntermediateResultInAQueue(array, currentTimeMillis() - startTime);
     }
 }

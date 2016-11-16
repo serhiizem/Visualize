@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static java.lang.System.currentTimeMillis;
+
 @Component("javaSort")
 public class JavaSort extends Queueable implements Sorting {
 
@@ -15,7 +17,8 @@ public class JavaSort extends Queueable implements Sorting {
 
     @Override
     public void sort(Comparable[] array) {
+        startTime = currentTimeMillis();
         Arrays.sort(array);
-        putIntermediateResultInAQueue(array);
+        putIntermediateResultInAQueue(array, startTime - currentTimeMillis());
     }
 }
