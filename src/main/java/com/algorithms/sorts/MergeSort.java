@@ -4,11 +4,10 @@ import com.algorithms.util.Queue;
 import com.algorithms.util.SortRepresentation;
 import org.springframework.stereotype.Component;
 
+import static com.algorithms.sorts.Sorting.isLess;
+
 @Component("mergeSort")
 public class MergeSort extends Queueable implements Sorting {
-
-    private Comparable[] numbers;
-    private Comparable[] helper;
 
     public MergeSort(Queue<SortRepresentation> sortRepresentationQueue) {
         super(sortRepresentationQueue);
@@ -16,53 +15,31 @@ public class MergeSort extends Queueable implements Sorting {
 
     @Override
     public void sort(Comparable[] array) {
-        int arrayLength = array.length;
-        this.helper = new Integer[arrayLength];
-        this.numbers = array;
-        mergeSort(0, arrayLength - 1);
+        Comparable[] helper = new Comparable[array.length];
+        sort(array, helper, 0, array.length - 1);
     }
 
-    private void mergeSort(int low, int high) {
-
-        if(low < high) {
-
-            int middle = low + (high - low) / 2;
-
-            mergeSort(low, middle);
-            mergeSort(middle + 1, high);
-
-            merge(low, middle, high);
-        }
+    private void sort(Comparable[] array, Comparable[] helper, int low, int high) {
+        if(high <= low) return;
+        int mid = low + (high - low) / 2;
+        sort(array, helper, low, mid);
+        sort(array, helper, mid + 1, high);
+        merge(array, helper, low, mid, high);
     }
 
-    private void merge(int low, int middle, int high) {
-
-        long currentTime = System.currentTimeMillis();
-
-        for (int i = low; i <= high; i++) {
-            helper[i] = numbers[i];
+    private void merge(Comparable[] array, Comparable[] helper, int low, int mid, int high) {
+        for (int k = low; k <= high; k++) {
+            helper[k] = array[k];
         }
 
         int i = low;
-        int j = middle + 1;
-        int k = low;
-
-        while (i <= middle && j <= high) {
-            if(helper[i].compareTo(helper[j]) < 0) {
-                numbers[k] = helper[i];
-                i++;
-            } else {
-                numbers[k] = helper[j];
-                j++;
-            }
-            k++;
+        int j = mid + 1;
+        for (int k = low; k <= high; k++) { //int k = low; not k = 0
+            if(i > mid) array[k] = helper[j++];
+            else if(j > high) array[k] = helper[i++];
+            else if(isLess(helper[j], helper[i])) array[k] = helper[j++]; //else if not just else
+            else array[k] = helper[i++];
         }
-
-        while (i <= middle) {
-            numbers[k] = helper[i];
-            i++;
-            k++;
-        }
-        putIntermediateResultInAQueue(numbers, System.currentTimeMillis() - currentTime);
+        this.putIntermediateResultInAQueue(array);
     }
 }

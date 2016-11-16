@@ -22,7 +22,7 @@ public class SelectionSort extends Queueable implements Sorting {
         for (int i = 0; i < n; i++) {
             int minimum = i;
             for(int j = i; j < n; j++) {
-                if(isLess(array[j], minimum)) minimum = j;
+                if(isLess(array[j], array[minimum])) minimum = j;
             }
             putIntermediateResultInAQueue(array, System.currentTimeMillis());
             swap(array, i, minimum);

@@ -1,6 +1,5 @@
-package com.algorithms;
+package com.algorithms.sorts;
 
-import com.algorithms.sorts.BubbleSortReverse;
 import com.algorithms.util.Queue;
 import com.algorithms.util.SortRepresentation;
 import org.junit.Before;

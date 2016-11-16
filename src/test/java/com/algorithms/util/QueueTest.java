@@ -1,7 +1,5 @@
-package com.algorithms;
+package com.algorithms.util;
 
-import com.algorithms.util.Queue;
-import com.algorithms.util.SortRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
