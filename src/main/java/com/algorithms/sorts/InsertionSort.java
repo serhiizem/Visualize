@@ -23,5 +23,6 @@ public class InsertionSort extends Queueable implements Sorting {
                 swap(array, j, j - 1);
             }
         }
+        this.putIntermediateResultInAQueue(array, System.currentTimeMillis());
     }
 }

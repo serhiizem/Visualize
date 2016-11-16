@@ -5,6 +5,7 @@ import com.algorithms.util.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.algorithms.sorts.Sorting.isLess;
 import static com.algorithms.sorts.Sorting.swap;
 
 @Component("selectionSort")
@@ -17,16 +18,14 @@ public class SelectionSort extends Queueable implements Sorting {
 
     @Override
     public void sort(Comparable[] array) {
-
-        for (int x = 0; x < array.length; x++) {
-
-            int minimum = x;
-
-            for(int y = x; y < array.length; y++) {
-                if(array[minimum].compareTo(array[y]) > 0) minimum = y;
+        int n = array.length;
+        for (int i = 0; i < n; i++) {
+            int minimum = i;
+            for(int j = i; j < n; j++) {
+                if(isLess(array[j], minimum)) minimum = j;
             }
             putIntermediateResultInAQueue(array, System.currentTimeMillis());
-            swap(array, x, minimum);
+            swap(array, i, minimum);
         }
     }
 }
