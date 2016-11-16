@@ -27,7 +27,7 @@ public class BubbleSortTest {
 
         bubbleSort.sort(VALID_INPUT);
 
-        Integer[] lastElementInTheQueue = sortRepresentationQueue.getLast().getIntermediateResult();
+        Comparable[] lastElementInTheQueue = sortRepresentationQueue.getLast().getIntermediateResult();
 
         assertThat(lastElementInTheQueue, is(CORRECT_RESULT));
     }

@@ -26,7 +26,7 @@ public class MergeSortTest {
     public void shouldContainSortedArrayInLastQueueItem() {
         mergeSort.sort(VALID_INPUT);
 
-        Integer[] lastElementInQueue = sortRepresentationQueue.getLast().getIntermediateResult();
+        Comparable[] lastElementInQueue = sortRepresentationQueue.getLast().getIntermediateResult();
 
         assertThat(lastElementInQueue, is(CORRECT_RESULT));
     }
