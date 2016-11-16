@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 @Component("mergeSort")
 public class MergeSort extends Queueable implements Sorting {
 
-    private Integer[] numbers;
-    private Integer[] helper;
+    private Comparable[] numbers;
+    private Comparable[] helper;
 
     public MergeSort(Queue<SortRepresentation> sortRepresentationQueue) {
         super(sortRepresentationQueue);
     }
 
     @Override
-    public void sort(Integer[] array) {
+    public void sort(Comparable[] array) {
         int arrayLength = array.length;
         this.helper = new Integer[arrayLength];
         this.numbers = array;
@@ -48,7 +48,7 @@ public class MergeSort extends Queueable implements Sorting {
         int k = low;
 
         while (i <= middle && j <= high) {
-            if(helper[i] <= helper[j]) {
+            if(helper[i].compareTo(helper[j]) < 0) {
                 numbers[k] = helper[i];
                 i++;
             } else {

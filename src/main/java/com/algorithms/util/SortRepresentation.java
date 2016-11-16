@@ -4,26 +4,26 @@ import java.util.Arrays;
 
 public class SortRepresentation {
 
-    private Integer[] intermediateResult;
+    private Comparable[] intermediateResult;
     private Long elapsedTime;
 
     public SortRepresentation() {
     }
 
-    public SortRepresentation(Integer[] intermediate) {
+    public SortRepresentation(Comparable[] intermediate) {
         this.intermediateResult = intermediate;
     }
 
-    public SortRepresentation(Integer[] intermediate, Long elapsedTime) {
+    public SortRepresentation(Comparable[] intermediate, Long elapsedTime) {
         this.intermediateResult = intermediate;
         this.elapsedTime = elapsedTime;
     }
 
-    public void setIntermediateResult(Integer[] intermediateResult) {
+    public void setIntermediateResult(Comparable[] intermediateResult) {
         this.intermediateResult = intermediateResult;
     }
 
-    public Integer[] getIntermediateResult() {
+    public Comparable[] getIntermediateResult() {
         return intermediateResult;
     }
 

@@ -16,17 +16,17 @@ public class SelectionSort extends Queueable implements Sorting {
     }
 
     @Override
-    public void sort(Integer[] array) {
+    public void sort(Comparable[] array) {
 
         for (int x = 0; x < array.length; x++) {
 
             int minimum = x;
 
             for(int y = x; y < array.length; y++) {
-                if(array[minimum] > array[y]) minimum = y;
+                if(array[minimum].compareTo(array[y]) > 0) minimum = y;
             }
             putIntermediateResultInAQueue(array, System.currentTimeMillis());
-            swap(x, minimum, array);
+            swap(array, x, minimum);
         }
     }
 }

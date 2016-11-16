@@ -16,11 +16,11 @@ public class QuickSort extends Queueable implements Sorting {
     }
 
     @Override
-    public void sort(Integer[] array) {
+    public void sort(Comparable[] array) {
         quickSort(0, array.length - 1, array);
     }
 
-    private void quickSort(int left, int right, Integer[] array) {
+    private void quickSort(int left, int right, Comparable[] array) {
 
         int index = partition(left, right, array);
 
@@ -30,22 +30,22 @@ public class QuickSort extends Queueable implements Sorting {
             quickSort(index, right, array);
     }
 
-    private int partition(int left, int right, Integer[] array) {
+    private int partition(int left, int right, Comparable[] array) {
         int i = left;
         int j = right;
 
-        int pivot = array[(left + right) / 2];
+        Comparable pivot = array[(left + right) / 2];
 
         while (i <= j) {
             long currentTime = System.currentTimeMillis();
-            while (array[i] < pivot) {
+            while (array[i].compareTo(pivot) < 0) {
                 i++;
             }
-            while (array[j] > pivot) {
+            while (array[j].compareTo(pivot) < 0) {
                 j--;
             }
             if(i <= j) {
-                swap(i, j, array);
+                swap(array, i, j);
                 putIntermediateResultInAQueue(array, currentTime - System.currentTimeMillis());
                 i++;
                 j--;

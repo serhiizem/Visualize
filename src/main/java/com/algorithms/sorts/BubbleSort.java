@@ -15,14 +15,14 @@ public class BubbleSort extends Queueable implements Sorting {
         super(sortRepresentationQueue);
     }
 
-    public void sort(Integer[] array) {
+    public void sort(Comparable[] array) {
 
         long nanoTime = System.nanoTime();
         for (int i = 0; i < array.length; i++) {
             for (int j = array.length - 1; j > i; j--) {
-                if ((array[j] < array[j-1])) {
+                if ((array[j].compareTo(array[j-1])) < 0) {
                     putIntermediateResultInAQueue(array, System.nanoTime() - nanoTime);
-                    swap(j, j - 1, array);
+                    swap(array, j, j - 1);
                 }
             }
         }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import static com.algorithms.sorts.Sorting.swap;
 import static java.lang.System.nanoTime;
 
-//TODO: NANOTIMES ARE NOT BEING ADDED TO EACH OTHER
 @Component("bubbleSortReverse")
 public class BubbleSortReverse extends Queueable implements Sorting {
 
@@ -19,14 +18,14 @@ public class BubbleSortReverse extends Queueable implements Sorting {
         super(sortRepresentationQueue);
     }
 
-    public void sort(Integer[] array) {
+    public void sort(Comparable[] array) {
 
         long nanoTime = System.nanoTime();
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
-                if(array[j] > array[j + 1]) {
+                if(array[j].compareTo(array[j + 1]) > 0) {
                     putIntermediateResultInAQueue(array, System.nanoTime() - nanoTime);
-                    swap(j, j + 1, array);
+                    swap(array, j, j + 1);
                 }
             }
         }

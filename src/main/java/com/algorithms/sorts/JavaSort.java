@@ -14,7 +14,7 @@ public class JavaSort extends Queueable implements Sorting {
     }
 
     @Override
-    public void sort(Integer[] array) {
+    public void sort(Comparable[] array) {
         Arrays.sort(array);
         putIntermediateResultInAQueue(array);
     }

@@ -5,6 +5,9 @@ import com.algorithms.util.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.algorithms.sorts.Sorting.isLess;
+import static com.algorithms.sorts.Sorting.swap;
+
 @Component("insertionSort")
 public class InsertionSort extends Queueable implements Sorting {
 
@@ -13,19 +16,12 @@ public class InsertionSort extends Queueable implements Sorting {
         super(sortRepresentationQueue);
     }
 
-    public void sort(Integer[] array) {
-
-        for(int x = 1; x < array.length; x++) {
-
-            Integer temp = array[x];
-            int j = x;
-            while ((j > 0) && array[j - 1] > temp) {
-                array[j] = array[j - 1];
+    public void sort(Comparable[] array) {
+        for(int i = 1; i < array.length; i++) {
+            for(int j = i; j > 0 && isLess(array[j], array[j - 1]); j--) {
                 this.putIntermediateResultInAQueue(array, System.currentTimeMillis());
-                j--;
+                swap(array, j, j - 1);
             }
-            array[j] = temp;
-            this.putIntermediateResultInAQueue(array, System.currentTimeMillis());
         }
     }
 }
