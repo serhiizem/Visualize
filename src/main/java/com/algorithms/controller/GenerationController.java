@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class GenerationController {
 
-    @GetMapping(value = "/generateArray")
+    @GetMapping(value = "/showGenerationPage")
     public String getGenerationPage() {
         return "array-generation";
+    }
+
+    @GetMapping(value = "/generateArray")
+    public String getGeneratedArray() {
+
     }
 }

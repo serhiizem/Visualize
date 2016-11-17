@@ -17,7 +17,7 @@
 
 <div class="container" style="max-width: 500px; min-width: 300px">
 
-    <form>
+    <form th:action="@{/generateArray}" th:object="${user}" method="POST">
         <h5>Select required options and generate an array:</h5>
         <table class="table table-inverse">
             <thead>
@@ -30,7 +30,7 @@
             <tbody>
             <tr>
                 <td>
-                    <input class="form-control" id="array-size" type="number"></input>
+                    <input th:field="*{ssoId}" class="form-control" id="array-size" type="number"></input>
                 </td>
                 <td>
                     <input class="form-control" id="array-min-value" type="number"></input>
