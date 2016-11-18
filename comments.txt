@@ -1,3 +1,18 @@
-for (int k = low; k <= high; k++) {
-            helper[k] = array[k];
-        }
+Random rng = new Random(); // Ideally just create one instance globally
+// Note: use LinkedHashSet to maintain insertion order
+Set<Integer> generated = new LinkedHashSet<Integer>();
+while (generated.size() < numbersNeeded)
+{
+    Integer next = rng.nextInt(max) + 1;
+    // As we're adding to a set, this will automatically do a containment check
+    generated.add(next);
+}
+
+
+
+/**** Fisher–Yates shuffle *****/
+
+
+/**** SPECIFIC RANGE *****/
+
+random.nextInt(max - min + 1) + min

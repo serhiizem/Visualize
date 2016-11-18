@@ -12,12 +12,12 @@ public class DescendingGeneration extends GenerationStrategy {
 
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
-        int numberOfAvailableNumbers = maxValue - minValue;
+        int numberOfAvailableValues = maxValue - minValue;
 
-        Integer[] helper = new Integer[numberOfAvailableNumbers];
+        Integer[] helper = new Integer[numberOfAvailableValues];
         Integer[] result = new Integer[arraySize];
 
-        if(isLess(numberOfAvailableNumbers, arraySize)) {
+        if(isLess(numberOfAvailableValues, arraySize)) {
             throw new RequestedArraySizeException("Your array will not contain duplicate " +
                     "values if it has size less or equal to the difference between " +
                     "its max and min values");

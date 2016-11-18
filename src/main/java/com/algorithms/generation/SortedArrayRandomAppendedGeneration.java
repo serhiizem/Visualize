@@ -4,19 +4,22 @@ import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Random;
 
 @SuppressWarnings("Duplicates")
-@Component("ascendingGeneration")
-public class AscendingGeneration extends GenerationStrategy {
+@Component("randomAppendedGeneration")
+public class SortedArrayRandomAppendedGeneration extends GenerationStrategy {
+
+    private Random random = new Random();
 
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
-        int numberOfAvailableNumbers = maxValue - minValue;
+        int numberOfAvailableValues = maxValue - minValue;
 
-        Integer[] helper = new Integer[numberOfAvailableNumbers];
-        Integer[] result = new Integer[arraySize];
+        Comparable[] helper = new Integer[numberOfAvailableValues];
+        Comparable[] result = new Integer[arraySize + 1];
 
-        if(isLess(numberOfAvailableNumbers, arraySize)) {
+        if(isLess(numberOfAvailableValues, arraySize)) {
             throw new RequestedArraySizeException("In order not to contain duplicates" +
                     " array must have a size less than or equal to the difference between " +
                     "its max and min values");
@@ -27,8 +30,14 @@ public class AscendingGeneration extends GenerationStrategy {
 
         System.arraycopy(helper, 0, result, 0, result.length);
         Arrays.sort(result);
+        int lastIndexOfTheResultArray = result.length - 1;
+        result[lastIndexOfTheResultArray] = this.generateRandomValueFromMinToMax(minValue, maxValue);
 
         return result;
+    }
+
+    private Comparable generateRandomValueFromMinToMax(int minValue, int maxValue) {
+        return random.nextInt(maxValue - minValue) + minValue;
     }
 
     private boolean isLess(int numberOfAvailableNumbers, int arraySize) {
@@ -43,12 +52,12 @@ public class AscendingGeneration extends GenerationStrategy {
         return helper;
     }
 
-    private Integer[] shuffle(Integer[] helper) {
+    private Comparable[] shuffle(Comparable[] helper) {
         int n = helper.length;
         for (int i = 0; i < n; i++) {
             // choose index uniformly in [i, n-1]
             int r = i + (int) (Math.random() * (n - i));
-            int swap = helper[r];
+            Comparable swap = helper[r];
             helper[r] = helper[i];
             helper[i] = swap;
         }

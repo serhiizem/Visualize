@@ -24,6 +24,7 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -91,7 +92,7 @@ public class VisualizeIntegrationTest {
 				@Override
 				public void handleFrame(StompHeaders headers, Object payload) {
 					SortRepresentation sortedArray = (SortRepresentation) payload;
-					listOfIntermediateResults.add(sortedArray);
+                    listOfIntermediateResults.add(sortedArray);
 				}
 			});
 
