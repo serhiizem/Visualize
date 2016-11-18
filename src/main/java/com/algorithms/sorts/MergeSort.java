@@ -21,25 +21,35 @@ public class MergeSort extends Queueable implements Sorting {
 
     private void sort(Comparable[] array, Comparable[] helper, int low, int high) {
         if(high <= low) return;
-        int mid = low + (high - low) / 2;
+        int mid = this.calculateMidIndex(low, high);
         sort(array, helper, low, mid);
         sort(array, helper, mid + 1, high);
         merge(array, helper, low, mid, high);
     }
 
+    private int calculateMidIndex(int low, int high) {
+        return low + (high - low) / 2;
+    }
+
     private void merge(Comparable[] array, Comparable[] helper, int low, int mid, int high) {
-        for (int k = low; k <= high; k++) {
-            helper[k] = array[k];
-        }
+        this.populateArrayFromLowTOHigh(array, helper, low, high);
 
         int i = low;
         int j = mid + 1;
-        for (int k = low; k <= high; k++) { //int k = low; not k = 0
-            if(i > mid) array[k] = helper[j++];
-            else if(j > high) array[k] = helper[i++];
-            else if(isLess(helper[j], helper[i])) array[k] = helper[j++]; //else if not just else
+        for (int k = low; k <= high; k++) {
+            if(isLess(mid, i)) array[k] = helper[j++];
+            else if(isLess(high, j)) array[k] = helper[i++];
+            else if(isLess(helper[j], helper[i])) array[k] = helper[j++];
             else array[k] = helper[i++];
         }
         this.putIntermediateResultInAQueue(array);
+    }
+
+    private void populateArrayFromLowTOHigh(Comparable[] array,
+                                            Comparable[] helper,
+                                            int low, int high) {
+        for (int k = low; k <= high; k++) {
+            helper[k] = array[k];
+        }
     }
 }

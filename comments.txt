@@ -1,0 +1,3 @@
+for (int k = low; k <= high; k++) {
+            helper[k] = array[k];
+        }
