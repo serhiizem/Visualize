@@ -31,10 +31,10 @@ public class GenerationController {
                                           GenerationRequest generationRequest,
                                           ModelAndView mav) {
 
-        log.info("getGenerationType(): {}", generationType);
-        log.info("getArraySize(): {}", range.getArraySize());
-        log.info("getMinValue(): {}", range.getMinValue());
-        log.info("getMaxValue(): {}", range.getMaxValue());
+        log.info("getGenerationType(): {}", generationRequest.getGenerationType());
+        log.info("getArraySize(): {}", generationRequest.getRange().getArraySize());
+        log.info("getMinValue(): {}", generationRequest.getRange().getMinValue());
+        log.info("getMaxValue(): {}", generationRequest.getRange().getMaxValue());
 
         mav.addObject("generatedArray", null);
         mav.setViewName("array-generation");
