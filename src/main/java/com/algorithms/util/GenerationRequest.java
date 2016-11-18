@@ -1,14 +1,23 @@
 package com.algorithms.util;
 
 public class GenerationRequest {
+
     private int arraySize;
     private int minValue;
     private int maxValue;
+    private GenerationType generationType;
 
-    public GenerationRequest(int arraySize, int minValue, int maxValue) {
+    public GenerationRequest() {
+    }
+
+    public GenerationRequest(final int arraySize,
+                             final int minValue,
+                             final int maxValue,
+                             final GenerationType generationType) {
         this.arraySize = arraySize;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.generationType = generationType;
     }
 
     public int getArraySize() {
@@ -35,12 +44,21 @@ public class GenerationRequest {
         this.maxValue = maxValue;
     }
 
+    public GenerationType getGenerationType() {
+        return generationType;
+    }
+
+    public void setGenerationType(GenerationType generationType) {
+        this.generationType = generationType;
+    }
+
     @Override
     public String toString() {
         return "GenerationRequest{" +
                 "arraySize=" + arraySize +
                 ", minValue=" + minValue +
                 ", maxValue=" + maxValue +
+                ", generationType=" + generationType +
                 '}';
     }
 }

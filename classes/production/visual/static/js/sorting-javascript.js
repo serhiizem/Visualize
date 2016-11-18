@@ -103,7 +103,7 @@
                     context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 20);
                     if(elapsedTime != 0) {
                         var message = "Time taken for sort: ";
-                        context.fillText(message + elapsedTime + " ns", canvas.width / 4, 3/4 * canvas.height);
+                        context.fillText(message + elapsedTime + " ms", canvas.width / 4, 3/4 * canvas.height);
                     }
                 }
             }

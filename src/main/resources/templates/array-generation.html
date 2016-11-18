@@ -7,7 +7,7 @@
     <script th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
     <script th:src="@{/js/array-generation.js}"></script>
 
-    <link rel="stylesheet" type="text/css"
+    <link rel="stylesheet" generationType="text/css"
           th:href="@{webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.css}"></link>
 </head>
 
@@ -17,7 +17,7 @@
 
 <div class="container" style="max-width: 500px; min-width: 300px">
 
-    <form th:action="@{/generateArray}" th:object="${user}" method="POST">
+    <form th:action="@{/generateArray}" th:object="${generationRequest}" method="POST">
         <h5>Select required options and generate an array:</h5>
         <table class="table table-inverse">
             <thead>
@@ -30,24 +30,36 @@
             <tbody>
             <tr>
                 <td>
-                    <input th:field="*{ssoId}" class="form-control" id="array-size" type="number"></input>
+                    <input th:field="*{arraySize}" class="form-control" id="array-size" generationType="number"></input>
                 </td>
                 <td>
-                    <input class="form-control" id="array-min-value" type="number"></input>
+                    <input th:field="*{minValue}" class="form-control" id="array-min-value" generationType="number"></input>
                 </td>
                 <td>
-                    <input class="form-control" id="array-max-value" type="number"></input>
+                    <input th:field="*{maxValue}" class="form-control" id="array-max-value" generationType="number"></input>
                 </td>
             </tr>
             </tbody>
         </table>
         <div class="form-group">
-            <label for="generation-type"><b>Select generation type: </b></label>
-            <select class="form-control" ng-change="send(selectedGroup)" id="generation-type" ng-options="group for group in groups" ng-model="selectedGroup">
+            <label th:for="generationType">Generation Type:</label>
+            <select class="form-control" th:field="*{{generationType}}">
+                <option th:each="generationType : ${T(com.algorithms.util.GenerationType).values()}"
+                        th:value="${{generationType}}"
+                        th:selected="${generationType == T(com.algorithms.util.GenerationType)}"
+                        th:text="${generationType.orderType}">
+                </option>
             </select>
         </div>
+        <div class="control-group" style="margin-top: 5px">
+            <!-- Button -->
+            <div class="controls">
+                <button class="btn btn-success">Register</button>
+            </div>
+        </div>
+
+        <p th:if="${generatedArray != null}" th:text="${#strings.arrayJoin(generatedArray, ' ')}"></p>
     </form>
 </div>
 </body>
-
 </html>
