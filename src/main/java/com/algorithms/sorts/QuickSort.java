@@ -46,7 +46,7 @@ public class QuickSort extends Queueable implements Sorting {
             }
             if(i <= j) {
                 swap(array, i, j);
-                putIntermediateResultInAQueue(array, currentTime - System.currentTimeMillis());
+                putIntermediateResultInAQueue(array);
                 i++;
                 j--;
             }

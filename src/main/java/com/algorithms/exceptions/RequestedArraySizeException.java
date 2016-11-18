@@ -1,4 +1,4 @@
-package com.algorithms.controller;
+package com.algorithms.exceptions;
 
 public class RequestedArraySizeException extends RuntimeException {
     public RequestedArraySizeException() {}

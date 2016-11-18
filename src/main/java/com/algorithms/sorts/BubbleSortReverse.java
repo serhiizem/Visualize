@@ -24,11 +24,11 @@ public class BubbleSortReverse extends Queueable implements Sorting {
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if(Sorting.isLess(array[j + 1], array[j])) {
-                    putIntermediateResultInAQueue(array, System.nanoTime() - nanoTime);
+                    putIntermediateResultInAQueue(array);
                     swap(array, j, j + 1);
                 }
             }
         }
-        putIntermediateResultInAQueue(array, System.nanoTime() - nanoTime);
+        putIntermediateResultInAQueue(array);
     }
 }

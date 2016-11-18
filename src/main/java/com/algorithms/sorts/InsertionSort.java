@@ -19,14 +19,13 @@ public class InsertionSort extends Queueable implements Sorting {
     }
 
     public void sort(Comparable[] array) {
-        startTime = currentTimeMillis();
 
         for(int i = 1; i < array.length; i++) {
             for(int j = i; j > 0 && isLess(array[j], array[j - 1]); j--) {
-                this.putIntermediateResultInAQueue(array, currentTimeMillis() - startTime);
+                this.putIntermediateResultInAQueue(array);
                 swap(array, j, j - 1);
             }
         }
-        this.putIntermediateResultInAQueue(array, currentTimeMillis() - startTime);
+        this.putIntermediateResultInAQueue(array);
     }
 }

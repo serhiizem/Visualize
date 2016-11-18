@@ -1,6 +1,6 @@
 package com.algorithms.controller;
 
-import com.algorithms.config.AlgorithmFactory;
+import com.algorithms.util.factories.AlgorithmFactory;
 import com.algorithms.service.DefaultSendService;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
@@ -71,6 +71,6 @@ public class SortController {
         String sortType = sortDetails.getSortType();
         log.info("Sort type requested: {}", sortType);
 
-        return algorithmFactory.getAlgorithm(valueOf(sortType));
+        return algorithmFactory.getSortingAlgorithm(valueOf(sortType));
     }
 }

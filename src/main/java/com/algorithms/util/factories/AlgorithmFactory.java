@@ -1,8 +1,8 @@
-package com.algorithms.config;
+package com.algorithms.util.factories;
 
 import com.algorithms.sorts.Sorting;
 import com.algorithms.entity.AlgorithmType;
 
 public interface AlgorithmFactory {
-    Sorting getAlgorithm(AlgorithmType type);
+    Sorting  getSortingAlgorithm(AlgorithmType type);
 }

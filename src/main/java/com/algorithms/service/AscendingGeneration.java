@@ -1,24 +1,21 @@
 package com.algorithms.service;
 
-import com.algorithms.controller.RequestedArraySizeException;
-import com.algorithms.entity.GenerationRequest;
+import com.algorithms.controller.GenerationStrategy;
+import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
 @Service
-public class AscendingGenerationService implements Generating {
+public class AscendingGeneration extends GenerationStrategy {
 
     @Override
-    public Comparable[] generateArray() {
-        int arraySize = 1;
-        int minValue = 1;
-        int maxValue = 1;
+    public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
 
         Integer[] helper = new Integer[maxValue - minValue];
         Integer[] result = new Integer[arraySize];
 
-        int numberOfAvailableNumbers = minValue - maxValue;
+        int numberOfAvailableNumbers = maxValue - minValue;
 
         if(isLess(numberOfAvailableNumbers, arraySize)) {
             throw new RequestedArraySizeException("Your array will not contain duplicate " +

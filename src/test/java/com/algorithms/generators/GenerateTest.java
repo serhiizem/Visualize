@@ -1,9 +1,8 @@
 package com.algorithms.generators;
 
-import com.algorithms.controller.RequestedArraySizeException;
+import com.algorithms.exceptions.RequestedArraySizeException;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;

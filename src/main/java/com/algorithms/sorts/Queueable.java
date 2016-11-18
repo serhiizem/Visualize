@@ -8,17 +8,14 @@ import static java.lang.System.setOut;
 
 public abstract class Queueable {
 
-    protected Long startTime;
-
     private Queue<SortRepresentation> sortRepresentationQueue;
 
     public Queueable(Queue<SortRepresentation> sortRepresentationQueue) {
         this.sortRepresentationQueue = sortRepresentationQueue;
     }
 
-    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult, Long elapsedTime) {
-        System.out.println("currentTimeMillis() - startTime: " + (currentTimeMillis() - startTime));
+    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult) {
         sortRepresentationQueue
-                .enqueue(new SortRepresentation(intermediateResult.clone(), elapsedTime));
+                .enqueue(new SortRepresentation(intermediateResult.clone()));
     }
 }

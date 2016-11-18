@@ -17,8 +17,7 @@ public class JavaSort extends Queueable implements Sorting {
 
     @Override
     public void sort(Comparable[] array) {
-        startTime = currentTimeMillis();
         Arrays.sort(array);
-        putIntermediateResultInAQueue(array, startTime - currentTimeMillis());
+        putIntermediateResultInAQueue(array);
     }
 }

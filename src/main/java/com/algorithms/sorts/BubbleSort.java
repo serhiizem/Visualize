@@ -21,11 +21,11 @@ public class BubbleSort extends Queueable implements Sorting {
         for (int i = 0; i < array.length; i++) {
             for (int j = array.length - 1; j > i; j--) {
                 if ((array[j].compareTo(array[j-1])) < 0) {
-                    putIntermediateResultInAQueue(array, System.nanoTime() - nanoTime);
+                    putIntermediateResultInAQueue(array);
                     swap(array, j, j - 1);
                 }
             }
         }
-        putIntermediateResultInAQueue(array, System.nanoTime() - nanoTime);
+        putIntermediateResultInAQueue(array);
     }
 }

@@ -17,7 +17,6 @@ public class MergeSort extends Queueable implements Sorting {
     @Override
     public void sort(Comparable[] array) {
         Comparable[] helper = new Comparable[array.length];
-        startTime = currentTimeMillis();
         sort(array, helper, 0, array.length - 1);
     }
 
@@ -42,6 +41,6 @@ public class MergeSort extends Queueable implements Sorting {
             else if(isLess(helper[j], helper[i])) array[k] = helper[j++]; //else if not just else
             else array[k] = helper[i++];
         }
-        this.putIntermediateResultInAQueue(array, currentTimeMillis() - startTime);
+        this.putIntermediateResultInAQueue(array);
     }
 }

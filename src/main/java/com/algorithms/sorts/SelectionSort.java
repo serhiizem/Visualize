@@ -19,14 +19,13 @@ public class SelectionSort extends Queueable implements Sorting {
 
     @Override
     public void sort(Comparable[] array) {
-        startTime = currentTimeMillis();
         int n = array.length;
         for (int i = 0; i < n; i++) {
             int minimum = i;
             for(int j = i; j < n; j++) {
                 if(isLess(array[j], array[minimum])) minimum = j;
             }
-            putIntermediateResultInAQueue(array, currentTimeMillis() - startTime);
+            putIntermediateResultInAQueue(array);
             swap(array, i, minimum);
         }
     }
