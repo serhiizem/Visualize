@@ -11,8 +11,8 @@ public class RandomGeneration extends GenerationStrategy {
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
         int numberOfAvailableValues = maxValue - minValue;
 
-        Integer[] helper = new Integer[numberOfAvailableValues];
-        Integer[] result = new Integer[arraySize];
+        Comparable[] helper = new Comparable[numberOfAvailableValues];
+        Comparable[] result = new Comparable[arraySize];
 
         if(isLess(numberOfAvailableValues, arraySize)) {
             throw new RequestedArraySizeException("In order not to contain duplicates" +
@@ -26,29 +26,5 @@ public class RandomGeneration extends GenerationStrategy {
         System.arraycopy(helper, 0, result, 0, result.length);
 
         return result;
-    }
-
-    private boolean isLess(int numberOfAvailableNumbers, int arraySize) {
-        return numberOfAvailableNumbers < arraySize;
-    }
-
-    private Comparable[] populateArrayWithNumbersFromRange(Comparable[] helper, int minValue, int maxValue) {
-        int count = 0;
-        for(int i = minValue; i < maxValue; i++) {
-            helper[count++] = i;
-        }
-        return helper;
-    }
-
-    private Integer[] shuffle(Integer[] helper) {
-        int n = helper.length;
-        for (int i = 0; i < n; i++) {
-            // choose index uniformly in [i, n-1]
-            int r = i + (int) (Math.random() * (n - i));
-            int swap = helper[r];
-            helper[r] = helper[i];
-            helper[i] = swap;
-        }
-        return helper;
     }
 }
