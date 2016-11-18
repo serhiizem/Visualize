@@ -52,9 +52,7 @@ public class DefaultAlgorithmFactory implements AlgorithmFactory {
                 return quickSort;
             case JAVA_SORT:
                 return javaSort;
-            default: {
-                throw new NoSuchAlgorithmException("Algorithm was not specified!");
-            }
         }
+        throw new NoSuchAlgorithmException("Algorithm was not specified!");
     }
 }

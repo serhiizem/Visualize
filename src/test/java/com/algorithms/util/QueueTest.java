@@ -1,5 +1,6 @@
 package com.algorithms.util;
 
+import com.algorithms.entity.SortRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 

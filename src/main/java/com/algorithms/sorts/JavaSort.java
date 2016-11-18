@@ -1,12 +1,10 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.Queue;
-import com.algorithms.util.SortRepresentation;
+import com.algorithms.entity.SortRepresentation;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-
-import static java.lang.System.currentTimeMillis;
 
 @Component("javaSort")
 public class JavaSort extends Queueable implements Sorting {

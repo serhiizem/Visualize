@@ -2,8 +2,9 @@ package com.algorithms.controller;
 
 import com.algorithms.entity.GenerationRequest;
 import com.algorithms.entity.GenerationType;
-import com.algorithms.service.Generating;
-import com.algorithms.util.Range;
+import com.algorithms.generation.GenerationService;
+import com.algorithms.generation.GenerationStrategy;
+import com.algorithms.entity.Range;
 import com.algorithms.util.factories.GenerationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,15 +44,18 @@ public class GenerationController {
     public ModelAndView getGeneratedArray(@ModelAttribute(value = "generationRequest")
                                           GenerationRequest generationRequest,
                                           ModelAndView mav) {
-        System.out.println(generationRequest.getGenerationType());
-        Generating generationAlgorithm = this.getGenerationAlgorithm(generationRequest);
-        System.out.println(generationAlgorithm);
+        GenerationStrategy generationStrategy = this.getGenerationAlgorithm(generationRequest);
         Range range = generationRequest.getRange();
-        Comparable[] generatedArray = generationAlgorithm.generateArray(range);
+        GenerationService generationService = new GenerationService(range, generationStrategy);
+        Comparable[] generatedArray = generationService.generateArray();
 
         mav.addObject("generatedArray", generatedArray);
         mav.setViewName("array-generation");
-
         return mav;
+    }
+
+    private GenerationStrategy getGenerationAlgorithm(GenerationRequest generationRequest) {
+        GenerationType generationType = generationRequest.getGenerationType();
+        return generationFactory.getGenerationAlgorithm(generationType);
     }
 }

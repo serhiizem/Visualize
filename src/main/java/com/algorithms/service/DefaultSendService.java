@@ -1,7 +1,7 @@
 package com.algorithms.service;
 
 import com.algorithms.util.Queue;
-import com.algorithms.util.SortRepresentation;
+import com.algorithms.entity.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

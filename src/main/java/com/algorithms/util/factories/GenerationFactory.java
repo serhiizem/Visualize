@@ -1,8 +1,8 @@
 package com.algorithms.util.factories;
 
+import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.entity.GenerationType;
-import com.algorithms.service.Generating;
 
 public interface GenerationFactory {
-    Generating getGenerationAlgorithm(GenerationType type);
+    GenerationStrategy getGenerationAlgorithm(GenerationType type);
 }

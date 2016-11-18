@@ -1,10 +1,7 @@
-package com.algorithms.service;
+package com.algorithms.generation;
 
-import com.algorithms.controller.GenerationStrategy;
-import com.algorithms.util.Range;
-import org.springframework.stereotype.Service;
+import com.algorithms.entity.Range;
 
-@Service
 public class GenerationService {
 
     private Range range;

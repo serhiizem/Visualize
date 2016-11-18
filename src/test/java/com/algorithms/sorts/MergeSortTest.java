@@ -1,7 +1,7 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.Queue;
-import com.algorithms.util.SortRepresentation;
+import com.algorithms.entity.SortRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,7 +1,5 @@
 package com.algorithms.entity;
 
-import com.algorithms.util.Range;
-
 public class GenerationRequest {
 
     private Range range;

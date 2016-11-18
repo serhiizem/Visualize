@@ -1,10 +1,7 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.Queue;
-import com.algorithms.util.SortRepresentation;
-
-import static java.lang.System.currentTimeMillis;
-import static java.lang.System.setOut;
+import com.algorithms.entity.SortRepresentation;
 
 public abstract class Queueable {
 

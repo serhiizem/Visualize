@@ -1,14 +1,11 @@
 package com.algorithms.sorts;
 
 import com.algorithms.util.Queue;
-import com.algorithms.util.SortRepresentation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.algorithms.entity.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.algorithms.sorts.Sorting.swap;
-import static java.lang.System.nanoTime;
 
 @Component("bubbleSortReverse")
 public class BubbleSortReverse extends Queueable implements Sorting {

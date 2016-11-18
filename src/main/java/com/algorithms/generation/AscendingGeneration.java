@@ -1,21 +1,19 @@
-package com.algorithms.service;
+package com.algorithms.generation;
 
-import com.algorithms.controller.GenerationStrategy;
 import com.algorithms.exceptions.RequestedArraySizeException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Service
+@Component("ascendingGeneration")
 public class AscendingGeneration extends GenerationStrategy {
 
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
-
-        Integer[] helper = new Integer[maxValue - minValue];
-        Integer[] result = new Integer[arraySize];
-
         int numberOfAvailableNumbers = maxValue - minValue;
+
+        Integer[] helper = new Integer[numberOfAvailableNumbers];
+        Integer[] result = new Integer[arraySize];
 
         if(isLess(numberOfAvailableNumbers, arraySize)) {
             throw new RequestedArraySizeException("Your array will not contain duplicate " +
@@ -23,23 +21,26 @@ public class AscendingGeneration extends GenerationStrategy {
                     "its max and min values");
         }
 
-        int count = 0;
-        for(int i = minValue; i < maxValue; i++) {
-            helper[count++] = i;
-        }
+        this.populateArrayWithNumbersFromRange(helper, minValue, maxValue);
         helper = this.shuffle(helper);
 
         System.arraycopy(helper, 0, result, 0, result.length);
         Arrays.sort(result);
-        return null;
 
+        return result;
     }
 
     private boolean isLess(int numberOfAvailableNumbers, int arraySize) {
         return numberOfAvailableNumbers < arraySize;
     }
 
-    private void populateArrayWithNumbersFromRange() {}
+    private Comparable[] populateArrayWithNumbersFromRange(Comparable[] helper, int minValue, int maxValue) {
+        int count = 0;
+        for(int i = minValue; i < maxValue; i++) {
+            helper[count++] = i;
+        }
+        return helper;
+    }
 
     private Integer[] shuffle(Integer[] helper) {
         int n = helper.length;

@@ -1,7 +1,7 @@
 package com.algorithms;
 
-import com.algorithms.util.SortDetails;
-import com.algorithms.util.SortRepresentation;
+import com.algorithms.entity.SortDetails;
+import com.algorithms.entity.SortRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
