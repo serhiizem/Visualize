@@ -30,23 +30,23 @@
             <tbody>
             <tr>
                 <td>
-                    <input th:field="*{arraySize}" class="form-control" id="array-size" generationType="number"></input>
+                    <input th:value="${range.arraySize}" th:name="range" class="form-control" id="array-size" generationType="number"></input>
                 </td>
                 <td>
-                    <input th:field="*{minValue}" class="form-control" id="array-min-value" generationType="number"></input>
+                    <input th:value="${range.minValue}" th:name="range" class="form-control" id="array-min-value" generationType="number"></input>
                 </td>
                 <td>
-                    <input th:field="*{maxValue}" class="form-control" id="array-max-value" generationType="number"></input>
+                    <input th:value="${range.maxValue}" th:name="range" class="form-control" id="array-max-value" generationType="number"></input>
                 </td>
             </tr>
             </tbody>
         </table>
         <div class="form-group">
             <label th:for="generationType">Generation Type:</label>
-            <select class="form-control" th:field="*{{generationType}}">
-                <option th:each="generationType : ${T(com.algorithms.util.GenerationType).values()}"
-                        th:value="${{generationType}}"
-                        th:selected="${generationType == T(com.algorithms.util.GenerationType)}"
+            <select class="form-control" th:value="${{generationType}}">
+                <option th:each="generationType : ${T(com.algorithms.entity.GenerationType).values()}"
+                        th:value="${{generationType}}" th:name="generationType"
+                        th:selected="${generationType == T(com.algorithms.entity.GenerationType)}"
                         th:text="${generationType.orderType}">
                 </option>
             </select>

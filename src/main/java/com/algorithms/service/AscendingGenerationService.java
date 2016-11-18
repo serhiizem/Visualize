@@ -9,17 +9,11 @@ import java.util.Arrays;
 @Service
 public class AscendingGenerationService implements Generating {
 
-    private GenerationRequest generationRequest;
-
-    public AscendingGenerationService(GenerationRequest generationRequest) {
-        this.generationRequest = generationRequest;
-    }
-
     @Override
     public Comparable[] generateArray() {
-        int arraySize = generationRequest.getArraySize();
-        int minValue = generationRequest.getMinValue();
-        int maxValue = generationRequest.getMaxValue();
+        int arraySize = 1;
+        int minValue = 1;
+        int maxValue = 1;
 
         Integer[] helper = new Integer[maxValue - minValue];
         Integer[] result = new Integer[arraySize];
@@ -40,6 +34,7 @@ public class AscendingGenerationService implements Generating {
 
         System.arraycopy(helper, 0, result, 0, result.length);
         Arrays.sort(result);
+        return null;
 
     }
 
@@ -47,7 +42,7 @@ public class AscendingGenerationService implements Generating {
         return numberOfAvailableNumbers < arraySize;
     }
 
-    private populateArrayWithNumbersFromRange()
+    private void populateArrayWithNumbersFromRange() {}
 
     private Integer[] shuffle(Integer[] helper) {
         int n = helper.length;

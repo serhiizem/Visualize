@@ -1,6 +1,8 @@
 package com.algorithms.controller;
 
 import com.algorithms.entity.GenerationRequest;
+import com.algorithms.entity.GenerationType;
+import com.algorithms.util.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,16 +21,22 @@ public class GenerationController {
     @GetMapping(value = "/showGenerationPage")
     public ModelAndView getGenerationPage(ModelAndView mav) {
         mav.addObject(new GenerationRequest());
+        mav.addObject(new Range());
         mav.setViewName("array-generation");
         return mav;
     }
 
     @PostMapping(value = "/generateArray")
     public ModelAndView getGeneratedArray(@ModelAttribute(value = "generationRequest")
-                                                      GenerationRequest generationRequest,
+                                          GenerationRequest generationRequest,
                                           ModelAndView mav) {
 
-        mav.addObject("generatedArray", result);
+        log.info("getGenerationType(): {}", generationType);
+        log.info("getArraySize(): {}", range.getArraySize());
+        log.info("getMinValue(): {}", range.getMinValue());
+        log.info("getMaxValue(): {}", range.getMaxValue());
+
+        mav.addObject("generatedArray", null);
         mav.setViewName("array-generation");
 
         return mav;

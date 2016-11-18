@@ -1,47 +1,27 @@
 package com.algorithms.entity;
 
+import com.algorithms.util.Range;
+
 public class GenerationRequest {
 
-    private int arraySize;
-    private int minValue;
-    private int maxValue;
+    private Range range;
     private GenerationType generationType;
 
     public GenerationRequest() {
     }
 
-    public GenerationRequest(final int arraySize,
-                             final int minValue,
-                             final int maxValue,
+    public GenerationRequest(final Range range,
                              final GenerationType generationType) {
-        this.arraySize = arraySize;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+        this.range = range;
         this.generationType = generationType;
     }
 
-    public int getArraySize() {
-        return arraySize;
+    public Range getRange() {
+        return range;
     }
 
-    public void setArraySize(int arraySize) {
-        this.arraySize = arraySize;
-    }
-
-    public int getMinValue() {
-        return minValue;
-    }
-
-    public void setMinValue(int minValue) {
-        this.minValue = minValue;
-    }
-
-    public int getMaxValue() {
-        return maxValue;
-    }
-
-    public void setMaxValue(int maxValue) {
-        this.maxValue = maxValue;
+    public void setRange(Range range) {
+        this.range = range;
     }
 
     public GenerationType getGenerationType() {
@@ -55,9 +35,7 @@ public class GenerationRequest {
     @Override
     public String toString() {
         return "GenerationRequest{" +
-                "arraySize=" + arraySize +
-                ", minValue=" + minValue +
-                ", maxValue=" + maxValue +
+                "range=" + range +
                 ", generationType=" + generationType +
                 '}';
     }
