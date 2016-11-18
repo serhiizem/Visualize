@@ -1,4 +1,4 @@
-package com.algorithms.util;
+package com.algorithms.entity;
 
 public enum GenerationType {
 

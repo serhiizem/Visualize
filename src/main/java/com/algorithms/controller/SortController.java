@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
 
-import static com.algorithms.util.AlgorithmType.valueOf;
+import static com.algorithms.entity.AlgorithmType.valueOf;
 
 @Controller
 public class SortController {

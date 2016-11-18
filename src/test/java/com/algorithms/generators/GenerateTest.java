@@ -21,7 +21,7 @@ public class GenerateTest {
             Random random = new Random();
             int generatedValue = random.nextInt(20);
             while (usedIntegers.contains(generatedValue)) { //while we have already used the number
-                generatedValue = (int) (Math.random() * 30); //generate a new one because it's already used
+                generatedValue = (int) (Math.random() * 30); //generateArrayFromRequest a new one because it's already used
             }
             //by this time, generatedValue will be unique
             usedIntegers.add(generatedValue);

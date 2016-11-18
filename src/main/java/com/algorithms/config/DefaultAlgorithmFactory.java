@@ -1,7 +1,7 @@
 package com.algorithms.config;
 
 import com.algorithms.sorts.Sorting;
-import com.algorithms.util.AlgorithmType;
+import com.algorithms.entity.AlgorithmType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
