@@ -17,15 +17,14 @@ public class BubbleSortReverse extends Queueable implements Sorting {
 
     public void sort(Comparable[] array) {
 
-        long nanoTime = System.nanoTime();
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if(Sorting.isLess(array[j + 1], array[j])) {
-                    putIntermediateResultInAQueue(array);
+                    this.putIntermediateResultInAQueue(array);
                     swap(array, j, j + 1);
                 }
             }
         }
-        putIntermediateResultInAQueue(array);
+        this.putIntermediateResultInAQueue(array);
     }
 }

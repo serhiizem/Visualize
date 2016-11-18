@@ -1,10 +1,11 @@
 package com.algorithms.sorts;
 
-import com.algorithms.util.Queue;
 import com.algorithms.entity.SortRepresentation;
+import com.algorithms.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.algorithms.sorts.Sorting.isLess;
 import static com.algorithms.sorts.Sorting.swap;
 
 @Component("quickSort")
@@ -37,16 +38,15 @@ public class QuickSort extends Queueable implements Sorting {
         Comparable pivot = array[(left + right) / 2];
 
         while (i <= j) {
-            long currentTime = System.currentTimeMillis();
-            while (array[i].compareTo(pivot) < 0) {
+            while (isLess(array[i], pivot)) {
                 i++;
             }
-            while (array[j].compareTo(pivot) < 0) {
+            while (isLess(array[j], pivot)) {
                 j--;
             }
             if(i <= j) {
                 swap(array, i, j);
-                putIntermediateResultInAQueue(array);
+                this.putIntermediateResultInAQueue(array);
                 i++;
                 j--;
             }
