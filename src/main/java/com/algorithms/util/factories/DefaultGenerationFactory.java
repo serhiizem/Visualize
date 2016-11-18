@@ -12,12 +12,15 @@ public class DefaultGenerationFactory implements GenerationFactory {
 
     @Qualifier("ascendingGeneration") private GenerationStrategy ascendingGeneration;
     @Qualifier("descendingGeneration") private GenerationStrategy descendingGeneration;
+    @Qualifier("randomGeneration") private GenerationStrategy randomGeneration;
 
     @Autowired
     public DefaultGenerationFactory(GenerationStrategy ascendingGeneration,
-                                    GenerationStrategy descendingGeneration) {
+                                    GenerationStrategy descendingGeneration,
+                                    GenerationStrategy randomGeneration) {
         this.ascendingGeneration = ascendingGeneration;
         this.descendingGeneration = descendingGeneration;
+        this.randomGeneration = randomGeneration;
     }
 
     @Override
@@ -27,6 +30,8 @@ public class DefaultGenerationFactory implements GenerationFactory {
                 return ascendingGeneration;
             case DESC_ORDER:
                 return descendingGeneration;
+            case RANDOM_ORDER:
+                return randomGeneration;
         }
         throw new NoSuchAlgorithmException("Algorithm was not specified!");
     }
