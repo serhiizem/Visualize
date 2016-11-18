@@ -5,8 +5,6 @@ import com.algorithms.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-
 import static com.algorithms.sorts.Sorting.isLess;
 import static com.algorithms.sorts.Sorting.swap;
 
@@ -43,12 +41,12 @@ public class QuickSort extends Queueable implements Sorting {
             while (isLess(array[i], pivot)) {
                 i++;
             }
-            while (isLess(array[j], pivot)) {
+            while (isLess(pivot, array[j])) {
                 j--;
             }
             if(i <= j) {
                 swap(array, i, j);
-                this.putIntermediateResultInAQueue(array);
+                putIntermediateResultInAQueue(array);
                 i++;
                 j--;
             }

@@ -16,7 +16,6 @@ public class AscendingGeneration extends GenerationStrategy {
         Integer[] result = new Integer[arraySize];
 
         if(isLess(numberOfAvailableNumbers, arraySize)) {
-
             throw new RequestedArraySizeException("In order not to contain duplicates" +
                     " array must have a size less than or equal to the difference between " +
                     "its max and min values");

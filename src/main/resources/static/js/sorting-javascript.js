@@ -84,7 +84,6 @@
         function draw(sortRepresentation) {
 
             var sortedArray = sortRepresentation.intermediateResult;
-            console.log("Sorted array: " + sortedArray);
             // get canvas element.
             var canvas = document.getElementById('sortCanvas');
 
@@ -105,9 +104,7 @@
                 for (var i in rectangles) {
 
                     var rec = rectangles[i];
-                    console.log("Rec. h :" + rec.h);
                     var text = sortedArray[i];
-                    console.log("text from sorted array :" + text);
 
                     var gradient = context.createLinearGradient(0, 0, 0, 170);
                     gradient.addColorStop(0.2, "red");
