@@ -1,5 +1,6 @@
 package com.algorithms.generation;
 
+import com.algorithms.annotations.Filler;
 import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component("randomGeneration")
 public class RandomGeneration extends GenerationStrategy {
 
+    @Filler
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
         int numberOfAvailableValues = maxValue - minValue;

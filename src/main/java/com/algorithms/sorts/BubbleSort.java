@@ -1,7 +1,7 @@
 package com.algorithms.sorts;
 
-import com.algorithms.util.Queue;
 import com.algorithms.entity.SortRepresentation;
+import com.algorithms.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
