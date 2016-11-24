@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -38,6 +39,14 @@ public class GenerationController {
     @GetMapping(value = "/generateArray")
     public String redirectToGenerationPage() {
         return "redirect:/showGenerationPage";
+    }
+
+    @PostMapping(value = "/generateXls")
+    public ModelAndView generateXls(@RequestBody Range range,
+                                    ModelAndView mav) {
+        log.info("Range: {}", range.toString());
+        System.out.println(range.toString());
+        return mav;
     }
 
     @PostMapping(value = "/generateArray")

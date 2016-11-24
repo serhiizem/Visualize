@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" ng-app="myApp">
+<html xmlns:th="http://www.thymeleaf.org" ng-app="generationApp">
 
 <head>
     <title>Generation</title>
@@ -30,13 +30,16 @@
             <tbody>
             <tr>
                 <td>
-                    <input th:field="*{range.arraySize}" class="form-control" id="array-size"></input>
+                    <input ng-model="arraySize" th:field="*{range.arraySize}"
+                           class="form-control" id="array-size"></input>
                 </td>
                 <td>
-                    <input th:field="*{range.minValue}" class="form-control" id="array-min-value"></input>
+                    <input ng-model="minValue" th:field="*{range.minValue}"
+                           class="form-control" id="array-min-value"></input>
                 </td>
                 <td>
-                    <input th:field="*{range.maxValue}" class="form-control" id="array-max-value"></input>
+                    <input ng-model="maxValue" th:field="*{range.maxValue}"
+                           class="form-control" id="array-max-value"></input>
                 </td>
             </tr>
             </tbody>
@@ -55,6 +58,9 @@
             <!-- Button -->
             <div class="controls">
                 <button class="btn btn-success">Generate</button>
+            </div>
+            <div>
+                <button ng-click="generateXls()" class="btn btn-alert">Create xls</button>
             </div>
         </div>
 

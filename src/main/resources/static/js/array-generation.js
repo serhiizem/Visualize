@@ -1,25 +1,5 @@
-/*
- Написать методы, генерирующие массивы целых чисел заданной длинны следующими
-
- способами:
-
- 1) Уже отсортированного массива
-
- (1, 2, 3, 7, ....., max);
-
- 2) Отсортированного массива, в конец которого дописан случайный элемент
-
- (1, 2, 3, 7, ....., max, X);
-
- 3) Массива, отсортированного в обратном порядке
-
- (max, ... , 7, 3, 2, 1);
-
- 4) Массива, содержащего элементы, расположенные случайным образом.
- */
-
 (function () {
-    var app = angular.module("myApp", []);
+    var app = angular.module("generationApp", []);
 
     app.controller("SortController", function ($scope, $http) {
 
@@ -30,8 +10,20 @@
             "Array filled with randomly distributed values"
         ];
 
-        $scope.send = function(input) {
-            alert(input);
+        $scope.generateXls = function () {
+            var range = {
+                "arraySize" : $scope.arraySize,
+                "minValue"  : $scope.minValue,
+                "maxValue"  : $scope.maxValue
+            };
+
+            $http({
+                url:"/generateXls",
+                method: "POST",
+                data: range
+            }).success(function (data) {
+                console.log(data);
+            })
         }
     });
 }());
