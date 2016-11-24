@@ -59,9 +59,6 @@
             <div class="controls">
                 <button class="btn btn-success">Generate</button>
             </div>
-            <div>
-                <button ng-click="generateXls()" class="btn btn-alert">Create xls</button>
-            </div>
         </div>
 
         <p th:if="${generatedArray != null}" th:text="${#strings.arrayJoin(generatedArray, ' ')}"></p>

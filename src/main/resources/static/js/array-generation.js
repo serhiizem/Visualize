@@ -11,19 +11,7 @@
         ];
 
         $scope.generateXls = function () {
-            var range = {
-                "arraySize" : $scope.arraySize,
-                "minValue"  : $scope.minValue,
-                "maxValue"  : $scope.maxValue
-            };
-
-            $http({
-                url:"/generateXls",
-                method: "POST",
-                data: range
-            }).success(function (data) {
-                console.log(data);
-            })
+            $http({})
         }
     });
 }());

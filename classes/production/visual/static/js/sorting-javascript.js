@@ -63,14 +63,27 @@
             this.h = h; //The height of the rectangle, in pixels
         }
 
-        var elapsedTime = 0;
+        function normalizeArray(array) {
+            var normalizedArray = [];
+            var theBiggestElement = findTheBiggestElement(array);
+            for (var i = 0; i < array.length; i++) {
+                normalizedArray.push((array[i] / theBiggestElement) * 100);
+            }
+            return normalizedArray;
+        }
+
+        function findTheBiggestElement(array) {
+            var biggest = array[0];
+            for (var i = 1; i < array.length; i++) {
+                if(array[i] > biggest) biggest = array[i];
+            }
+            return biggest;
+        }
+
 
         function draw(sortRepresentation) {
 
             var sortedArray = sortRepresentation.intermediateResult;
-            elapsedTime += sortRepresentation.elapsedTime;
-            console.log("Sorted array: " + sortedArray);
-            console.log("Elapsed time: " + elapsedTime);
             // get canvas element.
             var canvas = document.getElementById('sortCanvas');
 
@@ -78,8 +91,10 @@
             if (canvas.getContext) {
                 var rectangles = [];
 
-                for (var i = 0; i < sortedArray.length; i++) {
-                    rectangles.push(new Shape(i * 50 + canvas.width / sortedArray.length, canvas.height / 2, 50, sortedArray[i]));
+                var normalizedArray = normalizeArray(sortedArray);
+
+                for (var i = 0; i < normalizedArray.length; i++) {
+                    rectangles.push(new Shape(i * 50 + canvas.width / sortedArray.length, canvas.height / 2, 50, normalizedArray[i]));
                 }
 
                 var context = canvas.getContext('2d');
@@ -89,6 +104,7 @@
                 for (var i in rectangles) {
 
                     var rec = rectangles[i];
+                    var text = sortedArray[i];
 
                     var gradient = context.createLinearGradient(0, 0, 0, 170);
                     gradient.addColorStop(0.2, "red");
@@ -100,11 +116,7 @@
                     context.strokeRect(rec.x, rec.y, rec.w, -rec.h);
                     context.fillStyle = "#000000";
                     context.font = "20px Arial";
-                    context.fillText(rec.h, rec.x + rec.w / 4, rec.y + 20);
-                    if(elapsedTime != 0) {
-                        var message = "Time taken for sort: ";
-                        context.fillText(message + elapsedTime + " ms", canvas.width / 4, 3/4 * canvas.height);
-                    }
+                    context.fillText(text, rec.x + rec.w / 4, rec.y + 20);
                 }
             }
         }

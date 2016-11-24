@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" ng-app="myApp">
+<html xmlns:th="http://www.thymeleaf.org" ng-app="generationApp">
 
 <head>
     <title>Generation</title>
@@ -30,13 +30,16 @@
             <tbody>
             <tr>
                 <td>
-                    <input th:field="*{arraySize}" class="form-control" id="array-size" generationType="number"></input>
+                    <input ng-model="arraySize" th:field="*{range.arraySize}"
+                           class="form-control" id="array-size">{{arraySize}}</input>
                 </td>
                 <td>
-                    <input th:field="*{minValue}" class="form-control" id="array-min-value" generationType="number"></input>
+                    <input ng-model="minValue" th:field="*{range.minValue}"
+                           class="form-control" id="array-min-value">{{minValue}}</input>
                 </td>
                 <td>
-                    <input th:field="*{maxValue}" class="form-control" id="array-max-value" generationType="number"></input>
+                    <input ng-model="maxValue" th:field="*{range.maxValue}"
+                           class="form-control" id="array-max-value">{{maxValue}}</input>
                 </td>
             </tr>
             </tbody>
@@ -44,9 +47,9 @@
         <div class="form-group">
             <label th:for="generationType">Generation Type:</label>
             <select class="form-control" th:field="*{{generationType}}">
-                <option th:each="generationType : ${T(com.algorithms.util.GenerationType).values()}"
+                <option th:each="generationType : ${T(com.algorithms.entity.GenerationType).values()}"
                         th:value="${{generationType}}"
-                        th:selected="${generationType == T(com.algorithms.util.GenerationType)}"
+                        th:selected="${generationType == T(com.algorithms.entity.GenerationType)}"
                         th:text="${generationType.orderType}">
                 </option>
             </select>
@@ -54,12 +57,14 @@
         <div class="control-group" style="margin-top: 5px">
             <!-- Button -->
             <div class="controls">
-                <button class="btn btn-success">Register</button>
+                <button class="btn btn-success">Generate</button>
             </div>
         </div>
-
         <p th:if="${generatedArray != null}" th:text="${#strings.arrayJoin(generatedArray, ' ')}"></p>
     </form>
+    <div>
+        <button ng-click="generateXls()" class="btn btn-info" style="float: right">Create xls</button>
+    </div>
 </div>
 </body>
 </html>
