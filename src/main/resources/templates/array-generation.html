@@ -30,39 +30,48 @@
             <tbody>
             <tr>
                 <td>
-                    <input ng-model="arraySize" th:field="*{range.arraySize}"
+                    <input th:field="*{range.arraySize}"
                            class="form-control" id="array-size"></input>
                 </td>
                 <td>
-                    <input ng-model="minValue" th:field="*{range.minValue}"
+                    <input th:field="*{range.minValue}"
                            class="form-control" id="array-min-value"></input>
                 </td>
                 <td>
-                    <input ng-model="maxValue" th:field="*{range.maxValue}"
+                    <input th:field="*{range.maxValue}"
                            class="form-control" id="array-max-value"></input>
                 </td>
             </tr>
             </tbody>
         </table>
-        <div class="form-group">
-            <label th:for="generationType">Generation Type:</label>
-            <select class="form-control" th:field="*{{generationType}}">
-                <option th:each="generationType : ${T(com.algorithms.entity.GenerationType).values()}"
-                        th:value="${{generationType}}"
-                        th:selected="${generationType == T(com.algorithms.entity.GenerationType)}"
-                        th:text="${generationType.orderType}">
-                </option>
-            </select>
-        </div>
-        <div class="control-group" style="margin-top: 5px">
-            <!-- Button -->
-            <div class="controls">
-                <button class="btn btn-success">Generate</button>
+        <div class="container">
+            <div class="form-group">
+                <div class="row">
+                    <label th:for="generationType" class="col-md-6">Generation Type:</label>
+                    <div>
+                        <button type="button" ng-click="generateXls()"
+                                class="btn btn-info" style="float: right; margin-bottom: 5px; margin-top: -5px">Create xls</button>
+                    </div>
+                </div>
+                <select class="form-control" th:field="*{{generationType}}">
+                    <option th:each="generationType : ${T(com.algorithms.entity.GenerationType).values()}"
+                            th:value="${{generationType}}"
+                            th:selected="${generationType == T(com.algorithms.entity.GenerationType)}"
+                            th:text="${generationType.orderType}">
+                    </option>
+                </select>
             </div>
-        </div>
 
-        <p th:if="${generatedArray != null}" th:text="${#strings.arrayJoin(generatedArray, ' ')}"></p>
+            <div class="control-group" style="margin-top: 5px">
+                <!-- Button -->
+                <div class="controls">
+                    <button class="btn btn-success">Generate</button>
+                </div>
+            </div>
+            <p th:if="${generatedArray != null}" th:text="${#strings.arrayJoin(generatedArray, ' ')}"></p>
+        </div>
     </form>
+
 </div>
 </body>
 </html>

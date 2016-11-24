@@ -12,9 +12,9 @@
 
         $scope.generateXls = function () {
             var range = {
-                "arraySize" : $scope.arraySize,
-                "minValue"  : $scope.minValue,
-                "maxValue"  : $scope.maxValue
+                "arraySize" : document.getElementById('array-size').value,
+                "minValue"  : document.getElementById('array-min-value').value,
+                "maxValue"  : document.getElementById('array-max-value').value
             };
 
             $http({

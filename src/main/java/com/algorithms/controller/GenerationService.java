@@ -1,6 +1,7 @@
-package com.algorithms.generation;
+package com.algorithms.controller;
 
 import com.algorithms.entity.Range;
+import com.algorithms.generation.GenerationStrategy;
 
 public class GenerationService {
 

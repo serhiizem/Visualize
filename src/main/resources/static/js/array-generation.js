@@ -11,7 +11,19 @@
         ];
 
         $scope.generateXls = function () {
-            $http({})
+            var range = {
+                "arraySize" : document.getElementById('array-size').value,
+                "minValue"  : document.getElementById('array-min-value').value,
+                "maxValue"  : document.getElementById('array-max-value').value
+            };
+
+            $http({
+                url:"/generateXls",
+                method: "POST",
+                data: range
+            }).success(function (data) {
+                console.log(data);
+            })
         }
     });
 }());
