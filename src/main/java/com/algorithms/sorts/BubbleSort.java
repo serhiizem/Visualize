@@ -1,5 +1,6 @@
 package com.algorithms.sorts;
 
+import com.algorithms.annotations.Sorter;
 import com.algorithms.entity.SortRepresentation;
 import com.algorithms.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class BubbleSort extends Queueable implements Sorting {
         super(sortRepresentationQueue);
     }
 
+    @Sorter
+    @Override
     public void sort(Comparable[] array) {
 
         for (int i = 0; i < array.length; i++) {

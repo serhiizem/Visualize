@@ -1,5 +1,6 @@
 package com.algorithms.sorts;
 
+import com.algorithms.annotations.Sorter;
 import com.algorithms.entity.SortRepresentation;
 import com.algorithms.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class QuickSort extends Queueable implements Sorting {
         comparator = (a, b) -> a.compareTo(b);
     }
 
+    @Sorter
     @Override
     public void sort(Comparable[] array) {
         quickSort(0, array.length - 1, array);

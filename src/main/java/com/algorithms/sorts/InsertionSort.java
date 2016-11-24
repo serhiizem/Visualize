@@ -1,5 +1,6 @@
 package com.algorithms.sorts;
 
+import com.algorithms.annotations.Sorter;
 import com.algorithms.util.Queue;
 import com.algorithms.entity.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class InsertionSort extends Queueable implements Sorting {
         super(sortRepresentationQueue);
     }
 
+    @Sorter
+    @Override
     public void sort(Comparable[] array) {
 
         for(int i = 1; i < array.length; i++) {

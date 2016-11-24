@@ -9,10 +9,8 @@ import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
 import org.junit.Before;
 import org.junit.Test;
-import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -43,7 +41,6 @@ public class SortInvocation {
                 returnedArray = (Comparable[]) m.invoke(gs, 10, 20, 50);
             }
         }
-        System.out.println("Returned array:" + Arrays.toString(returnedArray));
 
         for(Class<?> c: reflections.getSubTypesOf(Sorting.class)) {
             System.out.println(c.getCanonicalName());
@@ -53,6 +50,5 @@ public class SortInvocation {
                 m.invoke(sorting, new Object[] {returnedArray});
             }
         }
-        System.out.println("Sorted array:" + Arrays.toString(returnedArray));
     }
 }
