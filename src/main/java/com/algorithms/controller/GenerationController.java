@@ -46,9 +46,8 @@ public class GenerationController {
     }
 
     @PostMapping(value = "/generateXls")
-    public String generateXls(@RequestBody Range range) {
-        System.out.println(range.toString());
-        xlsService.generateStatistics(range);
+    public String generateXls() {
+        xlsService.generateStatistics();
         return "redirect:/showGenerationPage";
     }
 
