@@ -1,6 +1,5 @@
 package com.algorithms.generation;
 
-import com.algorithms.annotations.Filler;
 import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +9,15 @@ import java.util.Arrays;
 @Component("ascendingGeneration")
 public class AscendingGeneration extends GenerationStrategy {
 
+    /**
+     * Method that provides an array generation in ascending order
+     *
+     * @param arraySize size of the resulting array
+     * @param minValue  minimum value in te resulting array
+     * @param maxValue  maximum value in te resulting array
+     *
+     * @return array of {@Comparable}s rearranged in ascending order
+     */
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
         int numberOfAvailableNumbers = maxValue - minValue;

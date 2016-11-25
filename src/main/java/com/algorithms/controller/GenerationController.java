@@ -2,8 +2,8 @@ package com.algorithms.controller;
 
 import com.algorithms.entity.GenerationRequest;
 import com.algorithms.entity.GenerationType;
-import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.entity.Range;
+import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.service.GenerationService;
 import com.algorithms.service.XlsService;
 import com.algorithms.util.factories.GenerationFactory;
@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 @Controller
 public class GenerationController {
@@ -32,6 +34,10 @@ public class GenerationController {
         this.xlsService = xlsService;
     }
 
+    /**
+     * Populates {@code ModelAndView} object with the instances
+     * required for the further interaction at view page
+     */
     @GetMapping(value = "/showGenerationPage")
     public ModelAndView getGenerationPage(ModelAndView mav) {
         mav.addObject(new GenerationRequest());
@@ -45,12 +51,27 @@ public class GenerationController {
         return "redirect:/showGenerationPage";
     }
 
+    /**
+     * Generates xls report concerning speed of the various
+     * algorithms implemented in the project
+     */
     @PostMapping(value = "/generateXls")
     public String generateXls() {
-        xlsService.generateStatistics();
+        try {
+            xlsService.generateStatistics();
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException | IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/showGenerationPage";
     }
 
+    /**
+     * Generates an array based on the data stored in the
+     * fields of {@link GenerationRequest} object.
+     *
+     * @param       generationRequest object which is
+     *              being extracted from the model
+     */
     @PostMapping(value = "/generateArray")
     public ModelAndView getGeneratedArray(@ModelAttribute(value = "generationRequest")
                                           GenerationRequest generationRequest,
@@ -64,6 +85,13 @@ public class GenerationController {
         return mav;
     }
 
+    /**
+     * Helper method used to obtain required implementation of {@link GenerationStrategy}
+     * class by its name requested from the view.
+     *
+     * @param generationRequest object that is used to fetch the name of the
+     *                          generation algorithm
+     */
     private GenerationStrategy getGenerationAlgorithm(GenerationRequest generationRequest) {
         GenerationType generationType = generationRequest.getGenerationType();
         return generationFactory.getGenerationAlgorithm(generationType);

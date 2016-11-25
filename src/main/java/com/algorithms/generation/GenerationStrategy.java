@@ -1,5 +1,14 @@
 package com.algorithms.generation;
 
+/**
+ * Defines an abstract {@code generateArrayFromRange} method which is to be
+ * implemented to obtain a unique generation algorithm
+ *
+ * @see AscendingGeneration
+ * @see DescendingGeneration
+ * @see RandomGeneration
+ * @see SortedArrayRandomAppendedGeneration
+ */
 public abstract class GenerationStrategy {
     public abstract Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue);
 

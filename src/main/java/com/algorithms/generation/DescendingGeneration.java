@@ -10,6 +10,15 @@ import java.util.Comparator;
 @Component("descendingGeneration")
 public class DescendingGeneration extends GenerationStrategy {
 
+    /**
+     * Method that provides an array generation in descending order
+     *
+     * @param arraySize size of the resulting array
+     * @param minValue  minimum value in te resulting array
+     * @param maxValue  maximum value in te resulting array
+     *
+     * @return array of {@Comparable}s rearranged in descending order
+     */
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
         int numberOfAvailableValues = maxValue - minValue;

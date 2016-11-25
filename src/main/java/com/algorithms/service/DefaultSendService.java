@@ -19,6 +19,10 @@ public class DefaultSendService implements SendService {
         this.sortRepresentationQueue = sortRepresentationQueue;
     }
 
+    /**
+     * Sends an intermediate result of sorting computation to all the
+     * subscribers of the predefined channel
+     */
     public void sendIntermediateResult() {
         SortRepresentation intermediateResult = sortRepresentationQueue.dequeue();
         this.brokerMessagingTemplate.convertAndSend("/visualize/sorting", intermediateResult);

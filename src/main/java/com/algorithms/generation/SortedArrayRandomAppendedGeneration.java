@@ -12,6 +12,14 @@ public class SortedArrayRandomAppendedGeneration extends GenerationStrategy {
 
     private Random random = new Random();
 
+    /**
+     * Method that provides an array generation in ascending order
+     * with additional random element inserted at the end of the array
+     *
+     * @param arraySize size of the resulting array
+     * @param minValue  minimum value in te resulting array
+     * @param maxValue  maximum value in te resulting array
+     */
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
         int numberOfAvailableValues = maxValue - minValue;

@@ -8,6 +8,15 @@ import org.springframework.stereotype.Component;
 @Component("randomGeneration")
 public class RandomGeneration extends GenerationStrategy {
 
+    /**
+     * Method that provides an array generation in random order
+     *
+     * @param arraySize size of the resulting array
+     * @param minValue  minimum value in te resulting array
+     * @param maxValue  maximum value in te resulting array
+     *
+     * @return array of {@Comparable}s rearranged in random order
+     */
     @Filler
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {

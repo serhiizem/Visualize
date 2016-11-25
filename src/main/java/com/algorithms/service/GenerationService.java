@@ -3,6 +3,12 @@ package com.algorithms.service;
 import com.algorithms.entity.Range;
 import com.algorithms.generation.GenerationStrategy;
 
+/**
+ * A data structure used to invoke an array generation
+ * via defined algorithm
+ *
+ * @see GenerationStrategy
+ */
 public class GenerationService {
 
     private Range range;

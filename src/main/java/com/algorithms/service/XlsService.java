@@ -7,19 +7,16 @@ import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Random;
 
 import static org.reflections.ReflectionUtils.getMethods;
@@ -38,7 +35,7 @@ public class XlsService implements Writing {
     }
 
     @Override
-    public void generateStatistics() {
+    public void generateStatistics() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, IOException {
 
         Comparable[] generatedArray = null;
 
@@ -50,54 +47,41 @@ public class XlsService implements Writing {
 
         Reflections reflections = new Reflections("com.algorithms");
 
-        for(Class<?> c: reflections.getSubTypesOf(GenerationStrategy.class)) {
-            System.out.println(c.getCanonicalName());
-            for(Method m: getMethods (c, withAnnotation(Filler.class))) {
-                GenerationStrategy gs;
-                HSSFSheet sheet = workbook.createSheet(c.getSimpleName());
-                try {
-                    gs = (GenerationStrategy) c.newInstance();
+        int rowCount = 1;
+        int columnCount = 1;
 
-                    for(int i = 1; i < 8; i++) {
-                        HSSFRow row = sheet.createRow(i);
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        for (Class<?> gen : reflections.getSubTypesOf(GenerationStrategy.class)) {
+            HSSFSheet sheet = workbook.createSheet(gen.getSimpleName());
+            for (int j = 1; j < 8; j++) {
+                sheet.createRow(j);
+            }
+            GenerationStrategy gs = (GenerationStrategy) gen.newInstance();
+            for (Method generateMethod : getMethods(gen, withAnnotation(Filler.class))) {
+                for (int i = 5; i < 30; i += 5) {
+                    arraySize = i;
+                    minValue = random.nextInt(arraySize);
+                    maxValue = random.nextInt(arraySize) + 4 * arraySize;
+                    generatedArray = (Comparable[]) generateMethod.invoke(gs, arraySize, minValue, maxValue);
+                    for (Class<?> sort : reflections.getSubTypesOf(Sorting.class)) {
+                        System.out.println("generatedArray.length: " + generatedArray.length);
+                        System.out.println("sort.getSimpleName()" + sort.getSimpleName());
+                        System.out.println("rowCount" + rowCount);
+                        System.out.println("columnCount" + columnCount);
+                        Comparable[] valuesToSort = generatedArray.clone();
+                        Sorting sorting = (Sorting) sort.getConstructor(Queue.class)
+                                .newInstance(sortRepresentationQueue);
+                        for(Method sortMethod: getMethods(sort, withAnnotation(Sorter.class))) {
+                            sortMethod.invoke(sorting, new Object[]{valuesToSort});
+                        }
+                        HSSFCell cell = sheet.getRow(rowCount++).createCell(columnCount);
+                        cell.setCellValue("" + sort.getSimpleName() + " " + generatedArray.length);
                     }
-                    for(int i = 5; i < 30; i+=5) {
-                        arraySize = i;
-                        minValue = random.nextInt(arraySize);
-                        maxValue = random.nextInt(arraySize) + 4 * arraySize;
-                        generatedArray = (Comparable[]) m.invoke(gs, arraySize, minValue, maxValue);
-                        runAllSortingAlgorithmsForTheInput(generatedArray, sheet);
-                    }
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | IOException e) {
-                    e.printStackTrace();
+                    columnCount++;
+                    rowCount = 1;
                 }
             }
-        }
-    }
-
-    private void runAllSortingAlgorithmsForTheInput(Comparable[] input, HSSFSheet sheet) throws IOException {
-        int rowCount = 0;
-        int columnCount = 0;
-
-        for(Class<?> c: reflections.getSubTypesOf(Sorting.class)) {
-            for(Method m: getMethods(c, withAnnotation(Sorter.class))) {
-                HSSFRow row = sheet.createRow(++rowCount);
-                Sorting sorting;
-                Comparable[] valuesToSort = input.clone();                          //TODO: is cloning appropriate?
-                try {
-                    sorting = (Sorting) c.getConstructor(Queue.class)
-                            .newInstance(sortRepresentationQueue);
-                    System.out.println("Before sort:" + Arrays.toString(valuesToSort));
-                    System.out.println(c.getCanonicalName());
-                    m.invoke(sorting, new Object[] {valuesToSort});
-                    System.out.println("After sort:" + Arrays.toString(valuesToSort));
-                    HSSFCell cell = row.createCell(++columnCount);
-                    cell.setCellValue("" + valuesToSort.length + " " + c.getSimpleName());
-                } catch (InstantiationException | IllegalAccessException
-                        | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-            }
+            columnCount = 1;
         }
 
         try (FileOutputStream outputStream = new FileOutputStream("sorts.xlsx")) {

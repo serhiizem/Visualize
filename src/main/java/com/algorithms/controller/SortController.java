@@ -1,12 +1,12 @@
 package com.algorithms.controller;
 
-import com.algorithms.util.factories.AlgorithmFactory;
+import com.algorithms.entity.SortDetails;
+import com.algorithms.entity.SortRepresentation;
 import com.algorithms.service.DefaultSendService;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
-import com.algorithms.entity.SortDetails;
 import com.algorithms.util.SortInvoker;
-import com.algorithms.entity.SortRepresentation;
+import com.algorithms.util.factories.AlgorithmFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +55,12 @@ public class SortController {
         sortInvoker.sortArrayWithTheGivenAlgorithm(arrayToSort, algorithm);
     }
 
+    /**
+     * Performs a periodic dispatch of the saved intermediate
+     * results of the computation.
+     *
+     * @see SortRepresentation
+     */
     @Scheduled(fixedRate = 2000)
     public void sendMessage() {
         if(!sortRepresentationQueue.isEmpty()) {
@@ -67,6 +73,13 @@ public class SortController {
         return "index";
     }
 
+    /**
+     * Helper method used to obtain required implementation of {@link Sorting}
+     * interface by its name requested from the view.
+     *
+     * @param sortDetails object that is used to fetch the name of the
+     *                    sorting algorithm
+     */
     private Sorting getSortingAlgorithm(SortDetails sortDetails) {
         String sortType = sortDetails.getSortType();
         log.info("Sort type requested: {}", sortType);
