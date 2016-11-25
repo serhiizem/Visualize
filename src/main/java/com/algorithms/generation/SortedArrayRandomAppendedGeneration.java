@@ -1,5 +1,6 @@
 package com.algorithms.generation;
 
+import com.algorithms.annotations.Filler;
 import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ public class SortedArrayRandomAppendedGeneration extends GenerationStrategy {
      * @param minValue  minimum value in te resulting array
      * @param maxValue  maximum value in te resulting array
      */
+    @Filler
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
         int numberOfAvailableValues = maxValue - minValue;

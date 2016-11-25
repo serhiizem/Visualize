@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import static com.algorithms.sorts.Sorting.isLess;
 import static com.algorithms.sorts.Sorting.swap;
+import static java.lang.System.currentTimeMillis;
+import static java.lang.System.nanoTime;
 
 @Component("selectionSort")
 public class SelectionSort extends Queueable implements Sorting {
@@ -20,13 +22,14 @@ public class SelectionSort extends Queueable implements Sorting {
     @Sorter
     @Override
     public void sort(Comparable[] array) {
+        long startTime = nanoTime();
         int n = array.length;
         for (int i = 0; i < n; i++) {
             int minimum = i;
             for(int j = i; j < n; j++) {
                 if(isLess(array[j], array[minimum])) minimum = j;
             }
-            this.putIntermediateResultInAQueue(array);
+            this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
             swap(array, i, minimum);
         }
     }

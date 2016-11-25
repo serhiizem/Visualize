@@ -11,8 +11,8 @@ public abstract class Queueable {
         this.sortRepresentationQueue = sortRepresentationQueue;
     }
 
-    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult) {
+    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult, Long elapsedTime) {
         sortRepresentationQueue
-                .enqueue(new SortRepresentation(intermediateResult.clone()));
+                .enqueue(new SortRepresentation(intermediateResult.clone(), elapsedTime));
     }
 }
