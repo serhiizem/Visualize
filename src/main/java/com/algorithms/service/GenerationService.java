@@ -1,4 +1,4 @@
-package com.algorithms.controller;
+package com.algorithms.service;
 
 import com.algorithms.entity.Range;
 import com.algorithms.generation.GenerationStrategy;

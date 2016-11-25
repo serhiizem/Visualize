@@ -4,6 +4,8 @@ import com.algorithms.entity.GenerationRequest;
 import com.algorithms.entity.GenerationType;
 import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.entity.Range;
+import com.algorithms.service.GenerationService;
+import com.algorithms.service.XlsService;
 import com.algorithms.util.factories.GenerationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +23,13 @@ public class GenerationController {
     private static final Logger log = LoggerFactory.getLogger(GenerationController.class);
 
     private GenerationFactory generationFactory;
+    private XlsService xlsService;
 
     @Autowired
-    public GenerationController(GenerationFactory generationFactory) {
+    public GenerationController(GenerationFactory generationFactory,
+                                XlsService xlsService) {
         this.generationFactory = generationFactory;
+        this.xlsService = xlsService;
     }
 
     @GetMapping(value = "/showGenerationPage")
@@ -43,6 +48,7 @@ public class GenerationController {
     @PostMapping(value = "/generateXls")
     public String generateXls(@RequestBody Range range) {
         System.out.println(range.toString());
+        xlsService.generateStatistics(range);
         return "redirect:/showGenerationPage";
     }
 
