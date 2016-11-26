@@ -51,24 +51,22 @@ public class XlsService implements Writing {
         int rowIndex = FIRST_ROW_OF_THE_TABLE;
         int columnIndex = FIRST_COLUMN_OF_THE_TABLE;
 
-        SheetUtil sheetUtil = new SheetUtil();
         for (Class<?> strategyClass : reflections.getSubTypesOf(GenerationStrategy.class)) {
-            sheetUtil.createSheet(strategyClass.getSimpleName());
+            SheetUtil sheetUtil = new SheetUtil(strategyClass.getSimpleName());
             sheetUtil.createMultipleRows(NUMBER_OF_ALGORITHMS);
 
             log.info("Starting filler: {}", strategyClass.getSimpleName());
             for (int n = 5; n < 25; n += 5) {
                 Range range = getSampleDataRange(n);
-
                 Comparable[] generatedArray = createArrayFromRangeUsingGivenStrategy(range, strategyClass);
+
                 for (Class<?> sortClass : reflections.getSubTypesOf(Sorting.class)) {
                     Comparable[] valuesToSort = generatedArray.clone();
                     log.info("Starting sortClass: {}, for the number of elements: {}",
                             sortClass.getSimpleName(), n);
                     Sorting sortingAlgorithmObject = this.instantiateSortingAlgorithm(sortClass);
                     this.sortArrayWithTheGivenAlgorithm(valuesToSort, sortClass, sortingAlgorithmObject);
-
-                    Long elapsedTime = this.getElapsedTimeForTheGivenSort(sortClass, sortingAlgorithmObject);
+                    Long elapsedTime = this.getElapsedTimeForTheGivenSort(sortingAlgorithmObject);
 
                     sheetUtil.createHeaderForRow(rowIndex, sortClass.getSimpleName());
                     sheetUtil.createHeaderForColumn(columnIndex, n);
@@ -82,15 +80,19 @@ public class XlsService implements Writing {
             sheetUtil.writeToFile("sortsReport.xls");
         }
     }
-    //java.lang.IllegalArgumentException: object is not an instance of declaring class
-    private Long getElapsedTimeForTheGivenSort(Class sortingClass,
-                                               Sorting sortingAlgorithmObject) {
+
+    private Long getElapsedTimeForTheGivenSort(Sorting sortingAlgorithmObject) {
         Long elapsedTime = null;
         try {
-            elapsedTime = (Long) sortingClass.getSuperclass()
+            elapsedTime = (Long) sortingAlgorithmObject.getClass().getSuperclass()
                     .getMethod("getElapsedTime").invoke(sortingAlgorithmObject);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.info("EXCEPTION");
+            log.info("You have tried to invoke getElapsedTime() method, but it has failed." +
+                    "It may be caused by the number of facts: 1) There is no such method on " +
+                    "the class you are trying to invoke it on.  2) Given method has been declared " +
+                    "private 3) There has been an error during an actual work of the given method. " +
+                    "In this case please, check an implementation once again. Initial cause: " +
+                    e.getCause());
         }
         return elapsedTime;
     }
@@ -106,7 +108,12 @@ public class XlsService implements Writing {
                     method.invoke(objectToInstantiateOn, new Object[]{arrayToSort});
                 }
             }} catch(IllegalAccessException | InvocationTargetException e){
-            e.printStackTrace();
+            log.info("There has been an error during an invocation of the sorter method." +
+                    "Please, check if a sorter method you are trying to invoke has " +
+                    "not been declared private. This error may also occur if there has " +
+                    "been an error during an actual work of the given method. In this " +
+                    "case please, check an implementation once again. Initial cause: " +
+                    e.getCause());
         }
     }
 
@@ -125,11 +132,12 @@ public class XlsService implements Writing {
                 }
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
-            log.info("There has been an error during an invocation of a filler method." +
-                    "Please, check if the a filler method you are trying to invoke has " +
-                    "not been declared private. This Error may also occur if there has " +
+            log.info("There has been an error during an invocation of the filler method." +
+                    "Please, check if a filler method you are trying to invoke has " +
+                    "not been declared private. This error may also occur if there has " +
                     "been an error during an actual work of the given method. In this " +
-                    "case please, check an implementation once again.");
+                    "case please, check an implementation once again. Initial cause: " +
+                    e.getCause());
         }
         return generatedArray;
     }
@@ -143,7 +151,7 @@ public class XlsService implements Writing {
             log.info("GenerationStrategy object failed to be instantiated." +
                     "Please, check whether the class you are trying to instantiate " +
                     "has a nullary constructor or you are not trying to instantiate " +
-                    "an abstract class or interface");
+                    "an abstract class or interface. Initial cause: " + e.getCause());
         }
         return generationStrategy;
     }
@@ -155,7 +163,11 @@ public class XlsService implements Writing {
                     .newInstance(sortRepresentationQueue);
         } catch (InstantiationException | IllegalAccessException |
                 NoSuchMethodException | InvocationTargetException e) {
-            log.info("instantiateSortingAlgorithm EXCEPTION");
+            log.info("Sorting object failed to be instantiated." +
+                    "Please check whether a correct parameter type has been specified for the" +
+                    "constructor, nor you are not trying to instantiate " +
+                    "an abstract class or interface. The following may also occur if there is " +
+                    "no such method under the requested class. Initial cause: " + e.getCause());
         }
         return sortingAlgorithm;
     }

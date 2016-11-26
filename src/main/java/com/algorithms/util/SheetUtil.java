@@ -8,23 +8,21 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static com.algorithms.util.WorkbookSingleton.getWorkbookSingleton;
+
 /**
  * @author Zemlianiy
  * @version 1.0
  */
 public class SheetUtil {
 
-    public static final String DEFAULT_SHEET_NAME = "Default";
-    private HSSFWorkbook workbook;
     private HSSFSheet sheet;
+    //sheet util class works on the same workbook
+    private HSSFWorkbook workbook = getWorkbookSingleton();
 
-    public SheetUtil() {
-        this.workbook = new HSSFWorkbook();
-        this.sheet = workbook.createSheet(DEFAULT_SHEET_NAME);
-    }
-
-    public void createSheet(String sheetName) {
-        this.sheet = this.workbook.createSheet(sheetName);
+    public SheetUtil(String sheetName) {
+        this.workbook = getWorkbookSingleton();
+        this.sheet = workbook.createSheet(sheetName);
     }
 
     public void createMultipleRows(int numberOfRows) {
