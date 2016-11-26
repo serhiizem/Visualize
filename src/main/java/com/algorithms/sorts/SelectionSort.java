@@ -35,8 +35,9 @@ public class SelectionSort extends Queueable implements Sorting {
             for(int j = i; j < n; j++) {
                 if(isLess(array[j], array[minimum])) minimum = j;
             }
-            this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
+            this.putIntermediateResultInAQueue(array);
             swap(array, i, minimum);
         }
+        this.elapsedTime = nanoTime() - startTime;
     }
 }

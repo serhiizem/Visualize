@@ -17,8 +17,8 @@ import javax.swing.text.StyledEditorKit;
 public abstract class Queueable {
 
     private boolean isAnalysed;
-
     private Queue<SortRepresentation> sortRepresentationQueue;
+    protected Long elapsedTime;
 
     public Queueable(Queue<SortRepresentation> sortRepresentationQueue) {
         this.sortRepresentationQueue = sortRepresentationQueue;
@@ -32,10 +32,14 @@ public abstract class Queueable {
         return isAnalysed;
     }
 
-    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult, Long intermediate) {
+    public Long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult) {
         if(!isAnalysed) {
             sortRepresentationQueue
-                    .enqueue(new SortRepresentation(intermediateResult.clone(), intermediate));
+                    .enqueue(new SortRepresentation(intermediateResult.clone()));
         }
     }
 }

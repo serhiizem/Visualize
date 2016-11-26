@@ -19,8 +19,6 @@ import static java.lang.System.nanoTime;
 @Component("mergeSort")
 public class MergeSort extends Queueable implements Sorting {
 
-    private long startTime;
-
     public MergeSort(Queue<SortRepresentation> sortRepresentationQueue) {
         super(sortRepresentationQueue);
     }
@@ -28,9 +26,10 @@ public class MergeSort extends Queueable implements Sorting {
     @Sorter
     @Override
     public void sort(Comparable[] array) {
-        startTime = nanoTime();
+        long startTime = nanoTime();
         Comparable[] helper = new Comparable[array.length];
         sort(array, helper, 0, array.length - 1);
+        this.elapsedTime = nanoTime() - startTime;
     }
 
     private void sort(Comparable[] array, Comparable[] helper, int low, int high) {
@@ -56,7 +55,7 @@ public class MergeSort extends Queueable implements Sorting {
             else if(isLess(helper[j], helper[i])) array[k] = helper[j++];
             else array[k] = helper[i++];
         }
-        this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
+        this.putIntermediateResultInAQueue(array);
     }
 
     private void populateArrayFromLowToHigh(Comparable[] array,

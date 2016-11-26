@@ -8,21 +8,15 @@ import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
 import com.algorithms.util.SheetUtil;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Random;
-
-import static org.reflections.ReflectionUtils.getMethods;
-import static org.reflections.ReflectionUtils.withAnnotation;
 
 /**
  * Manages process of writing result of the sorting
@@ -33,82 +27,142 @@ import static org.reflections.ReflectionUtils.withAnnotation;
  * @since
  */
 @Service
+@SuppressWarnings("unchecked")
 public class XlsService implements Writing {
 
     private static final Logger log = LoggerFactory.getLogger(XlsService.class);
 
-    public static final int BEGINNING_OF_THE_TABLE = 1;
+    public static final int FIRST_ROW_OF_THE_TABLE = 1;
+    public static final int FIRST_COLUMN_OF_THE_TABLE = 1;
+    public static final int NUMBER_OF_ALGORITHMS = 7;
     private Queue<SortRepresentation> sortRepresentationQueue;
-    private Random random = new Random(47);
+    private Reflections reflections;
+    private Random random;
 
     @Autowired
     public XlsService(Queue<SortRepresentation> sortRepresentationQueue) {
         this.sortRepresentationQueue = sortRepresentationQueue;
+        reflections = new Reflections("com.algorithms");
+        random = new Random(47);
     }
 
-    /**
-     *
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws InvocationTargetException
-     * @throws NoSuchMethodException
-     * @throws IOException
-     */
     @Override
-    public void generateStatistics() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, IOException {
+    public void generateStatistics() {
+        int rowIndex = FIRST_ROW_OF_THE_TABLE;
+        int columnIndex = FIRST_COLUMN_OF_THE_TABLE;
 
-        Comparable[] generatedArray;
+        SheetUtil sheetUtil = new SheetUtil();
+        for (Class<?> strategyClass : reflections.getSubTypesOf(GenerationStrategy.class)) {
+            sheetUtil.createSheet(strategyClass.getSimpleName());
+            sheetUtil.createMultipleRows(NUMBER_OF_ALGORITHMS);
 
-        Reflections reflections = new Reflections("com.algorithms");
+            log.info("Starting filler: {}", strategyClass.getSimpleName());
+            for (int n = 5; n < 25; n += 5) {
+                Range range = getSampleDataRange(n);
 
-        int rowIndex = 1;
-        int columnIndex = 1;
+                Comparable[] generatedArray = createArrayFromRangeUsingGivenStrategy(range, strategyClass);
+                for (Class<?> sortClass : reflections.getSubTypesOf(Sorting.class)) {
+                    Comparable[] valuesToSort = generatedArray.clone();
+                    log.info("Starting sortClass: {}, for the number of elements: {}",
+                            sortClass.getSimpleName(), n);
+                    Sorting sortingAlgorithmObject = this.instantiateSortingAlgorithm(sortClass);
+                    this.sortArrayWithTheGivenAlgorithm(valuesToSort, sortClass, sortingAlgorithmObject);
 
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        for (Class<?> gen : reflections.getSubTypesOf(GenerationStrategy.class)) {
-            SheetUtil sheetUtil = new SheetUtil(workbook, gen.getSimpleName());
-            sheetUtil.createMultipleRows(7);
+                    Long elapsedTime = this.getElapsedTimeForTheGivenSort(sortClass, sortingAlgorithmObject);
 
-            GenerationStrategy gs = (GenerationStrategy) gen.newInstance();
-            for (Method generateMethod : getMethods(gen, withAnnotation(Filler.class))) {
-                log.info("Starting filler: {}", gen.getSimpleName());
-                for (int i = 5; i < 25; i += 5) {
-                    log.info("For number of elements: {}", i);
-                    Range range = getSampleDataRange(i);
-                    generatedArray = (Comparable[]) generateMethod.invoke(gs,
+                    sheetUtil.createHeaderForRow(rowIndex, sortClass.getSimpleName());
+                    sheetUtil.createHeaderForColumn(columnIndex, n);
+                    sheetUtil.writeValueToCell(rowIndex++, columnIndex, elapsedTime);
+                }
+                columnIndex++;
+                rowIndex = FIRST_ROW_OF_THE_TABLE;
+            }
+            columnIndex = FIRST_COLUMN_OF_THE_TABLE;
+
+            sheetUtil.writeToFile("sortsReport.xls");
+        }
+    }
+    //java.lang.IllegalArgumentException: object is not an instance of declaring class
+    private Long getElapsedTimeForTheGivenSort(Class sortingClass,
+                                               Sorting sortingAlgorithmObject) {
+        Long elapsedTime = null;
+        try {
+            elapsedTime = (Long) sortingClass.getSuperclass()
+                    .getMethod("getElapsedTime").invoke(sortingAlgorithmObject);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            log.info("EXCEPTION");
+        }
+        return elapsedTime;
+    }
+
+    private void sortArrayWithTheGivenAlgorithm(Comparable[] arrayToSort,
+                                                Class algorithmClass,
+                                                Sorting objectToInstantiateOn) {
+        try {
+            Method[] declaredMethods = algorithmClass.getDeclaredMethods();
+            for (Method method : declaredMethods) {
+                Sorter sorterAnnotation = method.getAnnotation(Sorter.class);
+                if (sorterAnnotation != null) {
+                    method.invoke(objectToInstantiateOn, new Object[]{arrayToSort});
+                }
+            }} catch(IllegalAccessException | InvocationTargetException e){
+            e.printStackTrace();
+        }
+    }
+
+    private Comparable[] createArrayFromRangeUsingGivenStrategy(Range range,
+                                                                Class strategyClass) {
+        Comparable[] generatedArray = null;
+        try {
+            Method[] declaredMethods = strategyClass.getDeclaredMethods();
+            for (Method method : declaredMethods) {
+                Filler fillerAnnotation = method.getAnnotation(Filler.class);
+                if (fillerAnnotation != null) {
+                    GenerationStrategy generationStrategy =
+                            this.instantiateStrategy(strategyClass);
+                    generatedArray = (Comparable[]) method.invoke(generationStrategy,
                             range.getArraySize(), range.getMinValue(), range.getMaxValue());
-
-                    for (Class<?> sort : reflections.getSubTypesOf(Sorting.class)) {
-                        Comparable[] valuesToSort = generatedArray.clone();
-                        Sorting sorting = (Sorting) sort.getConstructor(Queue.class)
-                                .newInstance(sortRepresentationQueue);
-                        for(Method sortMethod: getMethods(sort, withAnnotation(Sorter.class))) {
-                            log.info("Starting sort: {}", sort.getSimpleName());
-                            sortMethod.invoke(sorting, new Object[]{valuesToSort});
-                        }
-                        SortRepresentation last = sortRepresentationQueue.getLast();
-                        Long elapsedTime = last.getElapsedTime();
-
-                        sheetUtil.createHeaderForRow(rowIndex, sort.getSimpleName());
-
-                        sheetUtil.createHeaderForColumn(columnIndex, i);
-
-                        sheetUtil.writeValueToCell(rowIndex++, columnIndex, elapsedTime);
-                    }
-                    columnIndex++;
-                    rowIndex = BEGINNING_OF_THE_TABLE;
                 }
             }
-            columnIndex = 1;
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            log.info("There has been an error during an invocation of a filler method." +
+                    "Please, check if the a filler method you are trying to invoke has " +
+                    "not been declared private. This Error may also occur if there has " +
+                    "been an error during an actual work of the given method. In this " +
+                    "case please, check an implementation once again.");
         }
+        return generatedArray;
+    }
 
-        try (FileOutputStream outputStream = new FileOutputStream("sorts.xlsx")) {
-            workbook.write(outputStream);
+    private GenerationStrategy instantiateStrategy(Class strategyClass) {
+        GenerationStrategy generationStrategy = null;
+        try {
+            generationStrategy =
+                    (GenerationStrategy) strategyClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            log.info("GenerationStrategy object failed to be instantiated." +
+                    "Please, check whether the class you are trying to instantiate " +
+                    "has a nullary constructor or you are not trying to instantiate " +
+                    "an abstract class or interface");
         }
+        return generationStrategy;
+    }
+
+    private Sorting instantiateSortingAlgorithm(Class sortingClass) {
+        Sorting sortingAlgorithm = null;
+        try {
+            sortingAlgorithm = (Sorting) sortingClass.getConstructor(Queue.class)
+                    .newInstance(sortRepresentationQueue);
+        } catch (InstantiationException | IllegalAccessException |
+                NoSuchMethodException | InvocationTargetException e) {
+            log.info("instantiateSortingAlgorithm EXCEPTION");
+        }
+        return sortingAlgorithm;
     }
 
     private Range getSampleDataRange(int rangeSize) {
         int minValue = random.nextInt(rangeSize);
+        // max value should be four times larger than min value
         int maxValue = random.nextInt(rangeSize) + 4 * rangeSize;
 
         return new Range(rangeSize, minValue, maxValue);

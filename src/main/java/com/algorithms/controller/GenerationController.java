@@ -29,8 +29,6 @@ import java.lang.reflect.InvocationTargetException;
 @Controller
 public class GenerationController {
 
-    private static final Logger log = LoggerFactory.getLogger(GenerationController.class);
-
     private GenerationFactory generationFactory;
     private XlsService xlsService;
 
@@ -64,11 +62,7 @@ public class GenerationController {
      */
     @PostMapping(value = "/generateXls")
     public String generateXls() {
-        try {
-            xlsService.generateStatistics();
-        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException | IOException e) {
-            e.printStackTrace();
-        }
+        xlsService.generateStatistics();
         return "redirect:/showGenerationPage";
     }
 
@@ -81,7 +75,7 @@ public class GenerationController {
      */
     @PostMapping(value = "/generateArray")
     public ModelAndView getGeneratedArray(@ModelAttribute(value = "generationRequest")
-                                          GenerationRequest generationRequest,
+                                                  GenerationRequest generationRequest,
                                           ModelAndView mav) {
         GenerationStrategy generationStrategy = this.getGenerationAlgorithm(generationRequest);
         Range range = generationRequest.getRange();

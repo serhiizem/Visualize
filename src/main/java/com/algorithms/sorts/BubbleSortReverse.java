@@ -28,16 +28,16 @@ public class BubbleSortReverse extends Queueable implements Sorting {
     @Sorter
     @Override
     public void sort(Comparable[] array) {
-
         long startTime = nanoTime();
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if(Sorting.isLess(array[j + 1], array[j])) {
-                    this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
+                    this.putIntermediateResultInAQueue(array);
                     swap(array, j, j + 1);
                 }
             }
         }
-        this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
+        this.elapsedTime = nanoTime() - startTime;
+        this.putIntermediateResultInAQueue(array);
     }
 }

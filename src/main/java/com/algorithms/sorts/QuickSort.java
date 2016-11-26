@@ -22,7 +22,6 @@ import static java.lang.System.nanoTime;
 @Component("quickSort")
 public class QuickSort extends Queueable implements Sorting {
 
-    private long startTime;
     private Comparator<Comparable> comparator; // in order to use QuickSort algorithm in generation classes
 
     @Autowired
@@ -36,7 +35,8 @@ public class QuickSort extends Queueable implements Sorting {
     public void sort(Comparable[] array) {
         long startTime = nanoTime();
         quickSort(0, array.length - 1, array);
-        putIntermediateResultInAQueue(array, nanoTime() - startTime);
+        putIntermediateResultInAQueue(array);
+        this.elapsedTime = nanoTime() - startTime;
     }
 
     private void quickSort(int left, int right, Comparable[] array) {
@@ -64,7 +64,7 @@ public class QuickSort extends Queueable implements Sorting {
             }
             if(i <= j) {
                 swap(array, i, j);
-                putIntermediateResultInAQueue(array, nanoTime() - startTime);
+                putIntermediateResultInAQueue(array);
                 i++;
                 j--;
             }
