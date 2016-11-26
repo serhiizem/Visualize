@@ -7,12 +7,17 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @SuppressWarnings("Duplicates")
 @Component("descendingGeneration")
 public class DescendingGeneration extends GenerationStrategy {
 
     /**
-     * Method that provides an array generation in descending order
+     * Method that provides a descending array generation
      *
      * @param arraySize size of the resulting array
      * @param minValue  minimum value in te resulting array

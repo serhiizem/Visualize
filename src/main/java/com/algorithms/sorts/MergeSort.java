@@ -1,14 +1,21 @@
 package com.algorithms.sorts;
 
 import com.algorithms.annotations.Sorter;
-import com.algorithms.util.Queue;
 import com.algorithms.entity.SortRepresentation;
+import com.algorithms.util.Queue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.algorithms.sorts.Sorting.isLess;
-import static java.lang.System.currentTimeMillis;
 import static java.lang.System.nanoTime;
 
+/**
+ * Default implementation of the merge sort algorithm
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Component("mergeSort")
 public class MergeSort extends Queueable implements Sorting {
 

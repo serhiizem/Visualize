@@ -6,6 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+/**
+ * Responsible for sending intermediate results
+ * of the sorting process to the user subscribed
+ * to the required channel
+ *
+ * @author Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Service
 public class DefaultSendService implements SendService {
 

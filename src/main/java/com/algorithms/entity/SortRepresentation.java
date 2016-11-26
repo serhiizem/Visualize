@@ -2,6 +2,13 @@ package com.algorithms.entity;
 
 import java.util.Arrays;
 
+/**
+ *  Class responsible for the representation of intermediate results
+ *  of the sorting process
+ *
+ *  @author Zemlianiy
+ *  @version 1.0
+ */
 public class SortRepresentation {
 
     private Comparable[] intermediateResult;

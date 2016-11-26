@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @SuppressWarnings("Duplicates")
 @Component("randomAppendedGeneration")
 public class SortedArrayRandomAppendedGeneration extends GenerationStrategy {

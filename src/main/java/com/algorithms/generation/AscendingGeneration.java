@@ -6,12 +6,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+/**
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @SuppressWarnings("Duplicates")
 @Component("ascendingGeneration")
 public class AscendingGeneration extends GenerationStrategy {
 
     /**
-     * Method that provides an array generation in ascending order
+     * Method that provides an ascending array generation
      *
      * @param arraySize size of the resulting array
      * @param minValue  minimum value in te resulting array

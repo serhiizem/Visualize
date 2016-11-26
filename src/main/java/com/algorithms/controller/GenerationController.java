@@ -19,6 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Manages requests related to array generation
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Controller
 public class GenerationController {
 
@@ -66,11 +73,11 @@ public class GenerationController {
     }
 
     /**
-     * Generates an array based on the data stored in the
+     * Generates an array of type based on the data stored in the
      * fields of {@link GenerationRequest} object.
      *
-     * @param       generationRequest object which is
-     *              being extracted from the model
+     * @param generationRequest object which is
+     *        being extracted from the model
      */
     @PostMapping(value = "/generateArray")
     public ModelAndView getGeneratedArray(@ModelAttribute(value = "generationRequest")

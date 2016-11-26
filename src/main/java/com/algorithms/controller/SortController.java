@@ -19,6 +19,13 @@ import java.util.Arrays;
 
 import static com.algorithms.entity.AlgorithmType.valueOf;
 
+/**
+ * Manages requests related to sorting process
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Controller
 public class SortController {
 
@@ -41,6 +48,9 @@ public class SortController {
     }
 
     /**
+     * When user accesses corresponding endpoint, performs sorting
+     * process upon the array extracted from the request
+     *
      * @param sortDetails object that is used to extract information
      *                    about the sort process to be performed
      */
@@ -61,7 +71,7 @@ public class SortController {
      *
      * @see SortRepresentation
      */
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 1000)
     public void sendMessage() {
         if(!sortRepresentationQueue.isEmpty()) {
             sendService.sendIntermediateResult();

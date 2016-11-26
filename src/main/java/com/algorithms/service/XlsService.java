@@ -2,10 +2,13 @@ package com.algorithms.service;
 
 import com.algorithms.annotations.Filler;
 import com.algorithms.annotations.Sorter;
+import com.algorithms.entity.Range;
 import com.algorithms.entity.SortRepresentation;
 import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
+import com.algorithms.util.SheetUtil;
+import com.algorithms.util.XlsUtil;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -23,50 +26,56 @@ import java.util.Random;
 import static org.reflections.ReflectionUtils.getMethods;
 import static org.reflections.ReflectionUtils.withAnnotation;
 
+/**
+ * Manages process of writing result of the sorting
+ * analysis into an xls file
+ *
+ * @author Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Service
 public class XlsService implements Writing {
 
     private Queue<SortRepresentation> sortRepresentationQueue;
-    private Reflections reflections = new Reflections("com.algorithms");
-    private HSSFWorkbook workbook = new HSSFWorkbook();
+    private Random random = new Random(47);
 
     @Autowired
     public XlsService(Queue<SortRepresentation> sortRepresentationQueue) {
         this.sortRepresentationQueue = sortRepresentationQueue;
     }
 
+    /**
+     *
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws IOException
+     */
     @Override
     public void generateStatistics() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, IOException {
 
-        Comparable[] generatedArray = null;
-
-        Random random = new Random(47);
-
-        int arraySize;
-        int minValue;
-        int maxValue;
+        Comparable[] generatedArray;
 
         Reflections reflections = new Reflections("com.algorithms");
 
-        int rowCount = 1;
-        int columnCount = 1;
+        int rowIndex = 1;
+        int columnIndex = 1;
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         for (Class<?> gen : reflections.getSubTypesOf(GenerationStrategy.class)) {
-
-            HSSFSheet sheet = workbook.createSheet(gen.getSimpleName());
-            HSSFRow header = sheet.createRow(0);
-            for (int j = 1; j < 8; j++) {
-                sheet.createRow(j);
-            }
+            SheetUtil sheetUtil = new SheetUtil(workbook);
+            sheetUtil.createSheet(gen.getSimpleName());
+            sheetUtil.createMultipleRows(7);
 
             GenerationStrategy gs = (GenerationStrategy) gen.newInstance();
             for (Method generateMethod : getMethods(gen, withAnnotation(Filler.class))) {
                 for (int i = 5; i < 30; i += 5) {
-                    arraySize = i;
-                    minValue = random.nextInt(arraySize);
-                    maxValue = random.nextInt(arraySize) + 4 * arraySize;
-                    generatedArray = (Comparable[]) generateMethod.invoke(gs, arraySize, minValue, maxValue);
+                    Range range = getSampleDataRange(i);
+                    generatedArray = (Comparable[]) generateMethod.invoke(gs,
+                            range.getArraySize(), range.getMinValue(), range.getMaxValue());
+
                     for (Class<?> sort : reflections.getSubTypesOf(Sorting.class)) {
                         Comparable[] valuesToSort = generatedArray.clone();
                         Sorting sorting = (Sorting) sort.getConstructor(Queue.class)
@@ -76,24 +85,30 @@ public class XlsService implements Writing {
                         }
                         SortRepresentation last = sortRepresentationQueue.getLast();
                         Long elapsedTime = last.getElapsedTime();
-                        HSSFCell headerCell = sheet.getRow(rowCount).createCell(0);
-                        headerCell.setCellValue(sort.getSimpleName());
 
-                        HSSFCell headerRowCell = header.createCell(columnCount);
-                        headerRowCell.setCellValue("length:" + i);
+                        sheetUtil.createHeaderForRow(rowIndex, sort.getSimpleName());
 
-                        HSSFCell cell = sheet.getRow(rowCount++).createCell(columnCount);
-                        cell.setCellValue(elapsedTime);
+                        sheetUtil.createHeaderForCloumn(columnIndex, i);
+
+                        sheetUtil.writeValueToCell(rowIndex, columnIndex, elapsedTime);
+
                     }
-                    columnCount++;
-                    rowCount = 1;
+                    columnIndex++;
+                    rowIndex = 1;
                 }
             }
-            columnCount = 1;
+            columnIndex = 1;
         }
 
         try (FileOutputStream outputStream = new FileOutputStream("sorts.xlsx")) {
             workbook.write(outputStream);
         }
+    }
+
+    private Range getSampleDataRange(int rangeSize) {
+        int minValue = random.nextInt(rangeSize);
+        int maxValue = random.nextInt(rangeSize) + 4 * rangeSize;
+
+        return new Range(rangeSize, minValue, maxValue);
     }
 }

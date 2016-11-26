@@ -12,6 +12,13 @@ import static com.algorithms.sorts.Sorting.swap;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.System.nanoTime;
 
+/**
+ * Default implementation of the quick sort algorithm
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Component("quickSort")
 public class QuickSort extends Queueable implements Sorting {
 

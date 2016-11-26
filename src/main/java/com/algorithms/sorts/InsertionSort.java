@@ -11,6 +11,13 @@ import static com.algorithms.sorts.Sorting.swap;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.System.nanoTime;
 
+/**
+ * Default implementation of the insertion sort algorithm
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Component("insertionSort")
 public class InsertionSort extends Queueable implements Sorting {
 

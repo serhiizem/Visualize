@@ -4,12 +4,17 @@ import com.algorithms.annotations.Filler;
 import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @SuppressWarnings("Duplicates")
 @Component("randomGeneration")
 public class RandomGeneration extends GenerationStrategy {
 
     /**
-     * Method that provides an array generation in random order
+     * Method that provides an array arranged in random order
      *
      * @param arraySize size of the resulting array
      * @param minValue  minimum value in te resulting array

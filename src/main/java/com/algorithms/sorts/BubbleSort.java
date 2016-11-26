@@ -11,6 +11,13 @@ import static com.algorithms.sorts.Sorting.swap;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.System.nanoTime;
 
+/**
+ * Default implementation of the bubble sort algorithm
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Component("bubbleSort")
 public class BubbleSort extends Queueable implements Sorting {
 

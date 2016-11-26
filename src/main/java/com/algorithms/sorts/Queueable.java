@@ -3,7 +3,20 @@ package com.algorithms.sorts;
 import com.algorithms.util.Queue;
 import com.algorithms.entity.SortRepresentation;
 
+import javax.swing.text.StyledEditorKit;
+
+/**
+ * Base class which is being extended by all the sorting
+ * algorithm implementations, which means that an intermediate
+ * result of the computation can be placed in a {@link Queue}
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 public abstract class Queueable {
+
+    private boolean isAnalysed;
 
     private Queue<SortRepresentation> sortRepresentationQueue;
 
@@ -11,8 +24,18 @@ public abstract class Queueable {
         this.sortRepresentationQueue = sortRepresentationQueue;
     }
 
-    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult, Long elapsedTime) {
-        sortRepresentationQueue
-                .enqueue(new SortRepresentation(intermediateResult.clone(), elapsedTime));
+    public void setAnalysed(Boolean analysed) {
+        isAnalysed = analysed;
+    }
+
+    public boolean isAnalysed() {
+        return isAnalysed;
+    }
+
+    protected void putIntermediateResultInAQueue(Comparable[] intermediateResult, Long intermediate) {
+        if(!isAnalysed) {
+            sortRepresentationQueue
+                    .enqueue(new SortRepresentation(intermediateResult.clone(), intermediate));
+        }
     }
 }

@@ -8,6 +8,10 @@ import com.algorithms.generation.GenerationStrategy;
  * via defined algorithm
  *
  * @see GenerationStrategy
+ *
+ * @author Zemlianiy
+ * @version 1.0
+ * @since
  */
 public class GenerationService {
 

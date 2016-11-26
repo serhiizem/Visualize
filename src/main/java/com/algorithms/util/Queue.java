@@ -5,6 +5,14 @@ import org.springframework.stereotype.Component;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Serves as a container for {@link com.algorithms.entity.SortRepresentation}
+ * objects.
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since
+ */
 @Component
 public class Queue<Item> implements Iterable<Item> {
 
