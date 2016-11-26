@@ -10,23 +10,20 @@ public class SheetUtil {
     private HSSFWorkbook workbook;
     private HSSFSheet sheet;
 
-    public SheetUtil(HSSFWorkbook workbook) {
+    public SheetUtil(HSSFWorkbook workbook, String sheetName) {
         this.workbook = workbook;
-    }
-
-    public void createSheet(String sheetName) {
-        this.sheet = workbook.createSheet(sheetName);
+        this.sheet = this.workbook.createSheet(sheetName);
     }
 
     public void createMultipleRows(int numberOfRows) {
-        for (int j = 1; j < numberOfRows + 1; j++) {
+        for (int j = 0; j < numberOfRows + 1; j++) {
             sheet.createRow(j);
         }
     }
 
-    public void createHeaderForCloumn(int columnIndex, Object headerName) {
-        HSSFRow header = sheet.createRow(0);
-        HSSFCell headerRowCell = header.createCell(columnIndex);
+    public void createHeaderForColumn(int columnIndex, Object headerName) {
+        HSSFRow headerRow = sheet.getRow(0);
+        HSSFCell headerRowCell = headerRow.createCell(columnIndex);
         headerRowCell.setCellValue("length:" + headerName);
     }
 

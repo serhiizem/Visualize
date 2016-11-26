@@ -8,12 +8,10 @@ import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.sorts.Sorting;
 import com.algorithms.util.Queue;
 import com.algorithms.util.SheetUtil;
-import com.algorithms.util.XlsUtil;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +35,9 @@ import static org.reflections.ReflectionUtils.withAnnotation;
 @Service
 public class XlsService implements Writing {
 
+    private static final Logger log = LoggerFactory.getLogger(XlsService.class);
+
+    public static final int BEGINNING_OF_THE_TABLE = 1;
     private Queue<SortRepresentation> sortRepresentationQueue;
     private Random random = new Random(47);
 
@@ -65,13 +66,14 @@ public class XlsService implements Writing {
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         for (Class<?> gen : reflections.getSubTypesOf(GenerationStrategy.class)) {
-            SheetUtil sheetUtil = new SheetUtil(workbook);
-            sheetUtil.createSheet(gen.getSimpleName());
+            SheetUtil sheetUtil = new SheetUtil(workbook, gen.getSimpleName());
             sheetUtil.createMultipleRows(7);
 
             GenerationStrategy gs = (GenerationStrategy) gen.newInstance();
             for (Method generateMethod : getMethods(gen, withAnnotation(Filler.class))) {
-                for (int i = 5; i < 30; i += 5) {
+                log.info("Starting filler: {}", gen.getSimpleName());
+                for (int i = 5; i < 25; i += 5) {
+                    log.info("For number of elements: {}", i);
                     Range range = getSampleDataRange(i);
                     generatedArray = (Comparable[]) generateMethod.invoke(gs,
                             range.getArraySize(), range.getMinValue(), range.getMaxValue());
@@ -81,6 +83,7 @@ public class XlsService implements Writing {
                         Sorting sorting = (Sorting) sort.getConstructor(Queue.class)
                                 .newInstance(sortRepresentationQueue);
                         for(Method sortMethod: getMethods(sort, withAnnotation(Sorter.class))) {
+                            log.info("Starting sort: {}", sort.getSimpleName());
                             sortMethod.invoke(sorting, new Object[]{valuesToSort});
                         }
                         SortRepresentation last = sortRepresentationQueue.getLast();
@@ -88,13 +91,12 @@ public class XlsService implements Writing {
 
                         sheetUtil.createHeaderForRow(rowIndex, sort.getSimpleName());
 
-                        sheetUtil.createHeaderForCloumn(columnIndex, i);
+                        sheetUtil.createHeaderForColumn(columnIndex, i);
 
-                        sheetUtil.writeValueToCell(rowIndex, columnIndex, elapsedTime);
-
+                        sheetUtil.writeValueToCell(rowIndex++, columnIndex, elapsedTime);
                     }
                     columnIndex++;
-                    rowIndex = 1;
+                    rowIndex = BEGINNING_OF_THE_TABLE;
                 }
             }
             columnIndex = 1;

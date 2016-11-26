@@ -39,7 +39,8 @@ public class DefaultAlgorithmFactory implements AlgorithmFactory {
     public Sorting getSortingAlgorithm(AlgorithmType type) {
         switch (type) {
             case BUBBLE_SORT:
-                return bubbleSort;
+                break;
+//                return bubbleSort;
             case BUBBLE_SORT_REVERSE:
                 return bubbleSortReverse;
             case INSERTION_SORT:

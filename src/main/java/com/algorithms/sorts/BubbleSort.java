@@ -3,6 +3,8 @@ package com.algorithms.sorts;
 import com.algorithms.annotations.Sorter;
 import com.algorithms.entity.SortRepresentation;
 import com.algorithms.util.Queue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ import static java.lang.System.nanoTime;
 @Component("bubbleSort")
 public class BubbleSort extends Queueable implements Sorting {
 
+    private static final Logger log = LoggerFactory.getLogger(BubbleSort.class);
+//    private Long elapsedTime; //TODO : EVALUATE ELAPSED TIME
+
     @Autowired
     public BubbleSort(Queue<SortRepresentation> sortRepresentationQueue) {
         super(sortRepresentationQueue);
@@ -29,16 +34,20 @@ public class BubbleSort extends Queueable implements Sorting {
     @Sorter
     @Override
     public void sort(Comparable[] array) {
-
+        log.info("*********************************************************");
         long startTime = nanoTime();
         for (int i = 0; i < array.length; i++) {
             for (int j = array.length - 1; j > i; j--) {
                 if (isLess(array[j], (array[j-1]))) {
+                    log.info("Swapping items with indices: {{},{}}", j, j-1);
                     this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
                     swap(array, j, j - 1);
                 }
             }
         }
+        log.info("*********************************************************");
+
+//        elapsedTime = nanoTime() - startTime;
         this.putIntermediateResultInAQueue(array, nanoTime() - startTime);
     }
 }

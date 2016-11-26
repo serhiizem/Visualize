@@ -27,8 +27,7 @@ public class SortInvocation {
 
     @Test
     public void shouldInvokeAllTheMethodsAnnotatedWithAtSorterAndAtFiller()
-            throws InstantiationException, IllegalAccessException,
-            InvocationTargetException, NoSuchMethodException {
+            throws Exception {
 
         Comparable[] generatedArray = null;
         Reflections reflections = new Reflections("com.algorithms");
@@ -47,7 +46,6 @@ public class SortInvocation {
             Method setAnalysedMethod = c.getSuperclass().getDeclaredMethod("setAnalysed", Boolean.class);
             setAnalysedMethod.invoke(sorting, true);
             for(Method m: getMethods(c, withAnnotation(Sorter.class))) {
-
                 m.invoke(sorting, new Object[] {generatedArray});
             }
         }
