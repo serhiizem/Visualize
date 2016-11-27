@@ -5,19 +5,14 @@ import com.algorithms.entity.GenerationType;
 import com.algorithms.entity.Range;
 import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.service.GenerationService;
-import com.algorithms.service.XlsService;
+import com.algorithms.service.SortsStatisticsService;
 import com.algorithms.util.factories.GenerationFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Manages requests related to array generation
@@ -30,18 +25,18 @@ import java.lang.reflect.InvocationTargetException;
 public class GenerationController {
 
     private GenerationFactory generationFactory;
-    private XlsService xlsService;
+    private SortsStatisticsService xlsService;
 
     @Autowired
     public GenerationController(GenerationFactory generationFactory,
-                                XlsService xlsService) {
+                                SortsStatisticsService xlsService) {
         this.generationFactory = generationFactory;
         this.xlsService = xlsService;
     }
 
     /**
-     * Populates {@code ModelAndView} object with the instances
-     * required for the further interaction at view page
+     * Populates {@code ModelAndView} object with instances
+     * required for the further interaction at a view page
      */
     @GetMapping(value = "/showGenerationPage")
     public ModelAndView getGenerationPage(ModelAndView mav) {
@@ -57,7 +52,7 @@ public class GenerationController {
     }
 
     /**
-     * Generates xls report concerning speed of the various
+     * Generates xls report regarding speed of the various
      * algorithms implemented in the project
      */
     @PostMapping(value = "/generateXls")

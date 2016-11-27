@@ -1,8 +1,8 @@
 package com.algorithms.util.factories;
 
+import com.algorithms.entity.AlgorithmType;
 import com.algorithms.exceptions.NoSuchAlgorithmException;
 import com.algorithms.sorts.Sorting;
-import com.algorithms.entity.AlgorithmType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -39,8 +39,7 @@ public class DefaultAlgorithmFactory implements AlgorithmFactory {
     public Sorting getSortingAlgorithm(AlgorithmType type) {
         switch (type) {
             case BUBBLE_SORT:
-                break;
-//                return bubbleSort;
+                return bubbleSort;
             case BUBBLE_SORT_REVERSE:
                 return bubbleSortReverse;
             case INSERTION_SORT:
@@ -54,6 +53,6 @@ public class DefaultAlgorithmFactory implements AlgorithmFactory {
             case JAVA_SORT:
                 return javaSort;
         }
-        throw new NoSuchAlgorithmException("Algorithm was not specified!");
+        throw new NoSuchAlgorithmException("Algorithm was not specified");
     }
 }

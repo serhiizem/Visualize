@@ -1,4 +1,4 @@
-package com.algorithms.service;
+package com.algorithms.service.interfaces;
 
 public interface SendService {
     void sendIntermediateResult();

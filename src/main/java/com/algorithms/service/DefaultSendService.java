@@ -1,5 +1,6 @@
 package com.algorithms.service;
 
+import com.algorithms.service.interfaces.SendService;
 import com.algorithms.util.Queue;
 import com.algorithms.entity.SortRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;

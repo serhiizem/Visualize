@@ -20,8 +20,8 @@ public class DescendingGeneration extends GenerationStrategy {
      * Method that provides a descending array generation
      *
      * @param arraySize size of the resulting array
-     * @param minValue  minimum value in te resulting array
-     * @param maxValue  maximum value in te resulting array
+     * @param minValue  minimum value in the resulting array
+     * @param maxValue  maximum value in the resulting array
      *
      * @return array of {@Comparable}s rearranged in descending order
      */

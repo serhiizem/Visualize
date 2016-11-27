@@ -23,8 +23,8 @@ public class SortedArrayRandomAppendedGeneration extends GenerationStrategy {
      * with additional random element inserted at the end of the array
      *
      * @param arraySize size of the resulting array
-     * @param minValue  minimum value in te resulting array
-     * @param maxValue  maximum value in te resulting array
+     * @param minValue  minimum value in the resulting array
+     * @param maxValue  maximum value in the resulting array
      */
     @Filler
     @Override
