@@ -1,7 +1,10 @@
 package com.algorithms.exceptions;
 
-public class FillerInvocationException extends RuntimeException {
-    public FillerInvocationException(String message, ReflectiveOperationException e) {
-        super(message, e);
+import com.algorithms.generation.GenerationStrategy;
+
+public class FillerInvocationException extends InvocationException {
+    public FillerInvocationException(GenerationStrategy fillerObject,
+                                     String name, ReflectiveOperationException e) {
+        super(fillerObject, e);
     }
 }

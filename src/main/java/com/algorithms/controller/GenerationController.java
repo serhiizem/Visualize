@@ -57,7 +57,7 @@ public class GenerationController {
      */
     @PostMapping(value = "/generateXls")
     public String generateXls() {
-        xlsService.generateStatistics();
+        xlsService.writeReport();
         return "redirect:/showGenerationPage";
     }
 

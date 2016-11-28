@@ -16,3 +16,11 @@ while (generated.size() < numbersNeeded)
 /**** SPECIFIC RANGE *****/
 
 random.nextInt(max - min + 1) + min
+
+
+Comparable[] generatedArray = randomGeneration
+                .generateArrayFromRange(5, 5, 10);
+
+Comparable[] validItems = new Comparable[]{9, 8, 7, 6, 5};
+
+assertThat(generatedArray, Matchers.arrayContaining(validItems));

@@ -9,26 +9,28 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
-public class RandomGenerationTest {
+public class SortedArrayRandomAppendedGenerationTest {
 
-    private RandomGeneration randomGeneration;
+    private SortedArrayRandomAppendedGeneration appendedGeneration;
 
     @Before
     public void setUp() throws Exception {
-        randomGeneration = new RandomGeneration();
+        appendedGeneration = new SortedArrayRandomAppendedGeneration();
     }
 
     @Test
     public void shouldGenerateValuesFromTheSpecifiedRange() {
-        Comparable[] generatedArray = randomGeneration
-                .generateArrayFromRange(5, 5, 10);
+        //given
+        Comparable[] generatedArray = appendedGeneration
+                .generateArrayFromRange(5, 5, 11);
 
+        //then
         Arrays.stream(generatedArray)
                 .forEach(a -> assertThat(a.compareTo(5),
                         greaterThanOrEqualTo(0)));
 
         Arrays.stream(generatedArray)
-                .forEach(a -> assertThat(a.compareTo(10),
+                .forEach(a -> assertThat(a.compareTo(11),
                         lessThanOrEqualTo(0)));
     }
 }

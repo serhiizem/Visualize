@@ -48,7 +48,7 @@ public class SortsStatisticsService implements Writing {
     }
 
     @Override
-    public void generateStatistics() {
+    public void writeReport() {
         int rowIndex = FIRST_ROW_OF_THE_TABLE;
         int columnIndex = FIRST_COLUMN_OF_THE_TABLE;
 
@@ -69,7 +69,7 @@ public class SortsStatisticsService implements Writing {
                             sortClass.getSimpleName(), n);
                     Sorting sortingAlgorithmObject = this.instantiateSortingAlgorithm(sortClass);
                     this.preventQueueToBeFilledByTheSort(sortingAlgorithmObject);
-                    this.sortArrayWithTheGivenAlgorithm(valuesToSort, sortClass, sortingAlgorithmObject);
+                    this.sortArrayWithTheGivenAlgorithm(valuesToSort, sortingAlgorithmObject);
                     Long elapsedTime = this.getElapsedTimeForTheGivenSort(sortingAlgorithmObject);
 
                     sheetUtil.createHeaderForRow(rowIndex, sortClass.getSimpleName());
@@ -86,71 +86,80 @@ public class SortsStatisticsService implements Writing {
     }
 
     private void preventQueueToBeFilledByTheSort(Sorting sortingAlgorithmObject) {
+        Method setAnalysed;
         try {
-            sortingAlgorithmObject.getClass().getSuperclass().getMethod("setAnalysed", Boolean.class)
-                    .invoke(sortingAlgorithmObject, true);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            setAnalysed =
+                    this.getMethodFromParentClass(sortingAlgorithmObject, "setAnalysed", Boolean.class);
+            setAnalysed.invoke(sortingAlgorithmObject, true);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+
         }
     }
 
     private Long getElapsedTimeForTheGivenSort(Sorting sortingAlgorithmObject) {
         Long elapsedTime = null;
+        Method elapsedTimeGetter =
+                this.getMethodFromParentClass(sortingAlgorithmObject, "getElapsedTime");
         try {
-            elapsedTime = (Long) sortingAlgorithmObject.getClass().getSuperclass()
-                    .getMethod("getElapsedTime").invoke(sortingAlgorithmObject);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.info("You have tried to invoke getElapsedTime() method, but it has failed." +
-                    "It may be caused by the number of facts: 1) There is no such method on " +
-                    "the class you are trying to invoke it on.  2) Given method has been declared " +
-                    "private 3) There has been an error during an actual work of the given method. " +
-                    "In this case please, check an implementation once again. Initial cause: " +
-                    e.getCause());
+            elapsedTime = (Long) elapsedTimeGetter.invoke(sortingAlgorithmObject);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+
         }
         return elapsedTime;
     }
 
-    private void sortArrayWithTheGivenAlgorithm(Comparable[] arrayToSort,
-                                                Class algorithmClass,
-                                                Sorting objectToInstantiateOn) {
+    private Method getMethodFromParentClass(Object object, String methodName, Class... args) {
+        Method requestedMethod = null;
         try {
-            Method[] declaredMethods = algorithmClass.getDeclaredMethods();
-            for (Method method : declaredMethods) {
-                Sorter sorterAnnotation = method.getAnnotation(Sorter.class);
-                if (sorterAnnotation != null) {
-                    method.invoke(objectToInstantiateOn, new Object[]{arrayToSort});
-                }
-            }} catch(IllegalAccessException | InvocationTargetException e){
-            log.info("There has been an error during an invocation of the sorter method." +
-                    "Please, check if a sorter method you are trying to invoke has " +
-                    "not been declared private. This error may also occur if there has " +
-                    "been an error during an actual work of the given method. In this " +
-                    "case please, check an implementation once again. Initial cause: " +
-                    e.getCause());
+            requestedMethod = object.getClass().getSuperclass()
+                    .getMethod(methodName, args);
+        } catch (NoSuchMethodException e) {
+
+        }
+        return requestedMethod;
+    }
+
+    private void sortArrayWithTheGivenAlgorithm(Comparable[] arrayToSort,
+                                                Sorting sortingObject) {
+        Method[] declaredMethods = sortingObject.getClass().getDeclaredMethods();
+        for (Method method : declaredMethods) {
+            Sorter sorterAnnotation = method.getAnnotation(Sorter.class);
+            if (sorterAnnotation != null) {
+                this.invokeSortingMethodOnArray(sortingObject, method, arrayToSort);
+            }
+        }
+    }
+
+    private void invokeSortingMethodOnArray(Sorting sortingObject, Method method, Comparable[] arrayToSort) {
+        try {
+            method.invoke(sortingObject, new Object[]{arrayToSort});
+        } catch (IllegalAccessException | InvocationTargetException e) {
+
+        }
+    }
+
+    private Comparable[] invokeGenerationMethodOnRange(GenerationStrategy generationStrategy, Method method, Range range) {
+        try {
+            return (Comparable[]) method.invoke(generationStrategy,
+                    range.getArraySize(), range.getMinValue(), range.getMaxValue());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new FillerInvocationException(generationStrategy, method.getName(), e);
         }
     }
 
     private Comparable[] createArrayFromRangeUsingGivenStrategy(Range range,
                                                                 Class strategyClass) {
         Comparable[] generatedArray = null;
-        try {
-            Method[] declaredMethods = strategyClass.getDeclaredMethods();
-            for (Method method : declaredMethods) {
-                Filler fillerAnnotation = method.getAnnotation(Filler.class);
-                if (fillerAnnotation != null) {
-                    GenerationStrategy generationStrategy =
-                            this.instantiateStrategy(strategyClass);
-                    generatedArray = (Comparable[]) method.invoke(generationStrategy,
-                            range.getArraySize(), range.getMinValue(), range.getMaxValue());
-                }
+        GenerationStrategy generationStrategy;
+        Method[] declaredMethods = strategyClass.getDeclaredMethods();
+        for (Method method : declaredMethods) {
+            Filler fillerAnnotation = method.getAnnotation(Filler.class);
+            if (fillerAnnotation != null) {
+                generationStrategy =
+                        this.instantiateStrategy(strategyClass);
+                generatedArray =
+                        this.invokeGenerationMethodOnRange(generationStrategy, method, range);
             }
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            log.info("There has been an error during an invocation of the filler method." +
-                    "Please, check if a filler method you are trying to invoke has " +
-                    "not been declared private. This error may also occur if there has " +
-                    "been an error during an actual work of the given method. In this " +
-                    "case please, check an implementation once again. Initial cause: ");
-            throw new FillerInvocationException("", e);
         }
         return generatedArray;
     }
