@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.reflections.Reflections;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.reflections.ReflectionUtils.getMethods;

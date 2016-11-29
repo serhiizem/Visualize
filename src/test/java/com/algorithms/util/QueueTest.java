@@ -21,14 +21,5 @@ public class QueueTest {
     @Test
     public void shouldEnqueue() {
 
-        for(SortRepresentation sr: queue) {
-            System.out.println(sr.toString());
-        }
-        /*
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
-        */
     }
 }

@@ -3,13 +3,11 @@ package com.algorithms.generation;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
-public class SortedArrayRandomAppendedGenerationTest {
+@SuppressWarnings("unchecked")
+public class SortedArrayRandomAppendedGenerationTest extends GenerationTest {
 
     private SortedArrayRandomAppendedGeneration appendedGeneration;
 
@@ -20,17 +18,24 @@ public class SortedArrayRandomAppendedGenerationTest {
 
     @Test
     public void shouldGenerateValuesFromTheSpecifiedRange() {
-        //given
+        //when
         Comparable[] generatedArray = appendedGeneration
-                .generateArrayFromRange(5, 5, 11);
+                .generateArrayFromRange(ARRAY_SIZE, GENERATOR_MIN_VALUE, GENERATOR_MAX_VALUE);
 
         //then
-        Arrays.stream(generatedArray)
-                .forEach(a -> assertThat(a.compareTo(5),
-                        greaterThanOrEqualTo(0)));
+        this.assertArrayHasEveryElementGreaterThan(generatedArray, GENERATOR_MIN_VALUE);
+        this.assertArrayHasEveryElementLessThan(generatedArray, GENERATOR_MAX_VALUE);
+    }
+    
+    @Test
+    public void shouldGenerateValuesInAscendingOrderExceptTheLastOne() {
+        //when
+        Comparable[] generatedArray = appendedGeneration
+                .generateArrayFromRange(ARRAY_SIZE, GENERATOR_MIN_VALUE, GENERATOR_MAX_VALUE);
 
-        Arrays.stream(generatedArray)
-                .forEach(a -> assertThat(a.compareTo(11),
-                        lessThanOrEqualTo(0)));
+        //then
+        for (int i = 1; i < generatedArray.length - 1; i++) {
+            assertThat(generatedArray[i - 1], lessThanOrEqualTo(generatedArray[i]));
+        }
     }
 }

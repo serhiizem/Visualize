@@ -4,7 +4,13 @@ import com.algorithms.annotations.Filler;
 import com.algorithms.annotations.Sorter;
 import com.algorithms.entity.Range;
 import com.algorithms.entity.SortRepresentation;
+import com.algorithms.exceptions.ElapsedTimeInvocationException;
 import com.algorithms.exceptions.FillerInvocationException;
+import com.algorithms.exceptions.GenerationStrategyInvocationException;
+import com.algorithms.exceptions.NoSuchParentMethodException;
+import com.algorithms.exceptions.QueueDeactivatingInvocationException;
+import com.algorithms.exceptions.SortingAlgorithmInstantiationException;
+import com.algorithms.exceptions.SortingMethodInvocationException;
 import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.service.interfaces.Writing;
 import com.algorithms.sorts.Sorting;
@@ -20,15 +26,11 @@ import java.lang.reflect.Method;
 import java.util.Random;
 
 /**
- * Manages process of writing result of the sorting
- * analysis into an xls file
- *
  * @author Zemlianiy
  * @version 1.0
  * @since
  */
 @Service
-@SuppressWarnings("unchecked")
 public class SortsStatisticsService implements Writing {
 
     private static final Logger log = LoggerFactory.getLogger(SortsStatisticsService.class);
@@ -62,8 +64,6 @@ public class SortsStatisticsService implements Writing {
                 Comparable[] generatedArray = createArrayFromRangeUsingGivenStrategy(range, strategyClass);
 
                 for (Class<?> sortClass : reflections.getSubTypesOf(Sorting.class)) {
-
-
                     Comparable[] valuesToSort = generatedArray.clone();
                     log.info("Starting sortClass: {}, for the number of elements: {}",
                             sortClass.getSimpleName(), n);
@@ -85,38 +85,57 @@ public class SortsStatisticsService implements Writing {
         }
     }
 
-    private void preventQueueToBeFilledByTheSort(Sorting sortingAlgorithmObject) {
-        Method setAnalysed;
+    private void preventQueueToBeFilledByTheSort(Sorting sortingObject) {
+        Method setAnalysed = null;
         try {
             setAnalysed =
-                    this.getMethodFromParentClass(sortingAlgorithmObject, "setAnalysed", Boolean.class);
-            setAnalysed.invoke(sortingAlgorithmObject, true);
+                    this.getMethodFromObjectParentClass(sortingObject, "setAnalysed", Boolean.class);
+            setAnalysed.invoke(sortingObject, true);
         } catch (IllegalAccessException | InvocationTargetException e) {
-
+            throw new QueueDeactivatingInvocationException(sortingObject, setAnalysed, e);
         }
     }
 
     private Long getElapsedTimeForTheGivenSort(Sorting sortingAlgorithmObject) {
-        Long elapsedTime = null;
-        Method elapsedTimeGetter =
-                this.getMethodFromParentClass(sortingAlgorithmObject, "getElapsedTime");
+        Method elapsedTimeGetter = null;
         try {
-            elapsedTime = (Long) elapsedTimeGetter.invoke(sortingAlgorithmObject);
+            elapsedTimeGetter =
+                    this.getMethodFromObjectParentClass(sortingAlgorithmObject, "getElapsedTime");
+            return (Long) elapsedTimeGetter.invoke(sortingAlgorithmObject);
         } catch (IllegalAccessException | InvocationTargetException e) {
-
+            throw new ElapsedTimeInvocationException(sortingAlgorithmObject, elapsedTimeGetter, e);
         }
-        return elapsedTime;
     }
 
-    private Method getMethodFromParentClass(Object object, String methodName, Class... args) {
-        Method requestedMethod = null;
+    private void invokeSortingMethodOnArray(Sorting sortingObject,
+                                            Method method,
+                                            Comparable[] arrayToSort) {
+        try {
+            method.invoke(sortingObject, new Object[]{arrayToSort});
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new SortingMethodInvocationException(sortingObject, method, e);
+        }
+    }
+
+    private Comparable[] invokeGenerationMethodOnRange(GenerationStrategy generationStrategy,
+                                                       Method method, Range range) {
+        try {
+            return (Comparable[]) method.invoke(generationStrategy,
+                    range.getArraySize(), range.getMinValue(), range.getMaxValue());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new FillerInvocationException(generationStrategy, method, e);
+        }
+    }
+
+    private Method getMethodFromObjectParentClass(Object object, String methodName, Class... args) {
+        Method requestedMethod;
         try {
             requestedMethod = object.getClass().getSuperclass()
                     .getMethod(methodName, args);
+            return requestedMethod;
         } catch (NoSuchMethodException e) {
-
+            throw new NoSuchParentMethodException(object, methodName, e);
         }
-        return requestedMethod;
     }
 
     private void sortArrayWithTheGivenAlgorithm(Comparable[] arrayToSort,
@@ -127,23 +146,6 @@ public class SortsStatisticsService implements Writing {
             if (sorterAnnotation != null) {
                 this.invokeSortingMethodOnArray(sortingObject, method, arrayToSort);
             }
-        }
-    }
-
-    private void invokeSortingMethodOnArray(Sorting sortingObject, Method method, Comparable[] arrayToSort) {
-        try {
-            method.invoke(sortingObject, new Object[]{arrayToSort});
-        } catch (IllegalAccessException | InvocationTargetException e) {
-
-        }
-    }
-
-    private Comparable[] invokeGenerationMethodOnRange(GenerationStrategy generationStrategy, Method method, Range range) {
-        try {
-            return (Comparable[]) method.invoke(generationStrategy,
-                    range.getArraySize(), range.getMinValue(), range.getMaxValue());
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new FillerInvocationException(generationStrategy, method.getName(), e);
         }
     }
 
@@ -165,33 +167,21 @@ public class SortsStatisticsService implements Writing {
     }
 
     private GenerationStrategy instantiateStrategy(Class strategyClass) {
-        GenerationStrategy generationStrategy = null;
         try {
-            generationStrategy =
-                    (GenerationStrategy) strategyClass.newInstance();
+            return (GenerationStrategy) strategyClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            log.info("GenerationStrategy object failed to be instantiated." +
-                    "Please, check whether the class you are trying to instantiate " +
-                    "has a nullary constructor or you are not trying to instantiate " +
-                    "an abstract class or interface. Initial cause: " + e.getCause());
+            throw new GenerationStrategyInvocationException(strategyClass, e);
         }
-        return generationStrategy;
     }
 
     private Sorting instantiateSortingAlgorithm(Class sortingClass) {
-        Sorting sortingAlgorithm = null;
         try {
-            sortingAlgorithm = (Sorting) sortingClass.getConstructor(Queue.class)
+            return (Sorting) sortingClass.getConstructor(Queue.class)
                     .newInstance(sortRepresentationQueue);
         } catch (InstantiationException | IllegalAccessException |
                 NoSuchMethodException | InvocationTargetException e) {
-            log.info("Sorting object failed to be instantiated." +
-                    "Please check whether a correct parameter type has been specified for the" +
-                    "constructor, nor you are not trying to instantiate " +
-                    "an abstract class or interface. The following may also occur if there is " +
-                    "no such method under the requested class. Initial cause: " + e.getCause());
+            throw new SortingAlgorithmInstantiationException(sortingClass, e);
         }
-        return sortingAlgorithm;
     }
 
     private Range getSampleDataRange(int rangeSize) {

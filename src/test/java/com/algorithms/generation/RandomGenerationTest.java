@@ -3,13 +3,7 @@ package com.algorithms.generation;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
-
-public class RandomGenerationTest {
+public class RandomGenerationTest extends GenerationTest {
 
     private RandomGeneration randomGeneration;
 
@@ -21,14 +15,9 @@ public class RandomGenerationTest {
     @Test
     public void shouldGenerateValuesFromTheSpecifiedRange() {
         Comparable[] generatedArray = randomGeneration
-                .generateArrayFromRange(5, 5, 10);
+                .generateArrayFromRange(ARRAY_SIZE, GENERATOR_MIN_VALUE, GENERATOR_MAX_VALUE);
 
-        Arrays.stream(generatedArray)
-                .forEach(a -> assertThat(a.compareTo(5),
-                        greaterThanOrEqualTo(0)));
-
-        Arrays.stream(generatedArray)
-                .forEach(a -> assertThat(a.compareTo(10),
-                        lessThanOrEqualTo(0)));
+        this.assertArrayHasEveryElementLessThan(generatedArray, GENERATOR_MAX_VALUE);
+        this.assertArrayHasEveryElementGreaterThan(generatedArray, GENERATOR_MIN_VALUE);
     }
 }

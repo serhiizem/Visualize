@@ -24,3 +24,13 @@ Comparable[] generatedArray = randomGeneration
 Comparable[] validItems = new Comparable[]{9, 8, 7, 6, 5};
 
 assertThat(generatedArray, Matchers.arrayContaining(validItems));
+
+
+    public InvocationException(String targetClassName,
+                               Throwable cause) {
+        super("There has been an error during an invocation of the " +
+                "the filler method of class " + targetClassName +
+                ". Please, check if a filler method you are trying to invoke has " +
+                "not been declared private. This error may also occur if there has " +
+                "been an error during an actual work of the given method. ", cause);
+    }
