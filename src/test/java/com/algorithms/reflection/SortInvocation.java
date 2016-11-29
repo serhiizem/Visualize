@@ -18,10 +18,12 @@ import static org.reflections.ReflectionUtils.withAnnotation;
 public class SortInvocation {
 
     private Queue<SortRepresentation> sortRepresentationQueue;
+    private Reflections reflections;
 
     @Before
     public void setUp() throws Exception {
         sortRepresentationQueue = new Queue<>();
+        reflections= new Reflections("com.algorithms");
     }
 
     @Test
@@ -29,9 +31,7 @@ public class SortInvocation {
             throws Exception {
 
         Comparable[] generatedArray = null;
-        Reflections reflections = new Reflections("com.algorithms");
         for(Class<?> c: reflections.getSubTypesOf(GenerationStrategy.class)) {
-            System.out.println(c.getCanonicalName());
             for(Method m: getMethods (c, withAnnotation(Filler.class))) {
                 GenerationStrategy gs = (GenerationStrategy) c.newInstance();
                 generatedArray = (Comparable[]) m.invoke(gs, 10, 20, 50);
@@ -39,7 +39,6 @@ public class SortInvocation {
         }
 
         for(Class<?> c: reflections.getSubTypesOf(Sorting.class)) {
-            System.out.println(c.getCanonicalName());
             Sorting sorting = (Sorting) c.getConstructor(Queue.class)
                     .newInstance(sortRepresentationQueue);
             Method setAnalysedMethod = c.getSuperclass().getDeclaredMethod("setAnalysed", Boolean.class);
