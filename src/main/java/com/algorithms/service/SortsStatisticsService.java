@@ -63,9 +63,8 @@ public class SortsStatisticsService implements Writing {
             for (int n = 5; n < 25; n += 5) {
                 Range range = getSampleDataRange(n);
                 Comparable[] generatedArray = createArrayFromRangeUsingGivenStrategy(range, strategyClass);
-
+                Comparable[] valuesToSort = generatedArray.clone();
                 for (Class<?> sortClass : reflections.getSubTypesOf(Sorting.class)) {
-                    Comparable[] valuesToSort = generatedArray.clone();
                     log.info("Starting sortClass: {}, for the number of elements: {}",
                             sortClass.getSimpleName(), n);
                     Sorting sortingAlgorithmObject = this.instantiateSortingAlgorithm(sortClass);
@@ -82,7 +81,7 @@ public class SortsStatisticsService implements Writing {
             }
             columnIndex = FIRST_COLUMN_OF_THE_TABLE;
 
-            sheetUtil.createChart();
+//            sheetUtil.createChart();
             sheetUtil.writeToFile(OUTPUT_FILE);
         }
     }

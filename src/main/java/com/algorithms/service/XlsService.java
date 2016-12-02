@@ -17,6 +17,12 @@ import org.apache.poi.ss.usermodel.charts.LegendPosition;
 import org.apache.poi.ss.usermodel.charts.LineChartData;
 import org.apache.poi.ss.usermodel.charts.ValueAxis;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,9 +34,9 @@ import static com.algorithms.util.WorkbookSingleton.getWorkbookSingleton;
  * @version 1.0
  */
 public class XlsService {
-    private HSSFSheet sheet;
+    private XSSFSheet sheet;
     //sheet util class works on the same workbook
-    private HSSFWorkbook workbook;
+    private XSSFWorkbook workbook;
 
     public XlsService(String sheetName) {
         this.workbook = getWorkbookSingleton();
@@ -44,33 +50,34 @@ public class XlsService {
     }
 
     public void createHeaderForColumn(int columnIndex, Object headerName) {
-        HSSFRow headerRow = sheet.getRow(0);
-        HSSFCell headerRowCell = headerRow.createCell(columnIndex);
+        XSSFRow headerRow = sheet.getRow(0);
+        XSSFCell headerRowCell = headerRow.createCell(columnIndex);
         headerRowCell.setCellValue("length:" + headerName);
     }
 
     public void createHeaderForRow(int rowIndex, String headerName) {
-        HSSFCell headerCell = sheet.getRow(rowIndex).createCell(0);
+        XSSFCell headerCell = sheet.getRow(rowIndex).createCell(0);
         headerCell.setCellValue(headerName);
     }
 
     public void writeValueToCell(int cellRow, int cellColumn, Long value) {
-        HSSFCell cell = sheet.getRow(cellRow).createCell(cellColumn);
+        XSSFCell cell = sheet.getRow(cellRow).createCell(cellColumn);
         cell.setCellValue(value);
     }
 
     public void writeToFile(String fileName) {
         try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
             workbook.write(outputStream);
+            outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void createChart() {
-        HSSFPatriarch xlsx_drawing = sheet.createDrawingPatriarch();
+        XSSFDrawing xlsx_drawing = sheet.createDrawingPatriarch();
 
-        HSSFClientAnchor anchor = xlsx_drawing.createAnchor(0, 0, 0, 0, 0, 5, 10, 15);
+        XSSFClientAnchor anchor = xlsx_drawing.createAnchor(0, 0, 0, 0, 0, 5, 10, 15);
 
         Chart my_line_chart = xlsx_drawing.createChart(anchor);
 
