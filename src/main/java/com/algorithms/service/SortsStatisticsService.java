@@ -38,6 +38,7 @@ public class SortsStatisticsService implements Writing {
     public static final int FIRST_ROW_OF_THE_TABLE = 1;
     public static final int FIRST_COLUMN_OF_THE_TABLE = 1;
     public static final int NUMBER_OF_ALGORITHMS = 7;
+    public static final String OUTPUT_FILE = "sortsReport.xls";
     private Queue<SortRepresentation> sortRepresentationQueue;
     private Reflections reflections;
     private Random random;
@@ -81,7 +82,8 @@ public class SortsStatisticsService implements Writing {
             }
             columnIndex = FIRST_COLUMN_OF_THE_TABLE;
 
-            sheetUtil.writeToFile("sortsReport.xls");
+            sheetUtil.createChart();
+            sheetUtil.writeToFile(OUTPUT_FILE);
         }
     }
 
