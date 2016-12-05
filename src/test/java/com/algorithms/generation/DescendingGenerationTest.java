@@ -1,7 +1,11 @@
 package com.algorithms.generation;
 
+import com.algorithms.exceptions.NonExistingArrayException;
+import com.algorithms.exceptions.RequestedArraySizeException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assert.assertThat;
@@ -10,6 +14,9 @@ import static org.junit.Assert.assertThat;
 public class DescendingGenerationTest extends GenerationTest {
 
     private DescendingGeneration descendingGeneration;
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -25,6 +32,17 @@ public class DescendingGenerationTest extends GenerationTest {
         //then
         this.assertArrayHasEveryElementLessThan(generatedArray, GENERATOR_MAX_VALUE);
         this.assertArrayHasEveryElementGreaterThan(generatedArray, GENERATOR_MIN_VALUE);
+    }
+
+    @Test
+    public void shouldThrowAnErrorInsufficientRangeForTheArray() {
+        exception.expect(RequestedArraySizeException.class);
+        exception.expectMessage("Your array will not contain duplicate " +
+                "values if it has size less or equal to the difference between " +
+                "its max and min values");
+
+        descendingGeneration
+                .generateArrayFromRange(ARRAY_SIZE, GENERATOR_MIN_VALUE, GENERATOR_MIN_VALUE);
     }
 
     @Test

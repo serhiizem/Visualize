@@ -41,16 +41,16 @@ public class AscendingGenerationTest extends GenerationTest {
                 .generateArrayFromRange(ARRAY_SIZE, GENERATOR_MIN_VALUE, GENERATOR_MAX_VALUE);
 
         //then
-        Arrays.stream(generatedArray)
+        /*Arrays.stream(generatedArray)
                 .forEach(a -> assertThat(a.compareTo(GENERATOR_MIN_VALUE),
                         greaterThanOrEqualTo(0)));
 
         Arrays.stream(generatedArray)
                 .forEach(a -> assertThat(a.compareTo(GENERATOR_MAX_VALUE),
-                        lessThanOrEqualTo(0)));
+                        lessThanOrEqualTo(0)));*/
 
-//        this.assertArrayHasEveryElementLessThan(generatedArray, GENERATOR_MAX_VALUE);
-//        this.assertArrayHasEveryElementGreaterThan(generatedArray, GENERATOR_MIN_VALUE);
+        this.assertArrayHasEveryElementLessThan(generatedArray, GENERATOR_MAX_VALUE);
+        this.assertArrayHasEveryElementGreaterThan(generatedArray, GENERATOR_MIN_VALUE);
     }
 
     @Test

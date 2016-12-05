@@ -40,8 +40,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.webjars:sockjs-client:1.0.2")
     compile("org.webjars:stomp-websocket:2.3.3")
-    compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
-    compile group: 'org.apache.poi', name: 'poi', version: '3.15'
+    compile("org.reflections:reflections:0.9.10")
+    compile("org.apache.poi:poi:3.15")
+    compile("org.apache.poi:poi-ooxml:3.15")
 
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')

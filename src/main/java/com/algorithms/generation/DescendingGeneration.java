@@ -1,6 +1,7 @@
 package com.algorithms.generation;
 
 import com.algorithms.annotations.Filler;
+import com.algorithms.exceptions.NonExistingArrayException;
 import com.algorithms.exceptions.RequestedArraySizeException;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +29,13 @@ public class DescendingGeneration extends GenerationStrategy {
     @Filler
     @Override
     public Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue) {
+
         int numberOfAvailableValues = maxValue - minValue;
 
         Comparable[] helper = new Comparable[numberOfAvailableValues];
         Comparable[] result = new Comparable[arraySize];
 
+        //TODO: as checked exception
         if(isLess(numberOfAvailableValues, arraySize)) {
             throw new RequestedArraySizeException("Your array will not contain duplicate " +
                     "values if it has size less or equal to the difference between " +

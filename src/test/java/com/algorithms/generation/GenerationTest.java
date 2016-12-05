@@ -8,9 +8,9 @@ import static org.junit.Assert.assertThat;
 
 public class GenerationTest {
 
-    public static final int ARRAY_SIZE = 5;
+    public static final int ARRAY_SIZE = 4;
     public static final int GENERATOR_MIN_VALUE = 5;
-    public static final int GENERATOR_MAX_VALUE = 11;
+    public static final int GENERATOR_MAX_VALUE = 10;
 
     protected void assertArrayHasEveryElementLessThan(Comparable[] arrayToCheck,
                                                     Integer value) {
