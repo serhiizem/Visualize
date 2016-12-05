@@ -2,9 +2,17 @@ package com.algorithms.sorts;
 
 import com.algorithms.entity.SortRepresentation;
 import com.algorithms.util.Queue;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static com.algorithms.util.TestUtil.getCorrectlySortedArrayFromInput;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItemInArray;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,5 +39,15 @@ public class BubbleSortTest extends SortTest {
 
         //then
         assertThat(sortedArray, is(CORRECT_RESULT));
+    }
+
+    @Test
+    public void shouldRetainAllTheElementsFromTheOriginalArray() {
+        //given
+        bubbleSort.sort(VALID_INPUT);
+        Comparable[] sortedArray = this.getSortedArrayFromQueue(sortRepresentationQueue);
+
+        //then
+        assertThat(Arrays.stream(sortedArray).collect(Collectors.toList()), hasItems(VALID_INPUT));
     }
 }

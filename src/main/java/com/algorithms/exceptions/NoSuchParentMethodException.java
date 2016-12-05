@@ -3,7 +3,8 @@ package com.algorithms.exceptions;
 /**
  * Done
  */
-public class NoSuchParentMethodException extends RuntimeException{
+//TODO: common exception
+public class NoSuchParentMethodException extends RuntimeException {
     public NoSuchParentMethodException(Object targetClass, String methodName, Throwable cause) {
         this("You are trying to get a method " + methodName + " which does not exist " +
                 "in the requested class " + targetClass.getClass().getSimpleName(), cause);

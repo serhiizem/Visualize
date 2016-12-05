@@ -1,5 +1,6 @@
 package com.algorithms.service;
 
+import com.algorithms.sorts.Sorting;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
@@ -23,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +36,8 @@ import static com.algorithms.util.WorkbookSingleton.getWorkbookSingleton;
  * @version 1.0
  */
 public class XlsService {
+
+
     private XSSFSheet sheet;
     //sheet util class works on the same workbook
     private XSSFWorkbook workbook;
@@ -48,6 +52,8 @@ public class XlsService {
             sheet.createRow(j);
         }
     }
+
+
 
     public void createHeaderForColumn(int columnIndex, Object headerName) {
         XSSFRow headerRow = sheet.getRow(0);
@@ -106,5 +112,9 @@ public class XlsService {
         data.addSeries(xs, ys6);
 
         my_line_chart.plot(data, new ChartAxis[] { bottomAxis, leftAxis });
+    }
+
+    public void writeEntry(String entryName, Long entryValue) {
+
     }
 }
