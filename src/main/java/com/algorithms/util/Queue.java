@@ -6,12 +6,26 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Serves as a container for {@link com.algorithms.entity.SortRepresentation}
- * objects.
+ * Defines a data structure that is being used as container for the various objects
+ * that encapsulate information needed for the program execution.
+ *
+ * <p>Because of the generic nature of the data structure it expects to be instantiated
+ * as follows:
+ *    <pre>
+ *          Queue&lt;GenericType&gt; queue = new Queue&lt;&gt;();
+ *    </pre>
+ *
+ * Data is put to the queue with help of the {@link #enqueue(Object)} method.
+ * Contents of the queue can be retrieved by {@link #dequeue()} method.
+ *
+ * The data structure is also capable of providing an {@code Iterator} over its
+ * elements. To make use of this {@code Iterator} just invoke {@link #iterator()}
+ * method.
+ * </p>
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Component
 public class Queue<Item> implements Iterable<Item> {

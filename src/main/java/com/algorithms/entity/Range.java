@@ -1,6 +1,17 @@
 package com.algorithms.entity;
 
+/**
+ * This class is used to produce objects that encapsulate information
+ * regarding boundaries and the size of the array which is to be generated
+ * by any implementation of {@link com.algorithms.generation.GenerationStrategy}
+ * class
+ *
+ * @author  Zemlianiy
+ * @version 1.0
+ * @since   1.0
+ */
 public class Range {
+
     private int arraySize;
     private int minValue;
     private int maxValue;

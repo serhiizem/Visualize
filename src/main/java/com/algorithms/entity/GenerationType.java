@@ -1,5 +1,11 @@
 package com.algorithms.entity;
 
+/**
+ * Enum class which helps to identify an implementation of {@code GenerationStrategy}
+ * abstract class which is requested to be used for the generation process
+ *
+ * @see com.algorithms.generation.GenerationStrategy
+ */
 public enum GenerationType {
 
     ASC_ORDER("Array sorted in ascending order"),
@@ -17,3 +23,4 @@ public enum GenerationType {
         return this.orderType;
     }
 }
+

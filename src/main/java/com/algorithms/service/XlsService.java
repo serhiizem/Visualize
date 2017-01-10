@@ -1,12 +1,7 @@
 package com.algorithms.service;
 
-import com.algorithms.sorts.Sorting;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import com.algorithms.entity.Entry;
+import com.algorithms.util.Queue;
 import org.apache.poi.ss.usermodel.Chart;
 import org.apache.poi.ss.usermodel.charts.AxisCrosses;
 import org.apache.poi.ss.usermodel.charts.AxisPosition;
@@ -24,51 +19,90 @@ import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
-import static com.algorithms.util.WorkbookSingleton.getWorkbookSingleton;
+import static com.algorithms.util.factories.DefaultAlgorithmFactory.NUMBER_OF_ALGORITHMS;
 
 /**
- * @author Zemlianiy
+ * This class provides public API that helps to write data into xls files. You can
+ * start using this class by instantiating it in a common way:
+ * <pre>
+ *     XlsService sheetUtil = new XlsService();
+ * </pre>
+ * A default constructor that is being invoked in this case makes sure that all the class
+ * fields are being initialized and are not null. For this reason after creation
+ * of any specific {@code XlsService} instance the resulting object will encapsulate a
+ * specific "Default" {@link XSSFSheet} object. Default sheet is designed to be replaced by
+ * the first custom {@link XSSFSheet}.
+ *
+ * @author  Zemlianiy
  * @version 1.0
+ * @since   1.0
  */
 public class XlsService {
 
+    public static final int HEADER_WIDTH = 1;
+    private static final int FIRST_ROW_OF_THE_TABLE = 1;
+    private static final int FIRST_COLUMN_OF_THE_TABLE = 1;
 
-    private XSSFSheet sheet;
+    private int rowIndex = FIRST_ROW_OF_THE_TABLE;
+    private int columnIndex = FIRST_COLUMN_OF_THE_TABLE;
+
+    public static final String DEFAULT_NAME = "Default";
     //sheet util class works on the same workbook
     private XSSFWorkbook workbook;
+    private XSSFSheet sheet;
 
-    public XlsService(String sheetName) {
-        this.workbook = getWorkbookSingleton();
+    public XlsService() {
+        this.workbook = new XSSFWorkbook();
+        this.sheet = this.workbook.createSheet(DEFAULT_NAME);
+    }
+
+    public void createActiveSheet(String sheetName) {
+        columnIndex = FIRST_COLUMN_OF_THE_TABLE;
+        XSSFSheet defaultSheet = workbook.getSheet(DEFAULT_NAME);
+        if(defaultSheet != null) {
+            workbook.removeSheetAt(0);
+        }
         this.sheet = workbook.createSheet(sheetName);
     }
 
+    public void fillColumn(List<Entry> values, String columnHeader) {
+        this.createHeaderForColumn(columnIndex, columnHeader);
+
+        values.forEach(v -> {
+            this.createHeaderForRow(rowIndex, v.getName());
+            this.writeValueToCell(v.getValue());
+            rowIndex++;
+        });
+
+        rowIndex = FIRST_ROW_OF_THE_TABLE;
+        columnIndex++;
+    }
+
     public void createMultipleRows(int numberOfRows) {
-        for (int j = 0; j < numberOfRows + 1; j++) {
-            sheet.createRow(j);
+        for (int i = 0; i < numberOfRows; i++) {
+            sheet.createRow(i);
         }
     }
 
-
-
-    public void createHeaderForColumn(int columnIndex, Object headerName) {
+    private void createHeaderForColumn(int columnIndex, String headerName) {
         XSSFRow headerRow = sheet.getRow(0);
         XSSFCell headerRowCell = headerRow.createCell(columnIndex);
-        headerRowCell.setCellValue("length:" + headerName);
+        headerRowCell.setCellValue(headerName);
     }
 
-    public void createHeaderForRow(int rowIndex, String headerName) {
+    private void createHeaderForRow(int rowIndex, String headerName) {
         XSSFCell headerCell = sheet.getRow(rowIndex).createCell(0);
         headerCell.setCellValue(headerName);
     }
 
-    public void writeValueToCell(int cellRow, int cellColumn, Long value) {
-        XSSFCell cell = sheet.getRow(cellRow).createCell(cellColumn);
-        cell.setCellValue(value);
+    private void writeValueToCell(Object value) {
+        XSSFCell cell = sheet.getRow(rowIndex).createCell(columnIndex);
+        cell.setCellValue((Long) value);
     }
 
     public void writeToFile(String fileName) {
@@ -81,40 +115,37 @@ public class XlsService {
     }
 
     public void createChart() {
-        XSSFDrawing xlsx_drawing = sheet.createDrawingPatriarch();
+        XSSFDrawing drawing = sheet.createDrawingPatriarch();
 
-        XSSFClientAnchor anchor = xlsx_drawing.createAnchor(0, 0, 0, 0, 0, 5, 10, 15);
+        XSSFClientAnchor anchor = drawing
+                .createAnchor(0, 0, 0, 0, 6, 0, 16, 15);
 
-        Chart my_line_chart = xlsx_drawing.createChart(anchor);
+        Chart lineChart = drawing.createChart(anchor);
 
-        ChartLegend legend = my_line_chart.getOrCreateLegend();
+        ChartLegend legend = lineChart.getOrCreateLegend();
         legend.setPosition(LegendPosition.BOTTOM);
 
-        LineChartData data = my_line_chart.getChartDataFactory().createLineChartData();
+        LineChartData data = lineChart.getChartDataFactory().createLineChartData();
 
-        ChartAxis bottomAxis = my_line_chart.getChartAxisFactory().createCategoryAxis(AxisPosition.BOTTOM);
-        ValueAxis leftAxis = my_line_chart.getChartAxisFactory().createValueAxis(AxisPosition.LEFT);
+        ChartAxis bottomAxis = lineChart.getChartAxisFactory().createCategoryAxis(AxisPosition.BOTTOM);
+        ValueAxis leftAxis = lineChart.getChartAxisFactory().createValueAxis(AxisPosition.LEFT);
         leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
 
-        ChartDataSource<Number> xs = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(1, 1, 1, 5));
-        ChartDataSource<Number> ys1 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(2, 2, 1, 5));
-        ChartDataSource<Number> ys2 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(3, 3, 1, 5));
-        ChartDataSource<Number> ys3 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(4, 4, 1, 5));
-        ChartDataSource<Number> ys4 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(5, 5, 1, 5));
-        ChartDataSource<Number> ys5 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(6, 6, 1, 5));
-        ChartDataSource<Number> ys6 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(7, 7, 1, 5));
+        Queue<ChartDataSource<Number>> numberSourceQueue = new Queue<>();
+        int rowIndex = FIRST_ROW_OF_THE_TABLE;
 
-        data.addSeries(xs, ys1);
-        data.addSeries(xs, ys2);
-        data.addSeries(xs, ys3);
-        data.addSeries(xs, ys4);
-        data.addSeries(xs, ys5);
-        data.addSeries(xs, ys6);
+        ChartDataSource<Number> xs = DataSources.fromNumericCellRange(sheet,
+                new CellRangeAddress(rowIndex, rowIndex++, 1, 4));
 
-        my_line_chart.plot(data, new ChartAxis[] { bottomAxis, leftAxis });
-    }
+        for (int i = 0; i < NUMBER_OF_ALGORITHMS - 1; i++) {
+            numberSourceQueue.enqueue(DataSources.fromNumericCellRange(sheet,
+                    new CellRangeAddress(rowIndex, rowIndex++, 1, 4)));
+        }
 
-    public void writeEntry(String entryName, Long entryValue) {
+        for (ChartDataSource<Number> numberChartDataSource : numberSourceQueue) {
+            data.addSeries(xs, numberChartDataSource);
+        }
 
+        lineChart.plot(data, new ChartAxis[] { bottomAxis, leftAxis });
     }
 }

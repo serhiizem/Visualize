@@ -1,8 +1,8 @@
 package com.algorithms.generation;
 
 /**
- * Defines an abstract {@code generateArrayFromRange} method which is to be
- * implemented to obtain a unique generation algorithm
+ * Class declares an abstract {@code generateArrayFromRange} method which is to be
+ * implemented in order to obtain a unique generation algorithm
  *
  * @see AscendingGeneration
  * @see DescendingGeneration
@@ -11,10 +11,6 @@ package com.algorithms.generation;
  */
 public abstract class GenerationStrategy {
     public abstract Comparable[] generateArrayFromRange(int arraySize, int minValue, int maxValue);
-
-    protected boolean isLess(int numberOfAvailableNumbers, int arraySize) {
-        return numberOfAvailableNumbers < arraySize;
-    }
 
     protected Comparable[] populateArrayWithNumbersFromRange(Comparable[] helper, int minValue, int maxValue) {
         int count = 0;

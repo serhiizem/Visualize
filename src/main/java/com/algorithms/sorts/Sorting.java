@@ -14,7 +14,7 @@ package com.algorithms.sorts;
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 public interface Sorting {
 

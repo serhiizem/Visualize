@@ -1,5 +1,6 @@
 package com.algorithms.controller;
 
+import com.algorithms.entity.AlgorithmType;
 import com.algorithms.entity.SortDetails;
 import com.algorithms.entity.SortRepresentation;
 import com.algorithms.service.DefaultSendService;
@@ -24,7 +25,7 @@ import static com.algorithms.entity.AlgorithmType.valueOf;
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Controller
 public class SortController {
@@ -57,7 +58,7 @@ public class SortController {
     @MessageMapping("/sort")
     public void startSort(SortDetails sortDetails) {
 
-        Integer[] arrayToSort = sortDetails.getArray();
+        Comparable[] arrayToSort = sortDetails.getArray();
         log.info("Array received the html page: {}", Arrays.toString(arrayToSort));
 
         Sorting algorithm = getSortingAlgorithm(sortDetails);

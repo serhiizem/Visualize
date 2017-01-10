@@ -15,7 +15,7 @@ import static java.lang.System.nanoTime;
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Component("selectionSort")
 public class SelectionSort extends Queueable implements Sorting {

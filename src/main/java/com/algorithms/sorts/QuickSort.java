@@ -17,7 +17,7 @@ import static java.lang.System.nanoTime;
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Component("quickSort")
 public class QuickSort extends Queueable implements Sorting {

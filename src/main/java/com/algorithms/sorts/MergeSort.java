@@ -14,7 +14,7 @@ import static java.lang.System.nanoTime;
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Component("mergeSort")
 public class MergeSort extends Queueable implements Sorting {

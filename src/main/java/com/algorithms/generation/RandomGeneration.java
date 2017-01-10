@@ -1,15 +1,21 @@
 package com.algorithms.generation;
 
 import com.algorithms.annotations.Filler;
-import com.algorithms.exceptions.RequestedArraySizeException;
+import com.algorithms.entity.GenerationType;
 import org.springframework.stereotype.Component;
 
 /**
+ * One of the classes used to produce sample data range for its further processing by various
+ * {@link com.algorithms.sorts.Sorting} interface implementations.
+ *
+ * <p>Instance of the following class is created by invoking an implementation of the factory method
+ * {@link com.algorithms.util.factories.GenerationFactory#getGenerationAlgorithm(GenerationType)}
+ * with a {@code GenerationType.RANDOM_ORDER} enum element passed as a parameter</p>
+ *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
-@SuppressWarnings("Duplicates")
 @Component("randomGeneration")
 public class RandomGeneration extends GenerationStrategy {
 
@@ -19,7 +25,6 @@ public class RandomGeneration extends GenerationStrategy {
      * @param arraySize size of the resulting array
      * @param minValue  minimum value in the resulting array
      * @param maxValue  maximum value in the resulting array
-     *
      * @return array of {@Comparable}s rearranged in random order
      */
     @Filler
@@ -29,12 +34,6 @@ public class RandomGeneration extends GenerationStrategy {
 
         Comparable[] helper = new Comparable[numberOfAvailableValues];
         Comparable[] result = new Comparable[arraySize];
-
-        if(isLess(numberOfAvailableValues, arraySize)) {
-            throw new RequestedArraySizeException("In order not to contain duplicates" +
-                    " array must have a size less than or equal to the difference between " +
-                    "its max and min values");
-        }
 
         this.populateArrayWithNumbersFromRange(helper, minValue, maxValue);
         helper = this.shuffle(helper);

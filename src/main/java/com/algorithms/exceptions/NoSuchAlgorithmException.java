@@ -1,6 +1,6 @@
 package com.algorithms.exceptions;
 
-public class NoSuchAlgorithmException extends RuntimeException{
+public class NoSuchAlgorithmException extends RuntimeException {
 
     public NoSuchAlgorithmException() {
     }

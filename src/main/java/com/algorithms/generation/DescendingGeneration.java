@@ -1,30 +1,34 @@
 package com.algorithms.generation;
 
 import com.algorithms.annotations.Filler;
-import com.algorithms.exceptions.NonExistingArrayException;
-import com.algorithms.exceptions.RequestedArraySizeException;
+import com.algorithms.entity.GenerationType;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 /**
+ * One of the classes used to produce sample data range for its further processing by various
+ * {@link com.algorithms.sorts.Sorting} interface implementations.
+ *
+ * <p>Instance of the following class is created by invoking an implementation of the factory method
+ * {@link com.algorithms.util.factories.GenerationFactory#getGenerationAlgorithm(GenerationType)}
+ * with a {@code GenerationType.DESC_ORDER} enum element passed as a parameter</p>
+ *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
-@SuppressWarnings("Duplicates")
 @Component("descendingGeneration")
 public class DescendingGeneration extends GenerationStrategy {
 
     /**
-     * Method that provides a descending array generation
+     * Method that provides a descending array generation.
      *
-     * @param arraySize size of the resulting array
-     * @param minValue  minimum value in the resulting array
-     * @param maxValue  maximum value in the resulting array
-     *
-     * @return array of {@Comparable}s rearranged in descending order
+     * @param  arraySize size of the resulting array
+     * @param  minValue minimum value in the resulting array
+     * @param  maxValue maximum value in the resulting array
+     * @return array of {@code Comparable}s rearranged in ascending order
      */
     @Filler
     @Override
@@ -34,13 +38,6 @@ public class DescendingGeneration extends GenerationStrategy {
 
         Comparable[] helper = new Comparable[numberOfAvailableValues];
         Comparable[] result = new Comparable[arraySize];
-
-        //TODO: as checked exception
-        if(isLess(numberOfAvailableValues, arraySize)) {
-            throw new RequestedArraySizeException("Your array will not contain duplicate " +
-                    "values if it has size less or equal to the difference between " +
-                    "its max and min values");
-        }
 
         this.populateArrayWithNumbersFromRange(helper, minValue, maxValue);
         helper = this.shuffle(helper);

@@ -8,13 +8,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * Responsible for sending intermediate results
- * of the sorting process to the user subscribed
- * to the required channel
+ * Responsible for sending intermediate results of the sorting process to
+ * the user subscribed to the required channel
  *
  * @author Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Service
 public class DefaultSendService implements SendService {

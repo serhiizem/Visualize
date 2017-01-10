@@ -7,14 +7,14 @@ import com.algorithms.generation.GenerationStrategy;
  * A data structure used to invoke an array generation
  * via defined algorithm
  *
+ * @see Range
  * @see GenerationStrategy
  *
- * @author Zemlianiy
+ * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 public class GenerationService {
-
     private Range range;
     private GenerationStrategy generationStrategy;
 
@@ -24,11 +24,11 @@ public class GenerationService {
     }
 
     public Comparable[] generateArray() {
-        int arraySize = range.getArraySize();
-        int minValue = range.getMinValue();
-        int maxValue = range.getMaxValue();
+        return this.getArrayOfSpecificSizeWithBounds();
+    }
 
-        return generationStrategy
-                .generateArrayFromRange(arraySize, minValue, maxValue);
+    private Comparable[] getArrayOfSpecificSizeWithBounds() {
+        return generationStrategy.generateArrayFromRange(range.getArraySize(),
+                range.getMinValue(), range.getMaxValue());
     }
 }

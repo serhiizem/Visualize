@@ -5,33 +5,40 @@ import com.algorithms.entity.GenerationType;
 import com.algorithms.entity.Range;
 import com.algorithms.generation.GenerationStrategy;
 import com.algorithms.service.GenerationService;
-import com.algorithms.service.SortsStatisticsService;
+import com.algorithms.service.StatisticsService;
 import com.algorithms.util.factories.GenerationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import com.algorithms.validation.GenerationRequestValidator;
 
 /**
  * Manages requests related to array generation
  *
  * @author  Zemlianiy
  * @version 1.0
- * @since
+ * @since   1.0
  */
 @Controller
 public class GenerationController {
 
     private GenerationFactory generationFactory;
-    private SortsStatisticsService xlsService;
+    private StatisticsService xlsService;
+    private GenerationRequestValidator validator;
 
     @Autowired
     public GenerationController(GenerationFactory generationFactory,
-                                SortsStatisticsService xlsService) {
+                                StatisticsService xlsService,
+                                GenerationRequestValidator validator) {
         this.generationFactory = generationFactory;
         this.xlsService = xlsService;
+        this.validator = validator;
     }
 
     /**
@@ -48,6 +55,11 @@ public class GenerationController {
 
     @GetMapping(value = "/generateArray")
     public String redirectToGenerationPage() {
+        return "redirect:/showGenerationPage";
+    }
+
+    @GetMapping(value = "/")
+    public String redirectToMainPageOnRawEndpoint() {
         return "redirect:/showGenerationPage";
     }
 
@@ -70,8 +82,14 @@ public class GenerationController {
      */
     @PostMapping(value = "/generateArray")
     public ModelAndView getGeneratedArray(@ModelAttribute(value = "generationRequest")
-                                                  GenerationRequest generationRequest,
+                                          @Validated GenerationRequest generationRequest,
+                                          BindingResult result,
                                           ModelAndView mav) {
+        Assert.notNull(generationRequest.getGenerationType());
+        validator.validate(generationRequest, result);
+        if(result.hasErrors()) {
+            return this.getDefaultModelAndView();
+        }
         GenerationStrategy generationStrategy = this.getGenerationAlgorithm(generationRequest);
         Range range = generationRequest.getRange();
         Comparable[] generatedArray = this.generateArrayFromRange(range, generationStrategy);
@@ -79,6 +97,12 @@ public class GenerationController {
         mav.addObject("generatedArray", generatedArray);
         mav.setViewName("array-generation");
         return mav;
+    }
+
+    private ModelAndView getDefaultModelAndView() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("array-generation");
+        return modelAndView;
     }
 
     /**
@@ -93,7 +117,8 @@ public class GenerationController {
         return generationFactory.getGenerationAlgorithm(generationType);
     }
 
-    private Comparable[] generateArrayFromRange(Range range, GenerationStrategy generationStrategy) {
+    private Comparable[] generateArrayFromRange(Range range,
+                                                GenerationStrategy generationStrategy) {
         GenerationService generationService = new GenerationService(range, generationStrategy);
         return generationService.generateArray();
     }

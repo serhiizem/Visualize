@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultAlgorithmFactory implements AlgorithmFactory {
 
+    public static final int NUMBER_OF_ALGORITHMS = 7;
+
     @Qualifier("bubbleSort")        private Sorting bubbleSort;
     @Qualifier("bubbleSortReverse") private Sorting bubbleSortReverse;
     @Qualifier("insertionSort")     private Sorting insertionSort;
