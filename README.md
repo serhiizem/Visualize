@@ -12,3 +12,5 @@ Technologies used:
 - **[Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html)**
 - **[Gradle](https://docs.gradle.org/current/userguide/userguide)**
 - **[Bootstrap](http://getbootstrap.com/getting-started/)**
+
+![alt tag](http://i.imgur.com/PSwji8r.png)
