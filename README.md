@@ -1,5 +1,4 @@
 # Visualize
-=====================
 
 A web application that helps to visualize work of the most famous algorithms.  
 _Still in development_
