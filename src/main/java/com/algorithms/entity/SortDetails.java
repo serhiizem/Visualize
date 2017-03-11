@@ -8,7 +8,7 @@ package com.algorithms.entity;
  * <pre>
  *     JSON.stringify({'array': array, 'sortType': $scope.sortType.value})
  * </pre>
- * The rest of the job should can be performed by frameworks. For example, Spring
+ * The rest of the job can be performed by frameworks. For example, Spring
  * framework uses {@link org.springframework.http.converter.HttpMessageConverter}
  * to do this kind of conversion</p>
  */
